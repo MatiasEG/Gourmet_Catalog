@@ -2,6 +2,7 @@ package dyds.gourmetCatalog.fulllogic;
 
 import javax.swing.*;
 
+// TODO ver por que extiende? Tenemos que hacerlo de otra manera?
 public class SearchResult extends JMenuItem {
     public String title;
     public String pageID;
