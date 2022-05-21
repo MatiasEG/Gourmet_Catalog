@@ -1,16 +1,13 @@
 package views;
 
+import model.SearchResult;
+
 import java.util.List;
 
 public interface MainViewInterface {
-
-
-
-
-
     String getSearchField();
 
-    int getIndexOfSelectedSearchResult();
+    SearchResult getSelectedSearchResult();
 
     int getIndexOfSelectedLocalCopy();
 
@@ -18,13 +15,17 @@ public interface MainViewInterface {
     String getContentTextOfLocalCopy();
 
 
-    void setListOfLocalCopies(List<String> localCopies);
+    void setListOfLocalCopies(Object[] localCopies);
 
     void setContentTextOfLocalCopy(String contentText);
 
-    void setListOfSearchResults(List<String> searchResults);
+    void setListOfSearchResults(List<SearchResult> searchResults);
 
     void setContentTextOfSearchResult(String contentText);
+
+    void setWorkingStatus();
+
+    void setWaitingStatus();
 
     void showView();
 }

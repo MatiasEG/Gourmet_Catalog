@@ -81,6 +81,9 @@ public class MainWindow {
                       setWorkingStatus();
                       Response<String> callForPageResponse = pageAPI.getExtractByPageID(sr.pageID).execute();
 
+                      // TODO devolvemos el primer jsonObject (jobj2) y que la vista se encargue del "formateo"?
+                      //    o bien el modelo se encarga de todo y devuelve unicamente el String (text).
+                      //    Provisoriamente devolvemos un String
                       System.out.println("JSON " + callForPageResponse.body());
                       JsonObject jobj2 = gson.fromJson(callForPageResponse.body(), JsonObject.class);
                       JsonObject query2 = jobj2.get("query").getAsJsonObject();
