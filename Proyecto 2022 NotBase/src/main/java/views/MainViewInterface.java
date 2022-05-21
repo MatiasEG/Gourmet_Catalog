@@ -9,7 +9,9 @@ public interface MainViewInterface {
 
     SearchResult getSelectedSearchResult();
 
-    int getIndexOfSelectedLocalCopy();
+//    int getIndexOfSelectedLocalCopy();
+
+    String getTitleOfSelectedLocalCopy();
 
     // TODO check this name.
     String getContentTextOfLocalCopy();

@@ -20,34 +20,39 @@ public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface
     }
 
 
-    @Override
-    public void onEventSwitchToSearch() {
-        System.out.println("Ejecutando switch to search");
-        //TODO creo que este metodo no va a ser necesario
-    }
-
-    @Override
-    public void onEventSwitchToStoredInfo() {
-        System.out.println("Ejecutando switch to stored info");
-        //TODO creo que este metodo no va a ser necesario
-    }
+//    @Override
+//    public void onEventSwitchToSearch() {
+//        System.out.println("Ejecutando switch to search");
+//        //TODO creo que este metodo no va a ser necesario
+//    }
+//
+//    @Override
+//    public void onEventSwitchToStoredInfo() {
+//        System.out.println("Ejecutando switch to stored info");
+//        //TODO creo que este metodo no va a ser necesario
+//    }
 
     @Override
     public void onEventSelectLocalCopy() {
         mainView.setContentTextOfLocalCopy("Selecciono el item " + mainView.getIndexOfSelectedLocalCopy());
-        //TODO
+        gourmetCatalogModel.selectArticleExtract(mainView.getTitleOfSelectedLocalCopy());
+        String text = gourmetCatalogModel.getExtractOfSelectedArticle();
+        mainView.setContentTextOfLocalCopy(text);
+        //TODO ok?
     }
 
     @Override
     public void onEvenDeleteLocalCopy() {
         System.out.println("Ejecutando delete local copy");
-        //TODO
+        gourmetCatalogModel.deleteArticle(mainView.getTitleOfSelectedLocalCopy());
+        //TODO ok?
     }
 
     @Override
     public void onEventUpdateLocalCopy() {
         System.out.println("Ejecutando update local copy");
-        //TODO
+        gourmetCatalogModel.saveArticle(mainView.getTitleOfSelectedLocalCopy(), mainView.getContentTextOfLocalCopy());
+        //TODO ok?
     }
 
     @Override
@@ -59,17 +64,24 @@ public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface
         searchResults.add(new SearchResult(searchText+"3", "3", searchText+"33"));
         mainView.setListOfSearchResults(searchResults);
         //TODO
+
+        gourmetCatalogModel.searchAllCoincidencesInWikipedia(mainView.getSearchField());
+        // El modelo deberia convertir el JsonArray en un List<String> ?
+//        mainView.setListOfSearchResults(gourmetCatalogModel.getAllCoincidencesInWikipedia());
     }
 
     @Override
     public void onEventSelectSearchResult() {
-        mainView.setContentTextOfSearchResult(mainView.getSelectedSearchResult().getTitle() + ": " + mainView.getSelectedSearchResult().getSnippet());
-        //TODO
+        gourmetCatalogModel.searchArticleInWikipedia(mainView.getSelectedSearchResult().getPageID());
+        mainView.setContentTextOfSearchResult(gourmetCatalogModel.getArticleInWikipedia());
+//        mainView.setContentTextOfSearchResult(mainView.getSelectedSearchResult().getTitle() + ": " + mainView.getSelectedSearchResult().getSnippet());
+        //TODO ok?
     }
 
     @Override
     public void onEventSaveSearchResult() {
         System.out.println("Ejecutando save search result");
+        gourmetCatalogModel.saveArticle(mainView.getSelectedSearchResult().getTitle(), mainView.getSelectedSearchResult().getSnippet());
         //TODO
     }
 

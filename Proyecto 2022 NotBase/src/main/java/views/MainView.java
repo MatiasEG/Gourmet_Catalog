@@ -70,10 +70,13 @@ public class MainView implements  MainViewInterface{
         return selectedSearchResult;
     }
 
+//    @Override
+//    public int getIndexOfSelectedLocalCopy() {
+//        return comboBox1.getSelectedIndex();
+//    }
+
     @Override
-    public int getIndexOfSelectedLocalCopy() {
-        return comboBox1.getSelectedIndex();
-    }
+    public String getTitleOfSelectedLocalCopy(){ return comboBox1.getSelectedItem().toString(); }
 
     @Override
     public String getContentTextOfLocalCopy() {
