@@ -25,4 +25,6 @@ public interface MainViewInterface {
     void setListOfSearchResults(List<String> searchResults);
 
     void setContentTextOfSearchResult(String contentText);
+
+    void showView();
 }
