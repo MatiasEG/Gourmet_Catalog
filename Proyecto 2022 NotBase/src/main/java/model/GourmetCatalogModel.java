@@ -1,56 +1,59 @@
 package model;
 
 import com.google.gson.JsonArray;
+import dyds.gourmetCatalog.fulllogic.DataBase;
 
 import java.util.List;
 
 public class GourmetCatalogModel implements GourmetCatalogModelInterface{
+
+    private String articleExtract;
+    private JsonArray allCoincidences;
+    private String articleInWikipedia;
+
+
     @Override
     public void searchAllCoincidencesInWikipedia(String textToSearch) {
-        //TODO
+        allCoincidences = JsonParser.searchAllCoincidencesInWikipedia(textToSearch);
     }
 
     @Override
     public JsonArray getAllCoincidencesInWikipedia() {
-        //TODO
-        return null;
+        return allCoincidences;
     }
 
     @Override
     public void searchArticleInWikipedia(String pageID) {
-        //TODO
+        articleInWikipedia = JsonParser.searchArticleInWikipedia(pageID);
     }
 
     @Override
     public String getArticleInWikipedia() {
-        //TODO
-        return null;
+        return articleInWikipedia;
     }
 
     @Override
     public void saveArticle(String articleTitle, String articleExtract) {
-        //TODO
+        DataBase.saveInfo(articleTitle, articleExtract);
     }
 
     @Override
     public List<String> getLocalArticles() {
-        //TODO
-        return null;
+        return DataBase.getTitles();
     }
 
     @Override
     public void selectArticleExtract(String articleTitle) {
-        //TODO
+        articleExtract = DataBase.getExtract(articleTitle);
     }
 
     @Override
     public String getExtractOfSelectedArticle() {
-        //TODO
-        return null;
+        return articleExtract;
     }
 
     @Override
     public void deleteArticle(String articleTitle) {
-        //TODO
+        DataBase.deleteEntry(articleTitle);
     }
 }
