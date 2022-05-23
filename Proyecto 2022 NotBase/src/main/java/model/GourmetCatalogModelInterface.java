@@ -8,9 +8,10 @@ public interface GourmetCatalogModelInterface {
 
     void searchAllCoincidencesInWikipedia(String textToSearch);
 
-    JsonArray getAllCoincidencesInWikipedia();
+    List<SearchResult> getAllCoincidencesInWikipedia();
 
-    void searchArticleInWikipedia(String pageID);
+    void searchArticleInWikipedia(SearchResult searchResult);
+//    void searchArticleInWikipedia(String pageID);
 
     String getArticleInWikipedia();
 

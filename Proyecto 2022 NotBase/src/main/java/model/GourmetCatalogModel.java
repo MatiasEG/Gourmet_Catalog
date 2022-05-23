@@ -1,6 +1,5 @@
 package model;
 
-import com.google.gson.JsonArray;
 import dyds.gourmetCatalog.fulllogic.DataBase;
 
 import java.util.List;
@@ -8,7 +7,7 @@ import java.util.List;
 public class GourmetCatalogModel implements GourmetCatalogModelInterface{
 
     private String articleExtract;
-    private JsonArray allCoincidences;
+    private List<SearchResult> allCoincidences;
     private String articleInWikipedia;
 
 
@@ -18,13 +17,13 @@ public class GourmetCatalogModel implements GourmetCatalogModelInterface{
     }
 
     @Override
-    public JsonArray getAllCoincidencesInWikipedia() {
+    public List<SearchResult> getAllCoincidencesInWikipedia() {
         return allCoincidences;
     }
 
     @Override
-    public void searchArticleInWikipedia(String pageID) {
-        articleInWikipedia = JsonParser.searchArticleInWikipedia(pageID);
+    public void searchArticleInWikipedia(SearchResult searchResult) {
+        articleInWikipedia = JsonParser.searchArticleInWikipedia(searchResult);
     }
 
     @Override

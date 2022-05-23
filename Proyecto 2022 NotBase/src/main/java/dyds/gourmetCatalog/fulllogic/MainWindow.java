@@ -73,7 +73,7 @@ public class MainWindow {
                   String searchResultPageId = searchResult.get("pageid").getAsString();
                   String searchResultSnippet = searchResult.get("snippet").getAsString();
 
-                  SearchResult sr = new SearchResult(searchResultTitle, searchResultPageId, searchResultSnippet);
+                  SearchResultOld sr = new SearchResultOld(searchResultTitle, searchResultPageId, searchResultSnippet);
                   searchOptionsMenu.add(sr);
                   sr.addActionListener(actionEvent -> {
                     try {

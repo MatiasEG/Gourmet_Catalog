@@ -34,7 +34,7 @@ public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface
 
     @Override
     public void onEventSelectLocalCopy() {
-        mainView.setContentTextOfLocalCopy("Selecciono el item " + mainView.getIndexOfSelectedLocalCopy());
+        mainView.setContentTextOfLocalCopy("Selecciono el item con titulo: " + mainView.getTitleOfSelectedLocalCopy());
         gourmetCatalogModel.selectArticleExtract(mainView.getTitleOfSelectedLocalCopy());
         String text = gourmetCatalogModel.getExtractOfSelectedArticle();
         mainView.setContentTextOfLocalCopy(text);
@@ -57,22 +57,22 @@ public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface
 
     @Override
     public void onEventSearch() {
-        List<SearchResult> searchResults = new ArrayList<>();
-        String searchText = mainView.getSearchField();
-        searchResults.add(new SearchResult(searchText+"1", "1", searchText+"11"));
-        searchResults.add(new SearchResult(searchText+"2", "2", searchText+"22"));
-        searchResults.add(new SearchResult(searchText+"3", "3", searchText+"33"));
-        mainView.setListOfSearchResults(searchResults);
-        //TODO
+//        List<SearchResult> searchResults = new ArrayList<>();
+//        String searchText = mainView.getSearchField();
+//        searchResults.add(new SearchResult(searchText+"1", "1", searchText+"11"));
+//        searchResults.add(new SearchResult(searchText+"2", "2", searchText+"22"));
+//        searchResults.add(new SearchResult(searchText+"3", "3", searchText+"33"));
+//        mainView.setListOfSearchResults(searchResults);
+        //TODO ok?
 
         gourmetCatalogModel.searchAllCoincidencesInWikipedia(mainView.getSearchField());
         // El modelo deberia convertir el JsonArray en un List<String> ?
-//        mainView.setListOfSearchResults(gourmetCatalogModel.getAllCoincidencesInWikipedia());
+        mainView.setListOfSearchResults(gourmetCatalogModel.getAllCoincidencesInWikipedia());
     }
 
     @Override
     public void onEventSelectSearchResult() {
-        gourmetCatalogModel.searchArticleInWikipedia(mainView.getSelectedSearchResult().getPageID());
+        gourmetCatalogModel.searchArticleInWikipedia(mainView.getSelectedSearchResult());
         mainView.setContentTextOfSearchResult(gourmetCatalogModel.getArticleInWikipedia());
 //        mainView.setContentTextOfSearchResult(mainView.getSelectedSearchResult().getTitle() + ": " + mainView.getSelectedSearchResult().getSnippet());
         //TODO ok?
@@ -82,6 +82,7 @@ public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface
     public void onEventSaveSearchResult() {
         System.out.println("Ejecutando save search result");
         gourmetCatalogModel.saveArticle(mainView.getSelectedSearchResult().getTitle(), mainView.getSelectedSearchResult().getSnippet());
+        mainView.setListOfLocalCopies(gourmetCatalogModel.getLocalArticles().toArray(new String[0]));
         //TODO
     }
 
