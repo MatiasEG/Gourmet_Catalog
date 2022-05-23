@@ -22,6 +22,8 @@ public interface MainViewInterface {
 
     void setSearchResultsList(List<SearchResult> searchResults);
 
+    void notifyMessageToUser(String msg, String title);
+
     void setContentTextOfSearchResult(String contentText);
 
     boolean completeArticleIsSelected();

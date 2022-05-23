@@ -45,6 +45,7 @@ public class MainView implements  MainViewInterface{
     private void initRadioButtons(){
         completeArticleRadioButton.setText("Articulo completo");
         firstTermArticleRadioButton.setText("Primer parrafo");
+        completeArticleRadioButton.setSelected(true);
         ButtonGroup group = new ButtonGroup();
         group.add(completeArticleRadioButton);
         group.add(firstTermArticleRadioButton);
@@ -124,10 +125,14 @@ public class MainView implements  MainViewInterface{
             searchResultMenuItem.addActionListener(actionEvent -> {
                 selectedSearchResult = searchResult;
                 gourmetCatalogPresenter.onEventSelectWikipediaArticle();
-                saveLocallyButton.setEnabled(true);
             });
         }
         searchOptionsMenu.show(searchTextField, searchTextField.getX(), searchTextField.getY());
+    }
+
+    @Override
+    public void notifyMessageToUser(String msg, String title){
+        JOptionPane.showMessageDialog(null, msg, title, JOptionPane.INFORMATION_MESSAGE);
     }
 
     @Override
