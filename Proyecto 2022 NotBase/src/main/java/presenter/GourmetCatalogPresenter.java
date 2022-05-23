@@ -11,32 +11,32 @@ public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface
     public GourmetCatalogPresenter(GourmetCatalogModelInterface gourmetCatalogModel){
         this.gourmetCatalogModel = gourmetCatalogModel;
         mainView = new MainView(this);
-        mainView.setListOfLocalCopies(this.gourmetCatalogModel.getTitlesOfStoredArticles());
+        mainView.setStoredArticlesTitles(this.gourmetCatalogModel.getTitlesOfStoredArticles());
     }
 
     @Override
     public void onEventSelectStoredArticle() {
-        gourmetCatalogModel.selectStoredArticleExtract(mainView.getTitleOfSelectedLocalCopy());
+        gourmetCatalogModel.selectStoredArticleExtract(mainView.getSelectedStoredArticleTitle());
         String text = gourmetCatalogModel.getExtractOfSelectedStoredArticle();
-        mainView.setContentTextOfLocalCopy(text);
+        mainView.setStoredArticleContentText(text);
     }
 
     @Override
     public void onEvenDeleteStoredArticle() {
-        gourmetCatalogModel.deleteArticle(mainView.getTitleOfSelectedLocalCopy());
-        mainView.setListOfLocalCopies(gourmetCatalogModel.getStoredArticles().toArray(new String[0]));
-        mainView.cleanViewForLocalArticles();
+        gourmetCatalogModel.deleteArticle(mainView.getSelectedStoredArticleTitle());
+        mainView.setStoredArticlesTitles(gourmetCatalogModel.getStoredArticles().toArray(new String[0]));
+        mainView.clearStoredArticleView();
     }
 
     @Override
     public void onEventUpdateStoredArticle() {
-        gourmetCatalogModel.saveArticle(mainView.getTitleOfSelectedLocalCopy(), mainView.getContentTextOfLocalCopy());
+        gourmetCatalogModel.saveArticle(mainView.getSelectedStoredArticleTitle(), mainView.getStoredArticleContentText());
     }
 
     @Override
     public void onEventSearchWikipediaArticle() {
-        gourmetCatalogModel.searchAllArticleCoincidencesInWikipedia(mainView.getSearchField());
-        mainView.setListOfSearchResults(gourmetCatalogModel.getAllArticleCoincidencesInWikipedia());
+        gourmetCatalogModel.searchAllArticleCoincidencesInWikipedia(mainView.getSearchText());
+        mainView.setSearchResultsList(gourmetCatalogModel.getAllArticleCoincidencesInWikipedia());
     }
 
     @Override
@@ -48,7 +48,7 @@ public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface
     @Override
     public void onEventSaveWikipediaArticle() {
         gourmetCatalogModel.saveArticle(mainView.getSelectedSearchResult().getTitle(), gourmetCatalogModel.getSearchedArticleInWikipedia());
-        mainView.setListOfLocalCopies(gourmetCatalogModel.getStoredArticles().toArray(new String[0]));
+        mainView.setStoredArticlesTitles(gourmetCatalogModel.getStoredArticles().toArray(new String[0]));
     }
 
     public void showView(){

@@ -5,30 +5,28 @@ import model.SearchResult;
 import java.util.List;
 
 public interface MainViewInterface {
-    String getSearchField();
+    String getSearchText();
 
     SearchResult getSelectedSearchResult();
 
-//    int getIndexOfSelectedLocalCopy();
-
-    String getTitleOfSelectedLocalCopy();
+    String getSelectedStoredArticleTitle();
 
     // TODO check this name.
-    String getContentTextOfLocalCopy();
+    String getStoredArticleContentText();
 
-    void cleanViewForLocalArticles();
+    void clearStoredArticleView();
 
-    void setListOfLocalCopies(Object[] localCopies);
+    void setStoredArticlesTitles(Object[] localCopies);
 
-    void setContentTextOfLocalCopy(String contentText);
+    void setStoredArticleContentText(String contentText);
 
-    void setListOfSearchResults(List<SearchResult> searchResults);
+    void setSearchResultsList(List<SearchResult> searchResults);
 
     void setContentTextOfSearchResult(String contentText);
 
-    void setWorkingStatus();
+    void startWorkingStatus();
 
-    void setWaitingStatus();
+    void stopWaitingStatus();
 
     void showView();
 }
