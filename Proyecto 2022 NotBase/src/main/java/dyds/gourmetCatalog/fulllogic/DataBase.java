@@ -114,6 +114,8 @@ public class DataBase {
 
   public static void saveInfo(String title, String extract)
   {
+    title = title.replace("'", "`");
+    extract = extract.replace("'", "`");
     Connection connection = null;
     try
     {
