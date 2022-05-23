@@ -8,16 +8,16 @@ public interface GourmetCatalogModelInterface {
 
     void saveArticle(String articleTitle, String articleExtract);
 
-    void searchAllCoincidencesInWikipedia(String textToSearch);
-    List<SearchResult> getAllCoincidencesInWikipedia();
+    void searchAllArticleCoincidencesInWikipedia(String textToSearch);
+    List<SearchResult> getAllArticleCoincidencesInWikipedia();
 
     void searchArticleInWikipedia(SearchResult searchResult);
     String getSearchedArticleInWikipedia();
 
-    void selectArticleExtract(String articleTitle);
-    String getExtractOfSelectedArticle();
+    void selectStoredArticleExtract(String articleTitle);
+    String getExtractOfSelectedStoredArticle();
 
-    List<String> getLocalArticles();
+    List<String> getStoredArticles();
 
-    Object[] getTitlesOfLocalArticles();
+    Object[] getTitlesOfStoredArticles();
 }

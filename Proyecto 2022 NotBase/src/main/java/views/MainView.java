@@ -50,15 +50,15 @@ public class MainView implements  MainViewInterface{
     }
 
     private void initListeners(){
-        textField1.addActionListener(actionEvent -> gourmetCatalogPresenter.onEventSearch());
+        textField1.addActionListener(actionEvent -> gourmetCatalogPresenter.onEventSearchWikipediaArticle());
 
-        saveLocallyButton.addActionListener(actionEvent -> gourmetCatalogPresenter.onEventSaveSearchResult());
+        saveLocallyButton.addActionListener(actionEvent -> gourmetCatalogPresenter.onEventSaveWikipediaArticle());
 
-        comboBox1.addActionListener(actionEvent -> gourmetCatalogPresenter.onEventSelectLocalCopy());
+        comboBox1.addActionListener(actionEvent -> gourmetCatalogPresenter.onEventSelectStoredArticle());
 
-        deleteItem.addActionListener(actionEvent -> gourmetCatalogPresenter.onEvenDeleteLocalCopy());
+        deleteItem.addActionListener(actionEvent -> gourmetCatalogPresenter.onEvenDeleteStoredArticle());
 
-        saveItem.addActionListener(actionEvent -> gourmetCatalogPresenter.onEventUpdateLocalCopy());
+        saveItem.addActionListener(actionEvent -> gourmetCatalogPresenter.onEventUpdateStoredArticle());
     }
 
     @Override
@@ -109,7 +109,7 @@ public class MainView implements  MainViewInterface{
             searchOptionsMenu.add(searchResultMenuItem);
             searchResultMenuItem.addActionListener(actionEvent -> {
                 selectedSearchResult = searchResult;
-                gourmetCatalogPresenter.onEventSelectSearchResult();
+                gourmetCatalogPresenter.onEventSelectWikipediaArticle();
             });
         }
         searchOptionsMenu.show(textField1, textField1.getX(), textField1.getY());

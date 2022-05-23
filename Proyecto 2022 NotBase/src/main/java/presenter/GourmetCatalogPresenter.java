@@ -11,44 +11,44 @@ public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface
     public GourmetCatalogPresenter(GourmetCatalogModelInterface gourmetCatalogModel){
         this.gourmetCatalogModel = gourmetCatalogModel;
         mainView = new MainView(this);
-        mainView.setListOfLocalCopies(this.gourmetCatalogModel.getTitlesOfLocalArticles());
+        mainView.setListOfLocalCopies(this.gourmetCatalogModel.getTitlesOfStoredArticles());
     }
 
     @Override
-    public void onEventSelectLocalCopy() {
-        gourmetCatalogModel.selectArticleExtract(mainView.getTitleOfSelectedLocalCopy());
-        String text = gourmetCatalogModel.getExtractOfSelectedArticle();
+    public void onEventSelectStoredArticle() {
+        gourmetCatalogModel.selectStoredArticleExtract(mainView.getTitleOfSelectedLocalCopy());
+        String text = gourmetCatalogModel.getExtractOfSelectedStoredArticle();
         mainView.setContentTextOfLocalCopy(text);
     }
 
     @Override
-    public void onEvenDeleteLocalCopy() {
+    public void onEvenDeleteStoredArticle() {
         gourmetCatalogModel.deleteArticle(mainView.getTitleOfSelectedLocalCopy());
-        mainView.setListOfLocalCopies(gourmetCatalogModel.getLocalArticles().toArray(new String[0]));
+        mainView.setListOfLocalCopies(gourmetCatalogModel.getStoredArticles().toArray(new String[0]));
         mainView.cleanViewForLocalArticles();
     }
 
     @Override
-    public void onEventUpdateLocalCopy() {
+    public void onEventUpdateStoredArticle() {
         gourmetCatalogModel.saveArticle(mainView.getTitleOfSelectedLocalCopy(), mainView.getContentTextOfLocalCopy());
     }
 
     @Override
-    public void onEventSearch() {
-        gourmetCatalogModel.searchAllCoincidencesInWikipedia(mainView.getSearchField());
-        mainView.setListOfSearchResults(gourmetCatalogModel.getAllCoincidencesInWikipedia());
+    public void onEventSearchWikipediaArticle() {
+        gourmetCatalogModel.searchAllArticleCoincidencesInWikipedia(mainView.getSearchField());
+        mainView.setListOfSearchResults(gourmetCatalogModel.getAllArticleCoincidencesInWikipedia());
     }
 
     @Override
-    public void onEventSelectSearchResult() {
+    public void onEventSelectWikipediaArticle() {
         gourmetCatalogModel.searchArticleInWikipedia(mainView.getSelectedSearchResult());
         mainView.setContentTextOfSearchResult(gourmetCatalogModel.getSearchedArticleInWikipedia());
     }
 
     @Override
-    public void onEventSaveSearchResult() {
+    public void onEventSaveWikipediaArticle() {
         gourmetCatalogModel.saveArticle(mainView.getSelectedSearchResult().getTitle(), gourmetCatalogModel.getSearchedArticleInWikipedia());
-        mainView.setListOfLocalCopies(gourmetCatalogModel.getLocalArticles().toArray(new String[0]));
+        mainView.setListOfLocalCopies(gourmetCatalogModel.getStoredArticles().toArray(new String[0]));
     }
 
     public void showView(){

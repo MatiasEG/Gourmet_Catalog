@@ -18,12 +18,12 @@ public class GourmetCatalogModel implements GourmetCatalogModelInterface{
     public void saveArticle(String articleTitle, String articleExtract) { DataBase.saveInfo(articleTitle, articleExtract); }
 
     @Override
-    public void searchAllCoincidencesInWikipedia(String textToSearch) {
+    public void searchAllArticleCoincidencesInWikipedia(String textToSearch) {
         allCoincidences = JsonParser.searchAllCoincidencesInWikipedia(textToSearch);
     }
 
     @Override
-    public List<SearchResult> getAllCoincidencesInWikipedia() {
+    public List<SearchResult> getAllArticleCoincidencesInWikipedia() {
         return allCoincidences;
     }
 
@@ -38,20 +38,20 @@ public class GourmetCatalogModel implements GourmetCatalogModelInterface{
     }
 
     @Override
-    public void selectArticleExtract(String articleTitle) {
+    public void selectStoredArticleExtract(String articleTitle) {
         articleExtract = DataBase.getExtract(articleTitle);
     }
 
     @Override
-    public String getExtractOfSelectedArticle() {
+    public String getExtractOfSelectedStoredArticle() {
         return articleExtract;
     }
 
     @Override
-    public List<String> getLocalArticles() {
+    public List<String> getStoredArticles() {
         return DataBase.getTitles();
     }
 
     @Override
-    public Object[] getTitlesOfLocalArticles(){ return DataBase.getTitles().stream().sorted().toArray(); }
+    public Object[] getTitlesOfStoredArticles(){ return DataBase.getTitles().stream().sorted().toArray(); }
 }

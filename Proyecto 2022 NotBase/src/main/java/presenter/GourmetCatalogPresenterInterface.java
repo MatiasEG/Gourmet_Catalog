@@ -2,12 +2,12 @@ package presenter;
 
 public interface GourmetCatalogPresenterInterface {
 
-    void onEventSelectLocalCopy();
-    void onEvenDeleteLocalCopy();
-    void onEventUpdateLocalCopy();
-    void onEventSearch();
-    void onEventSelectSearchResult();
-    void onEventSaveSearchResult();
+    void onEventSelectStoredArticle();
+    void onEvenDeleteStoredArticle();
+    void onEventUpdateStoredArticle();
+    void onEventSearchWikipediaArticle();
+    void onEventSelectWikipediaArticle();
+    void onEventSaveWikipediaArticle();
 
     void showView();
 }
