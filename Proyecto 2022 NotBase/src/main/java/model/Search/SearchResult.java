@@ -1,4 +1,4 @@
-package model;
+package model.Search;
 
 public class SearchResult {
     private String title;

@@ -1,6 +1,6 @@
 package views;
 
-import model.SearchResult;
+import model.Search.SearchResult;
 
 import java.util.List;
 
@@ -23,6 +23,8 @@ public interface MainViewInterface {
     void setSearchResultsList(List<SearchResult> searchResults);
 
     void setContentTextOfSearchResult(String contentText);
+
+    boolean completeArticleIsSelected();
 
     void startWorkingStatus();
 

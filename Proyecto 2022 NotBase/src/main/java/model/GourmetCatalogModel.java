@@ -1,5 +1,8 @@
 package model;
 
+import model.Search.SearchLogic;
+import model.Search.SearchResult;
+
 import java.util.List;
 
 public class GourmetCatalogModel implements GourmetCatalogModelInterface{
@@ -28,8 +31,13 @@ public class GourmetCatalogModel implements GourmetCatalogModelInterface{
     }
 
     @Override
-    public void searchArticleInWikipedia(SearchResult searchResult) {
-        articleInWikipedia = JsonParser.parseWikipediaResponse(SearchLogic.executeSpecificSearchInWikipedia(searchResult));
+    public void searchFirstTermArticleInWikipedia(SearchResult searchResult) {
+        articleInWikipedia = JsonParser.parseWikipediaResponse(SearchLogic.executeSpecificSearchInWikipediaForFirstTerm(searchResult));
+    }
+
+    @Override
+    public void searchCompleteArticleInWikipedia(SearchResult searchResult){
+        articleInWikipedia = JsonParser.parseWikipediaResponse(SearchLogic.executeSpecificSearchInWikipediaForEntireArticle(searchResult));
     }
 
     @Override

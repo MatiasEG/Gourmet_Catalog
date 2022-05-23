@@ -47,7 +47,11 @@ public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface
     public void onEventSelectWikipediaArticle() {
         new Thread(() -> {
             mainView.startWorkingStatus();
-            gourmetCatalogModel.searchArticleInWikipedia(mainView.getSelectedSearchResult());
+            if(!mainView.completeArticleIsSelected()){
+                gourmetCatalogModel.searchFirstTermArticleInWikipedia(mainView.getSelectedSearchResult());
+            }else{
+                gourmetCatalogModel.searchCompleteArticleInWikipedia(mainView.getSelectedSearchResult());
+            }
             mainView.setContentTextOfSearchResult(gourmetCatalogModel.getSearchedArticleInWikipedia());
             mainView.stopWorkingStatus();
         }).start();

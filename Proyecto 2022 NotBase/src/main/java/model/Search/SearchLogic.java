@@ -1,4 +1,4 @@
-package model;
+package model.Search;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -21,33 +21,49 @@ public class SearchLogic {
         try{
             Response<String > callForSearchResponse = searchAPI.searchForTerm(textToSearch + " articletopic:\"food-and-drink\"").execute();
 
-            System.out.println("JSON " + callForSearchResponse.body());
-
             Gson gson = new Gson();
             JsonObject jsonObject = gson.fromJson(callForSearchResponse.body(), JsonObject.class);
             JsonObject query = jsonObject.get("query").getAsJsonObject();
             jsonArrayToReturn = query.get("search").getAsJsonArray();
-        } catch (Exception e12) {
-            System.out.println(e12.getMessage());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
 
         return jsonArrayToReturn;
     }
 
-    public static Response<String> executeSpecificSearchInWikipedia(SearchResult searchResult){
+    public static Response<String> executeSpecificSearchInWikipediaForFirstTerm(SearchResult searchResult){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://en.wikipedia.org/w/")
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .build();
 
-        WikipediaPageAPI pageAPI = retrofit.create(WikipediaPageAPI.class);
+        WikipediaFirstTermPageAPI pageAPI = retrofit.create(WikipediaFirstTermPageAPI.class);
 
         Response<String> callForPageResponse = null;
 
         try{
             callForPageResponse = pageAPI.getExtractByPageID(searchResult.getPageID()).execute();
-        } catch (Exception e12) {
-            System.out.println(e12.getMessage());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return callForPageResponse;
+    }
+
+    public static Response<String> executeSpecificSearchInWikipediaForEntireArticle(SearchResult searchResult){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://en.wikipedia.org/w/")
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .build();
+
+        WikipediaAllArticlePageAPI pageAPI = retrofit.create(WikipediaAllArticlePageAPI.class);
+
+        Response<String> callForPageResponse = null;
+
+        try{
+            callForPageResponse = pageAPI.getExtractByPageID(searchResult.getPageID()).execute();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
         return callForPageResponse;
     }

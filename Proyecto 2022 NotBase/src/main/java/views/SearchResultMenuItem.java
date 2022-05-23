@@ -1,6 +1,6 @@
 package views;
 
-import model.SearchResult;
+import model.Search.SearchResult;
 
 import javax.swing.*;
 

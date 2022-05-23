@@ -1,5 +1,7 @@
 package model;
 
+import model.Search.SearchResult;
+
 import java.util.List;
 
 public interface GourmetCatalogModelInterface {
@@ -11,7 +13,8 @@ public interface GourmetCatalogModelInterface {
     void searchAllArticleCoincidencesInWikipedia(String textToSearch);
     List<SearchResult> getAllArticleCoincidencesInWikipedia();
 
-    void searchArticleInWikipedia(SearchResult searchResult);
+    void searchFirstTermArticleInWikipedia(SearchResult searchResult);
+    void searchCompleteArticleInWikipedia(SearchResult searchResult);
     String getSearchedArticleInWikipedia();
 
     void selectStoredArticleExtract(String articleTitle);

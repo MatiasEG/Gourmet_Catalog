@@ -1,6 +1,6 @@
 package views;
 
-import model.SearchResult;
+import model.Search.SearchResult;
 import presenter.GourmetCatalogPresenterInterface;
 
 import javax.swing.*;
@@ -18,6 +18,8 @@ public class MainView implements  MainViewInterface{
     private JPanel storedInfoPanel;
     private JComboBox<Object> storedArticlesComboBox;
     private JTextPane storedArticleTextPane;
+    private JRadioButton completeArticleRadioButton;
+    private JRadioButton firstTermArticleRadioButton;
     private JFrame mainFrame;
     private JPopupMenu storedInfoPopupMenu;
     private JMenuItem deleteMenuItem;
@@ -35,6 +37,12 @@ public class MainView implements  MainViewInterface{
         initMainFrame();
         initTextPanes();
         initPopupMenu();
+        initRadioButtons();
+    }
+
+    private void initRadioButtons(){
+        completeArticleRadioButton.setText("Articulo completo");
+        firstTermArticleRadioButton.setText("Primer parrafo");
     }
 
     private void initMainFrame() {
@@ -119,6 +127,9 @@ public class MainView implements  MainViewInterface{
     public void setContentTextOfSearchResult(String contentText) {
         wikipediaArticleTextPane.setText(contentText);
     }
+
+    @Override
+    public boolean completeArticleIsSelected(){ return completeArticleRadioButton.isSelected(); }
 
     @Override
     public void startWorkingStatus() {
