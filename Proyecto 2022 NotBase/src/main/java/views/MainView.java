@@ -18,6 +18,8 @@ public class MainView implements  MainViewInterface{
     private JPanel storedInfoPanel;
     private JComboBox<Object> storedArticlesComboBox;
     private JTextPane storedArticleTextPane;
+    private JScrollPane storedArticleScrollPane;
+    private JScrollPane wikipediaArticleScrollPane;
     private JFrame mainFrame;
     private JPopupMenu storedInfoPopupMenu;
     private JMenuItem deleteMenuItem;
@@ -99,6 +101,7 @@ public class MainView implements  MainViewInterface{
     @Override
     public void setStoredArticleContentText(String contentText) {
         storedArticleTextPane.setText(contentText);
+        storedArticleTextPane.setCaretPosition(0);
     }
 
     @Override
@@ -118,6 +121,7 @@ public class MainView implements  MainViewInterface{
     @Override
     public void setContentTextOfSearchResult(String contentText) {
         wikipediaArticleTextPane.setText(contentText);
+        wikipediaArticleTextPane.setCaretPosition(0);
     }
 
     @Override
