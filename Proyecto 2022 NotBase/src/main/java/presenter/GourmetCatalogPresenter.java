@@ -110,6 +110,7 @@ public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface
     @Override
     public void onEventSaveWikipediaArticle() {
         SearchResult selectedSearchResult = mainView.getSelectedSearchResult();
+        //TODO que la vista no conozca a SearchRestul
         if(selectedSearchResult != null)
             gourmetCatalogModel.saveArticle(selectedSearchResult.getTitle(), gourmetCatalogModel.getSearchedArticleInWikipedia());
         else
