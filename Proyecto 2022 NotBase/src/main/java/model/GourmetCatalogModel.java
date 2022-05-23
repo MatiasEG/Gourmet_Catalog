@@ -19,6 +19,10 @@ public class GourmetCatalogModel implements GourmetCatalogModelInterface{
     private List<SearchListener> searchListeners = new ArrayList<>();
     private List<StoredArticlesListener> storedArticlesListeners = new ArrayList<>();
 
+    public GourmetCatalogModel(){
+        DataBase.loadDatabase();
+    }
+
 
     @Override
     public void addStoredArticlesListener(StoredArticlesListener storedArticlesListener) {
