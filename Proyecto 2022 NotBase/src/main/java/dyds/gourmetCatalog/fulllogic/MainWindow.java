@@ -38,10 +38,10 @@ public class MainWindow {
         .addConverterFactory(ScalarsConverterFactory.create())
         .build();
 
-    WikipediaSearchAPI searchAPI = retrofit.create(WikipediaSearchAPI.class);
-    WikipediaPageAPI pageAPI = retrofit.create(WikipediaPageAPI.class);
+    WikipediaSearchAPIOld searchAPI = retrofit.create(WikipediaSearchAPIOld.class);
+    WikipediaPageAPIOld pageAPI = retrofit.create(WikipediaPageAPIOld.class);
 
-    comboBox1.setModel(new DefaultComboBoxModel<Object>(DataBase.getTitles().stream().sorted().toArray()));
+    comboBox1.setModel(new DefaultComboBoxModel<Object>(DataBaseOld.getTitles().stream().sorted().toArray()));
 
 
     textPane1.setContentType("text/html");
@@ -124,20 +124,20 @@ public class MainWindow {
     saveLocallyButton.addActionListener(actionEvent -> {
       if(text != ""){
         // save to DB  <o/
-        DataBase.saveInfo(selectedResultTitle.replace("'", "`"), text);  //Dont forget the ' sql problem
-        comboBox1.setModel(new DefaultComboBoxModel<Object>(DataBase.getTitles().stream().sorted().toArray()));
+        DataBaseOld.saveInfo(selectedResultTitle.replace("'", "`"), text);  //Dont forget the ' sql problem
+        comboBox1.setModel(new DefaultComboBoxModel<Object>(DataBaseOld.getTitles().stream().sorted().toArray()));
       }
     });
 
-    comboBox1.addActionListener(actionEvent -> textPane2.setText(textToHtml(DataBase.getExtract(comboBox1.getSelectedItem().toString()))));
+    comboBox1.addActionListener(actionEvent -> textPane2.setText(textToHtml(DataBaseOld.getExtract(comboBox1.getSelectedItem().toString()))));
 
     JPopupMenu storedInfoPopup = new JPopupMenu();
 
     JMenuItem deleteItem = new JMenuItem("Delete!");
     deleteItem.addActionListener(actionEvent -> {
         if(comboBox1.getSelectedIndex() > -1){
-          DataBase.deleteEntry(comboBox1.getSelectedItem().toString());
-          comboBox1.setModel(new DefaultComboBoxModel<Object>(DataBase.getTitles().stream().sorted().toArray()));
+          DataBaseOld.deleteEntry(comboBox1.getSelectedItem().toString());
+          comboBox1.setModel(new DefaultComboBoxModel<Object>(DataBaseOld.getTitles().stream().sorted().toArray()));
           textPane2.setText("");
         }
     });
@@ -146,7 +146,7 @@ public class MainWindow {
     JMenuItem saveItem = new JMenuItem("Save Changes!");
     saveItem.addActionListener(actionEvent -> {
         // save to DB  <o/
-        DataBase.saveInfo(comboBox1.getSelectedItem().toString().replace("'", "`"), textPane2.getText());  //Dont forget the ' sql problem
+        DataBaseOld.saveInfo(comboBox1.getSelectedItem().toString().replace("'", "`"), textPane2.getText());  //Dont forget the ' sql problem
         //comboBox1.setModel(new DefaultComboBoxModel(DataBase.getTitles().stream().sorted().toArray()));
     });
     storedInfoPopup.add(saveItem);
@@ -175,12 +175,12 @@ public class MainWindow {
     frame.pack();
     frame.setVisible(true);
 
-    DataBase.loadDatabase();
-    DataBase.saveInfo("test", "sarasa");
+    DataBaseOld.loadDatabase();
+    DataBaseOld.saveInfo("test", "sarasa");
 
 
-    System.out.println(DataBase.getExtract("test"));
-    System.out.println(DataBase.getExtract("nada"));
+    System.out.println(DataBaseOld.getExtract("test"));
+    System.out.println(DataBaseOld.getExtract("nada"));
   }
 
   public static String textToHtml(String text) {

@@ -79,12 +79,12 @@ public class MainView implements  MainViewInterface{
     @Override
     public void cleanViewForLocalArticles(){
         //TODO arreglar este codigo, si elimino todos los articulos comboBox1(0) es null, tengo que chequearlo de alguna forma.
-        comboBox1.setSelectedIndex(0);
+        comboBox1.setSelectedIndex(-1);
         textPane2.setText("");
     }
 
     @Override
-    public String getTitleOfSelectedLocalCopy(){ return comboBox1.getSelectedItem().toString(); }
+    public String getTitleOfSelectedLocalCopy(){ return comboBox1.getSelectedIndex() > -1 ? comboBox1.getSelectedItem().toString() : ""; }
 
     @Override
     public String getContentTextOfLocalCopy() {

@@ -1,4 +1,4 @@
-package dyds.gourmetCatalog.fulllogic;
+package model;
 
 
 import retrofit2.Call;

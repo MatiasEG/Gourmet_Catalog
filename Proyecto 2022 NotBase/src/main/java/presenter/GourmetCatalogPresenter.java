@@ -1,6 +1,6 @@
 package presenter;
 
-import dyds.gourmetCatalog.fulllogic.DataBase;
+import model.DataBase;
 import model.GourmetCatalogModelInterface;
 import views.MainView;
 import views.MainViewInterface;
@@ -13,6 +13,7 @@ public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface
         this.gourmetCatalogModel = gourmetCatalogModel;
         mainView = new MainView(this);
         mainView.setListOfLocalCopies(DataBase.getTitles().stream().sorted().toArray());
+        //TODO que le pida los titulos al modelo
     }
 
     @Override
