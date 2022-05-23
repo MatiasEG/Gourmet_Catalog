@@ -11,46 +11,52 @@ import java.util.*;
 
 public class JsonParser{
 
-    public static List<SearchResult> searchAllCoincidencesInWikipedia(JsonArray jsonArray) {
-        return translateWebTextInJsonFormat2SearchResult(jsonArray);
+    public static List<SearchResult> searchAllCoincidencesInWikipedia(Response<String> wikipediaResponse) {
+        JsonArray pagesJsonArray = getPagesAsJsonArray(wikipediaResponse);
+        return translatePagesJsonArrayToSearchResultList(pagesJsonArray);
     }
 
-    private static List<SearchResult> translateWebTextInJsonFormat2SearchResult(JsonArray jsonArray){
-        List<SearchResult> resultsToReturn = new ArrayList<SearchResult>();
+    private static JsonArray getPagesAsJsonArray(Response<String> wikipediaResponse) {
+        Gson gson = new Gson();
+        JsonObject responseBody = gson.fromJson(wikipediaResponse.body(), JsonObject.class);
+        JsonObject responseQuery = responseBody.get("query").getAsJsonObject();
+        return responseQuery.get("search").getAsJsonArray();
+    }
 
-        for (JsonElement jsonElementAux : jsonArray) {
-            JsonObject searchResult = jsonElementAux.getAsJsonObject();
-            String searchResultTitle = searchResult.get("title").getAsString();
-            String searchResultPageId = searchResult.get("pageid").getAsString();
-            String searchResultSnippet = searchResult.get("snippet").getAsString();
-
-            SearchResult searchResultToAdd = new SearchResult(searchResultTitle, searchResultPageId, searchResultSnippet);
-            resultsToReturn.add(searchResultToAdd);
+    private static List<SearchResult> translatePagesJsonArrayToSearchResultList(JsonArray pagesJsonArray){
+        List<SearchResult> searchResults = new ArrayList<SearchResult>();
+        for (JsonElement pageJsonElement : pagesJsonArray) {
+            JsonObject pageJsonObject = pageJsonElement.getAsJsonObject();
+            String searchResultTitle = pageJsonObject.get("title").getAsString();
+            String searchResultPageId = pageJsonObject.get("pageid").getAsString();
+            String searchResultSnippet = pageJsonObject.get("snippet").getAsString();
+            SearchResult searchResult = new SearchResult(searchResultTitle, searchResultPageId, searchResultSnippet);
+            searchResults.add(searchResult);
         }
-        return resultsToReturn;
+        return searchResults;
     }
 
     public static String parseWikipediaResponse(Response<String> wikipediaResponse) {
-        String extractOfArticle = "";
-        Gson gson = new Gson();
-
-        JsonObject jsonObject = gson.fromJson(wikipediaResponse.body(), JsonObject.class);
-        JsonObject query = jsonObject.get("query").getAsJsonObject();
-        JsonObject pages = query.get("pages").getAsJsonObject();
-        Set<Map.Entry<String, JsonElement>> pagesSet = pages.entrySet();
-        Map.Entry<String, JsonElement> first = pagesSet.iterator().next();
-        JsonObject page = first.getValue().getAsJsonObject();
-        JsonElement searchResultExtract = page.get("extract");
-
-
-        if (searchResultExtract == null) {
-            extractOfArticle = "No Results";
+        String articleContentString;
+        JsonObject pageJsonObject = getPageAsJsonObject(wikipediaResponse);
+        JsonElement articleContentJsonElement = pageJsonObject.get("extract");
+        if (articleContentJsonElement == null) {
+            articleContentString = "No Results";
         } else {
-            extractOfArticle = "<h1>" + page.get("title") + "</h1>";
-            extractOfArticle += searchResultExtract.getAsString().replace("\\n", "\n");
-            return extractOfArticle;
+            articleContentString = "<h1>" + pageJsonObject.get("title") + "</h1>";
+            articleContentString += articleContentJsonElement.getAsString().replace("\\n", "\n");
         }
+        return articleContentString;
+    }
 
-        return extractOfArticle;
+    private static JsonObject getPageAsJsonObject(Response<String> wikipediaResponse) {
+        Gson gson = new Gson();
+        JsonObject responseBody = gson.fromJson(wikipediaResponse.body(), JsonObject.class);
+        JsonObject responseQuery = responseBody.get("query").getAsJsonObject();
+        JsonObject pages = responseQuery.get("pages").getAsJsonObject();
+        Set<Map.Entry<String, JsonElement>> pagesSet = pages.entrySet();
+        Map.Entry<String, JsonElement> firstPage = pagesSet.iterator().next();
+        JsonObject page = firstPage.getValue().getAsJsonObject();
+        return page;
     }
 }
