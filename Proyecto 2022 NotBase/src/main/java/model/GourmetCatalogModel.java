@@ -51,4 +51,7 @@ public class GourmetCatalogModel implements GourmetCatalogModelInterface{
     public List<String> getLocalArticles() {
         return DataBase.getTitles();
     }
+
+    @Override
+    public Object[] getTitlesOfLocalArticles(){ return DataBase.getTitles().stream().sorted().toArray(); }
 }

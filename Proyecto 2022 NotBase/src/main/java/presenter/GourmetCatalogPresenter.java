@@ -1,6 +1,5 @@
 package presenter;
 
-import model.DataBase;
 import model.GourmetCatalogModelInterface;
 import views.MainView;
 import views.MainViewInterface;
@@ -12,8 +11,7 @@ public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface
     public GourmetCatalogPresenter(GourmetCatalogModelInterface gourmetCatalogModel){
         this.gourmetCatalogModel = gourmetCatalogModel;
         mainView = new MainView(this);
-        mainView.setListOfLocalCopies(DataBase.getTitles().stream().sorted().toArray());
-        //TODO que le pida los titulos al modelo
+        mainView.setListOfLocalCopies(this.gourmetCatalogModel.getTitlesOfLocalArticles());
     }
 
     @Override

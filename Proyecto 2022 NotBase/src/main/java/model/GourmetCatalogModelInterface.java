@@ -19,4 +19,5 @@ public interface GourmetCatalogModelInterface {
 
     List<String> getLocalArticles();
 
+    Object[] getTitlesOfLocalArticles();
 }
