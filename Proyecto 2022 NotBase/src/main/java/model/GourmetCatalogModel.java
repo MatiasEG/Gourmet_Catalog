@@ -1,7 +1,5 @@
 package model;
 
-import dyds.gourmetCatalog.fulllogic.DataBase;
-
 import java.util.List;
 
 public class GourmetCatalogModel implements GourmetCatalogModelInterface{

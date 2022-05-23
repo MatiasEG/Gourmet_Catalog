@@ -4,8 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import dyds.gourmetCatalog.fulllogic.WikipediaPageAPI;
-import dyds.gourmetCatalog.fulllogic.WikipediaSearchAPI;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;

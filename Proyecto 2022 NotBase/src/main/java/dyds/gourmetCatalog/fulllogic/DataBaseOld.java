@@ -3,7 +3,7 @@ package dyds.gourmetCatalog.fulllogic;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class DataBase {
+public class DataBaseOld {
 
   public static void loadDatabase() {
     //If the database doesnt exists we create it
