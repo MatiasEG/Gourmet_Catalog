@@ -2,8 +2,6 @@ package presenter;
 
 public interface GourmetCatalogPresenterInterface {
 
-//    void onEventSwitchToSearch();
-//    void onEventSwitchToStoredInfo();
     void onEventSelectLocalCopy();
     void onEvenDeleteLocalCopy();
     void onEventUpdateLocalCopy();

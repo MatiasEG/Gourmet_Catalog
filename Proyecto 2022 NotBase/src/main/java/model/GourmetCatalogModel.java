@@ -12,6 +12,14 @@ public class GourmetCatalogModel implements GourmetCatalogModelInterface{
 
 
     @Override
+    public void deleteArticle(String articleTitle) {
+        DataBase.deleteEntry(articleTitle);
+    }
+
+    @Override
+    public void saveArticle(String articleTitle, String articleExtract) { DataBase.saveInfo(articleTitle, articleExtract); }
+
+    @Override
     public void searchAllCoincidencesInWikipedia(String textToSearch) {
         allCoincidences = JsonParser.searchAllCoincidencesInWikipedia(textToSearch);
     }
@@ -27,18 +35,8 @@ public class GourmetCatalogModel implements GourmetCatalogModelInterface{
     }
 
     @Override
-    public String getArticleInWikipedia() {
+    public String getSearchedArticleInWikipedia() {
         return articleInWikipedia;
-    }
-
-    @Override
-    public void saveArticle(String articleTitle, String articleExtract) {
-        DataBase.saveInfo(articleTitle, articleExtract);
-    }
-
-    @Override
-    public List<String> getLocalArticles() {
-        return DataBase.getTitles();
     }
 
     @Override
@@ -52,7 +50,7 @@ public class GourmetCatalogModel implements GourmetCatalogModelInterface{
     }
 
     @Override
-    public void deleteArticle(String articleTitle) {
-        DataBase.deleteEntry(articleTitle);
+    public List<String> getLocalArticles() {
+        return DataBase.getTitles();
     }
 }

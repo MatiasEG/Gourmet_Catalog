@@ -1,27 +1,22 @@
 package model;
 
-import com.google.gson.JsonArray;
-
 import java.util.List;
 
 public interface GourmetCatalogModelInterface {
 
-    void searchAllCoincidencesInWikipedia(String textToSearch);
-
-    List<SearchResult> getAllCoincidencesInWikipedia();
-
-    void searchArticleInWikipedia(SearchResult searchResult);
-//    void searchArticleInWikipedia(String pageID);
-
-    String getArticleInWikipedia();
+    void deleteArticle(String articleTitle);
 
     void saveArticle(String articleTitle, String articleExtract);
 
-    List<String> getLocalArticles();
+    void searchAllCoincidencesInWikipedia(String textToSearch);
+    List<SearchResult> getAllCoincidencesInWikipedia();
+
+    void searchArticleInWikipedia(SearchResult searchResult);
+    String getSearchedArticleInWikipedia();
 
     void selectArticleExtract(String articleTitle);
-
     String getExtractOfSelectedArticle();
 
-    void deleteArticle(String articleTitle);
+    List<String> getLocalArticles();
+
 }
