@@ -2,7 +2,6 @@ package presenter;
 
 import model.GourmetCatalogModelInterface;
 import model.Search.SearchResult;
-import model.listeners.LoadArticleListener;
 import model.listeners.SearchListener;
 import model.listeners.StoredArticlesListener;
 import views.MainView;
@@ -31,12 +30,9 @@ public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface
                 mainView.setContentTextOfSearchResult(gourmetCatalogModel.getSearchedArticleInWikipedia());
             }
         });
-        gourmetCatalogModel.addLoadArticleListener(new LoadArticleListener() {
-            @Override
-            public void didLoadArticle() {
-                mainView.setStoredArticleContentText(gourmetCatalogModel.getExtractOfSelectedStoredArticle());
-            }
-        });
+
+        gourmetCatalogModel.addLoadArticleListener(() -> mainView.setStoredArticleContentText(gourmetCatalogModel.getExtractOfSelectedStoredArticle()));
+
         gourmetCatalogModel.addStoredArticlesListener(new StoredArticlesListener() {
             @Override
             public void didUpdateArticle() {
