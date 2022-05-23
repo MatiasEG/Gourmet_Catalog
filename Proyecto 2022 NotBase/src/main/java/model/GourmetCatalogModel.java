@@ -48,10 +48,5 @@ public class GourmetCatalogModel implements GourmetCatalogModelInterface{
     }
 
     @Override
-    public List<String> getStoredArticles() {
-        return DataBase.getTitles();
-    }
-
-    @Override
     public Object[] getTitlesOfStoredArticles(){ return DataBase.getTitles().stream().sorted().toArray(); }
 }

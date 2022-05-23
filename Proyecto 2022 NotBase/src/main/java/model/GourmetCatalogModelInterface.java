@@ -17,7 +17,5 @@ public interface GourmetCatalogModelInterface {
     void selectStoredArticleExtract(String articleTitle);
     String getExtractOfSelectedStoredArticle();
 
-    List<String> getStoredArticles();
-
     Object[] getTitlesOfStoredArticles();
 }

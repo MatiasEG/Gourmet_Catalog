@@ -24,7 +24,7 @@ public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface
     @Override
     public void onEvenDeleteStoredArticle() {
         gourmetCatalogModel.deleteArticle(mainView.getSelectedStoredArticleTitle());
-        mainView.setStoredArticlesTitles(gourmetCatalogModel.getStoredArticles().toArray(new String[0]));
+        mainView.setStoredArticlesTitles(gourmetCatalogModel.getTitlesOfStoredArticles());
         mainView.clearStoredArticleView();
     }
 
@@ -48,7 +48,7 @@ public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface
     @Override
     public void onEventSaveWikipediaArticle() {
         gourmetCatalogModel.saveArticle(mainView.getSelectedSearchResult().getTitle(), gourmetCatalogModel.getSearchedArticleInWikipedia());
-        mainView.setStoredArticlesTitles(gourmetCatalogModel.getStoredArticles().toArray(new String[0]));
+        mainView.setStoredArticlesTitles(gourmetCatalogModel.getTitlesOfStoredArticles());
     }
 
     public void showView(){
