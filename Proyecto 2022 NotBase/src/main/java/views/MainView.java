@@ -20,6 +20,8 @@ public class MainView implements  MainViewInterface{
     private JTextPane storedArticleTextPane;
     private JRadioButton completeArticleRadioButton;
     private JRadioButton firstTermArticleRadioButton;
+    private JScrollPane storedArticleScrollPane;
+    private JScrollPane wikipediaArticleScrollPane;
     private JFrame mainFrame;
     private JPopupMenu storedInfoPopupMenu;
     private JMenuItem deleteMenuItem;
@@ -43,6 +45,9 @@ public class MainView implements  MainViewInterface{
     private void initRadioButtons(){
         completeArticleRadioButton.setText("Articulo completo");
         firstTermArticleRadioButton.setText("Primer parrafo");
+        ButtonGroup group = new ButtonGroup();
+        group.add(completeArticleRadioButton);
+        group.add(firstTermArticleRadioButton);
     }
 
     private void initMainFrame() {
@@ -107,6 +112,7 @@ public class MainView implements  MainViewInterface{
     @Override
     public void setStoredArticleContentText(String contentText) {
         storedArticleTextPane.setText(contentText);
+        storedArticleTextPane.setCaretPosition(0);
     }
 
     @Override
@@ -118,6 +124,7 @@ public class MainView implements  MainViewInterface{
             searchResultMenuItem.addActionListener(actionEvent -> {
                 selectedSearchResult = searchResult;
                 gourmetCatalogPresenter.onEventSelectWikipediaArticle();
+                saveLocallyButton.setEnabled(true);
             });
         }
         searchOptionsMenu.show(searchTextField, searchTextField.getX(), searchTextField.getY());
@@ -126,6 +133,7 @@ public class MainView implements  MainViewInterface{
     @Override
     public void setContentTextOfSearchResult(String contentText) {
         wikipediaArticleTextPane.setText(contentText);
+        wikipediaArticleTextPane.setCaretPosition(0);
     }
 
     @Override

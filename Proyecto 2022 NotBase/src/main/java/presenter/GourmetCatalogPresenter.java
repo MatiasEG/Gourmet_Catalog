@@ -1,6 +1,9 @@
 package presenter;
 
 import model.GourmetCatalogModelInterface;
+import model.listeners.LoadArticleListener;
+import model.listeners.SearchListener;
+import model.listeners.StoredArticlesListener;
 import views.MainView;
 import views.MainViewInterface;
 
@@ -12,25 +15,62 @@ public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface
         this.gourmetCatalogModel = gourmetCatalogModel;
         mainView = new MainView(this);
         mainView.setStoredArticlesTitles(this.gourmetCatalogModel.getTitlesOfStoredArticles());
+        initListeners();
+    }
+
+    private void initListeners(){
+        gourmetCatalogModel.addSearchListener(new SearchListener() {
+            @Override
+            public void didFindArticles() {
+                mainView.setSearchResultsList(gourmetCatalogModel.getAllArticleCoincidencesInWikipedia());
+            }
+
+            @Override
+            public void didFindExtract() {
+                mainView.setContentTextOfSearchResult(gourmetCatalogModel.getSearchedArticleInWikipedia());
+            }
+        });
+        gourmetCatalogModel.addLoadArticleListener(new LoadArticleListener() {
+            @Override
+            public void didLoadArticle() {
+                mainView.setStoredArticleContentText(gourmetCatalogModel.getExtractOfSelectedStoredArticle());
+            }
+        });
+        gourmetCatalogModel.addStoredArticlesListener(new StoredArticlesListener() {
+            @Override
+            public void didUpdateArticle() {
+                //TODO notificar usuario
+            }
+
+            @Override
+            public void didSaveArticle() {
+                mainView.setStoredArticlesTitles(gourmetCatalogModel.getTitlesOfStoredArticles());
+                mainView.clearStoredArticleView();
+                //TODO notificar usuario
+            }
+
+            @Override
+            public void didDeleteArticle() {
+                mainView.setStoredArticlesTitles(gourmetCatalogModel.getTitlesOfStoredArticles());
+                mainView.clearStoredArticleView();
+                //TODO notificar usuario
+            }
+        });
     }
 
     @Override
     public void onEventSelectStoredArticle() {
         gourmetCatalogModel.selectStoredArticleExtract(mainView.getSelectedStoredArticleTitle());
-        String text = gourmetCatalogModel.getExtractOfSelectedStoredArticle();
-        mainView.setStoredArticleContentText(text);
     }
 
     @Override
     public void onEvenDeleteStoredArticle() {
         gourmetCatalogModel.deleteArticle(mainView.getSelectedStoredArticleTitle());
-        mainView.setStoredArticlesTitles(gourmetCatalogModel.getTitlesOfStoredArticles());
-        mainView.clearStoredArticleView();
     }
 
     @Override
     public void onEventUpdateStoredArticle() {
-        gourmetCatalogModel.saveArticle(mainView.getSelectedStoredArticleTitle(), mainView.getStoredArticleContentText());
+        gourmetCatalogModel.updateArticle(mainView.getSelectedStoredArticleTitle(), mainView.getStoredArticleContentText());
     }
 
     @Override
@@ -38,7 +78,6 @@ public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface
         new Thread(() -> {
             mainView.startWorkingStatus();
             gourmetCatalogModel.searchAllArticleCoincidencesInWikipedia(mainView.getSearchText());
-            mainView.setSearchResultsList(gourmetCatalogModel.getAllArticleCoincidencesInWikipedia());
             mainView.stopWorkingStatus();
         }).start();
     }
@@ -60,7 +99,6 @@ public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface
     @Override
     public void onEventSaveWikipediaArticle() {
         gourmetCatalogModel.saveArticle(mainView.getSelectedSearchResult().getTitle(), gourmetCatalogModel.getSearchedArticleInWikipedia());
-        mainView.setStoredArticlesTitles(gourmetCatalogModel.getTitlesOfStoredArticles());
     }
 
     public void showView(){
