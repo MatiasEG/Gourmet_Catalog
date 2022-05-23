@@ -60,7 +60,9 @@ public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface
 
     @Override
     public void onEventSelectStoredArticle() {
-        gourmetCatalogModel.selectStoredArticleExtract(mainView.getSelectedStoredArticleTitle());
+        String storedArticleTitle = mainView.getSelectedStoredArticleTitle();
+        if(!storedArticleTitle.equals(""))
+            gourmetCatalogModel.selectStoredArticleExtract(storedArticleTitle);
     }
 
     @Override
