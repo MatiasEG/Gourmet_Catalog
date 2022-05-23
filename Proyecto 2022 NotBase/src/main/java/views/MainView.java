@@ -28,6 +28,7 @@ public class MainView implements  MainViewInterface{
     private JMenuItem saveMenuItem;
     private GourmetCatalogPresenterInterface gourmetCatalogPresenter;
     private SearchResult selectedSearchResult;
+    private int indexOfSelectedSearchResult;
 
     public MainView(GourmetCatalogPresenterInterface gourmetCatalogPresenter){
         this.gourmetCatalogPresenter = gourmetCatalogPresenter;
@@ -87,6 +88,11 @@ public class MainView implements  MainViewInterface{
     }
 
     @Override
+    public int getIndexOfSelectedSearchResult(){
+        return indexOfSelectedSearchResult;
+    }
+
+    @Override
     public SearchResult getSelectedSearchResult() {
         return selectedSearchResult;
     }
@@ -117,15 +123,19 @@ public class MainView implements  MainViewInterface{
     }
 
     @Override
-    public void setSearchResultsList(List<SearchResult> searchResults) {
+    public void setSearchResultsList(List<String> searchResults) {
         JPopupMenu searchOptionsMenu = new JPopupMenu("Search Results");
-        for(SearchResult searchResult : searchResults){
-            SearchResultMenuItem searchResultMenuItem = new SearchResultMenuItem(searchResult);
+        indexOfSelectedSearchResult= -1;
+        int currentIndex = 0;
+        for(String searchResult : searchResults){
+            JMenuItem searchResultMenuItem = new JMenuItem(searchResult);
             searchOptionsMenu.add(searchResultMenuItem);
+            int searchResultIndex = currentIndex;
             searchResultMenuItem.addActionListener(actionEvent -> {
-                selectedSearchResult = searchResult;
+                indexOfSelectedSearchResult= searchResultIndex;
                 gourmetCatalogPresenter.onEventSelectWikipediaArticle();
             });
+            ++currentIndex;
         }
         searchOptionsMenu.show(searchTextField, searchTextField.getX(), searchTextField.getY());
     }

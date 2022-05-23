@@ -7,9 +7,13 @@ import model.listeners.StoredArticlesListener;
 import views.MainView;
 import views.MainViewInterface;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface{
     MainViewInterface mainView;
     GourmetCatalogModelInterface gourmetCatalogModel;
+    List<SearchResult> listOfSearchResults;
 
     public GourmetCatalogPresenter(GourmetCatalogModelInterface gourmetCatalogModel){
         this.gourmetCatalogModel = gourmetCatalogModel;
@@ -22,7 +26,8 @@ public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface
         gourmetCatalogModel.addSearchListener(new SearchListener() {
             @Override
             public void didFindArticles() {
-                mainView.setSearchResultsList(gourmetCatalogModel.getAllArticleCoincidencesInWikipedia());
+                mainView.setSearchResultsList(parseListSearchResult(gourmetCatalogModel.getAllArticleCoincidencesInWikipedia()));
+                listOfSearchResults = gourmetCatalogModel.getAllArticleCoincidencesInWikipedia();
             }
 
             @Override
@@ -53,6 +58,18 @@ public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface
                 mainView.notifyMessageToUser("Article Deleted", "Info");
             }
         });
+    }
+
+    private List<String> parseListSearchResult(List<SearchResult> listOfSearchResults){
+        List<String> listToReturn = new ArrayList<>();
+        String textOfArticle;
+        for (SearchResult searchResult: listOfSearchResults){
+            textOfArticle = searchResult.getTitle() + ": " + searchResult.getSnippet();
+            textOfArticle = textOfArticle.replace("<span class=\"searchmatch\">", "")
+                    .replace("</span>", "");
+            listToReturn.add(textOfArticle);
+        }
+        return listToReturn;
     }
 
     @Override
@@ -105,10 +122,12 @@ public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface
 
     @Override
     public void onEventSaveWikipediaArticle() {
-        SearchResult selectedSearchResult = mainView.getSelectedSearchResult();
-        if(selectedSearchResult != null)
+        int indexOfSelectedSearchResult = mainView.getIndexOfSelectedSearchResult();
+        SearchResult selectedSearchResult;
+        if(indexOfSelectedSearchResult != -1) {
+            selectedSearchResult = listOfSearchResults.get(indexOfSelectedSearchResult);
             gourmetCatalogModel.saveArticle(selectedSearchResult.getTitle(), gourmetCatalogModel.getSearchedArticleInWikipedia());
-        else
+        } else
             mainView.notifyMessageToUser("Search Result Not Selected", "Error");
     }
 

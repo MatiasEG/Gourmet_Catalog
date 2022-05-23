@@ -9,6 +9,8 @@ public interface MainViewInterface {
 
     SearchResult getSelectedSearchResult();
 
+    int getIndexOfSelectedSearchResult();
+
     String getSelectedStoredArticleTitle();
 
     // TODO check this name.
@@ -20,7 +22,7 @@ public interface MainViewInterface {
 
     void setStoredArticleContentText(String contentText);
 
-    void setSearchResultsList(List<SearchResult> searchResults);
+    void setSearchResultsList(List<String> searchResults);
 
     void notifyMessageToUser(String msg, String title);
 
