@@ -67,12 +67,16 @@ public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface
 
     @Override
     public void onEvenDeleteStoredArticle() {
-        gourmetCatalogModel.deleteArticle(mainView.getSelectedStoredArticleTitle());
+        String storedArticleTitle = mainView.getSelectedStoredArticleTitle();
+        if(!storedArticleTitle.equals(""))
+            gourmetCatalogModel.deleteArticle(storedArticleTitle);
     }
 
     @Override
     public void onEventUpdateStoredArticle() {
-        gourmetCatalogModel.updateArticle(mainView.getSelectedStoredArticleTitle(), mainView.getStoredArticleContentText());
+        String storedArticleTitle = mainView.getSelectedStoredArticleTitle();
+        if(!storedArticleTitle.equals(""))
+            gourmetCatalogModel.updateArticle(storedArticleTitle, mainView.getStoredArticleContentText());
     }
 
     @Override
