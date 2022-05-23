@@ -83,7 +83,6 @@ public class JsonParser{
             if (searchResultExtract2 == null) {
                 extractOfArticle = "No Results";
             } else {
-                // TODO how can I get the title? Ask fot it to the presenter?
                 extractOfArticle = "<h1>" + searchResult.getTitle() + "</h1>";
                 extractOfArticle += searchResultExtract2.getAsString().replace("\\n", "\n");
                 return extractOfArticle;

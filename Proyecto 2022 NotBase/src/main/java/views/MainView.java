@@ -38,6 +38,7 @@ public class MainView implements  MainViewInterface{
         mainFrame.pack();
 
         textPane1.setContentType("text/html");
+        textPane1.setEditable(false);
         textPane2.setContentType("text/html");
 
         storedInfoPopup = new JPopupMenu();
@@ -74,6 +75,13 @@ public class MainView implements  MainViewInterface{
 //    public int getIndexOfSelectedLocalCopy() {
 //        return comboBox1.getSelectedIndex();
 //    }
+
+    @Override
+    public void cleanViewForLocalArticles(){
+        //TODO arreglar este codigo, si elimino todos los articulos comboBox1(0) es null, tengo que chequearlo de alguna forma.
+        comboBox1.setSelectedIndex(0);
+        textPane2.setText("");
+    }
 
     @Override
     public String getTitleOfSelectedLocalCopy(){ return comboBox1.getSelectedItem().toString(); }

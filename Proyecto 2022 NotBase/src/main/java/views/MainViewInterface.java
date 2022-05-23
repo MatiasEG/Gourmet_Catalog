@@ -16,6 +16,7 @@ public interface MainViewInterface {
     // TODO check this name.
     String getContentTextOfLocalCopy();
 
+    void cleanViewForLocalArticles();
 
     void setListOfLocalCopies(Object[] localCopies);
 

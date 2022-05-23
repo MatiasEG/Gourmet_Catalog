@@ -45,6 +45,8 @@ public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface
     public void onEvenDeleteLocalCopy() {
         System.out.println("Ejecutando delete local copy");
         gourmetCatalogModel.deleteArticle(mainView.getTitleOfSelectedLocalCopy());
+        mainView.setListOfLocalCopies(gourmetCatalogModel.getLocalArticles().toArray(new String[0]));
+        mainView.cleanViewForLocalArticles();
         //TODO ok?
     }
 
@@ -81,7 +83,7 @@ public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface
     @Override
     public void onEventSaveSearchResult() {
         System.out.println("Ejecutando save search result");
-        gourmetCatalogModel.saveArticle(mainView.getSelectedSearchResult().getTitle(), mainView.getSelectedSearchResult().getSnippet());
+        gourmetCatalogModel.saveArticle(mainView.getSelectedSearchResult().getTitle(), gourmetCatalogModel.getArticleInWikipedia());
         mainView.setListOfLocalCopies(gourmetCatalogModel.getLocalArticles().toArray(new String[0]));
         //TODO
     }
