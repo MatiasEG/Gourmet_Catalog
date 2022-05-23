@@ -1,6 +1,7 @@
 package presenter;
 
 import model.GourmetCatalogModelInterface;
+import model.Search.SearchResult;
 import model.listeners.LoadArticleListener;
 import model.listeners.SearchListener;
 import model.listeners.StoredArticlesListener;
@@ -39,21 +40,21 @@ public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface
         gourmetCatalogModel.addStoredArticlesListener(new StoredArticlesListener() {
             @Override
             public void didUpdateArticle() {
-                //TODO notificar usuario
+                mainView.notifyMessageToUser("Article Updated", "Info");
             }
 
             @Override
             public void didSaveArticle() {
                 mainView.setStoredArticlesTitles(gourmetCatalogModel.getTitlesOfStoredArticles());
                 mainView.clearStoredArticleView();
-                //TODO notificar usuario
+                mainView.notifyMessageToUser("Article Saved", "Info");
             }
 
             @Override
             public void didDeleteArticle() {
                 mainView.setStoredArticlesTitles(gourmetCatalogModel.getTitlesOfStoredArticles());
                 mainView.clearStoredArticleView();
-                //TODO notificar usuario
+                mainView.notifyMessageToUser("Article Deleted", "Info");
             }
         });
     }
@@ -70,6 +71,8 @@ public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface
         String storedArticleTitle = mainView.getSelectedStoredArticleTitle();
         if(!storedArticleTitle.equals(""))
             gourmetCatalogModel.deleteArticle(storedArticleTitle);
+        else
+            mainView.notifyMessageToUser("Article Not Selected", "Error");
     }
 
     @Override
@@ -77,6 +80,8 @@ public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface
         String storedArticleTitle = mainView.getSelectedStoredArticleTitle();
         if(!storedArticleTitle.equals(""))
             gourmetCatalogModel.updateArticle(storedArticleTitle, mainView.getStoredArticleContentText());
+        else
+            mainView.notifyMessageToUser("Article Not Selected", "Error");
     }
 
     @Override
@@ -104,7 +109,11 @@ public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface
 
     @Override
     public void onEventSaveWikipediaArticle() {
-        gourmetCatalogModel.saveArticle(mainView.getSelectedSearchResult().getTitle(), gourmetCatalogModel.getSearchedArticleInWikipedia());
+        SearchResult selectedSearchResult = mainView.getSelectedSearchResult();
+        if(selectedSearchResult != null)
+            gourmetCatalogModel.saveArticle(selectedSearchResult.getTitle(), gourmetCatalogModel.getSearchedArticleInWikipedia());
+        else
+            mainView.notifyMessageToUser("Search Result Not Selected", "Error");
     }
 
     public void showView(){
