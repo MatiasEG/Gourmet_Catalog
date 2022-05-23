@@ -35,14 +35,22 @@ public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface
 
     @Override
     public void onEventSearchWikipediaArticle() {
-        gourmetCatalogModel.searchAllArticleCoincidencesInWikipedia(mainView.getSearchText());
-        mainView.setSearchResultsList(gourmetCatalogModel.getAllArticleCoincidencesInWikipedia());
+        new Thread(() -> {
+            mainView.startWorkingStatus();
+            gourmetCatalogModel.searchAllArticleCoincidencesInWikipedia(mainView.getSearchText());
+            mainView.setSearchResultsList(gourmetCatalogModel.getAllArticleCoincidencesInWikipedia());
+            mainView.stopWorkingStatus();
+        }).start();
     }
 
     @Override
     public void onEventSelectWikipediaArticle() {
-        gourmetCatalogModel.searchArticleInWikipedia(mainView.getSelectedSearchResult());
-        mainView.setContentTextOfSearchResult(gourmetCatalogModel.getSearchedArticleInWikipedia());
+        new Thread(() -> {
+            mainView.startWorkingStatus();
+            gourmetCatalogModel.searchArticleInWikipedia(mainView.getSelectedSearchResult());
+            mainView.setContentTextOfSearchResult(gourmetCatalogModel.getSearchedArticleInWikipedia());
+            mainView.stopWorkingStatus();
+        }).start();
     }
 
     @Override

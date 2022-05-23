@@ -127,7 +127,7 @@ public class MainView implements  MainViewInterface{
     }
 
     @Override
-    public void stopWaitingStatus() {
+    public void stopWorkingStatus() {
         for(Component c: this.searchInWikipediaPanel.getComponents()) c.setEnabled(true);
         wikipediaArticleTextPane.setEnabled(true);
     }

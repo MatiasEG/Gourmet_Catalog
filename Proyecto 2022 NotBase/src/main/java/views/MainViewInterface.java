@@ -26,7 +26,7 @@ public interface MainViewInterface {
 
     void startWorkingStatus();
 
-    void stopWaitingStatus();
+    void stopWorkingStatus();
 
     void showView();
 }
