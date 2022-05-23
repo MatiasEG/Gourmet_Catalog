@@ -19,7 +19,7 @@ public class MainView implements  MainViewInterface{
     private JComboBox<Object> storedArticlesComboBox;
     private JTextPane storedArticleTextPane;
     private JRadioButton completeArticleRadioButton;
-    private JRadioButton firstTermArticleRadioButton;
+    private JRadioButton articleExtractRadioButton;
     private JScrollPane storedArticleScrollPane;
     private JScrollPane wikipediaArticleScrollPane;
     private JFrame mainFrame;
@@ -43,12 +43,12 @@ public class MainView implements  MainViewInterface{
     }
 
     private void initRadioButtons(){
-        completeArticleRadioButton.setText("Articulo completo");
-        firstTermArticleRadioButton.setText("Primer parrafo");
+        completeArticleRadioButton.setText("Complete Article");
+        articleExtractRadioButton.setText("Article Extract");
         completeArticleRadioButton.setSelected(true);
         ButtonGroup group = new ButtonGroup();
         group.add(completeArticleRadioButton);
-        group.add(firstTermArticleRadioButton);
+        group.add(articleExtractRadioButton);
     }
 
     private void initMainFrame() {
