@@ -93,11 +93,6 @@ public class MainView implements  MainViewInterface{
     }
 
     @Override
-    public SearchResult getSelectedSearchResult() {
-        return selectedSearchResult;
-    }
-
-    @Override
     public void clearStoredArticleView(){
         storedArticlesComboBox.setSelectedIndex(-1);
         storedArticleTextPane.setText("");

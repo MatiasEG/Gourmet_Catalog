@@ -1,13 +1,9 @@
 package views;
 
-import model.Search.SearchResult;
-
 import java.util.List;
 
 public interface MainViewInterface {
     String getSearchText();
-
-    SearchResult getSelectedSearchResult();
 
     int getIndexOfSelectedSearchResult();
 
