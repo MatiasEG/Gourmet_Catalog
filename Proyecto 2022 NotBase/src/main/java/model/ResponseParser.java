@@ -9,7 +9,7 @@ import retrofit2.Response;
 
 import java.util.*;
 
-public class JsonParser{
+public class ResponseParser {
 
     public static List<SearchResult> searchAllCoincidencesInWikipedia(Response<String> wikipediaResponse) {
         JsonArray pagesJsonArray = getPagesAsJsonArray(wikipediaResponse);

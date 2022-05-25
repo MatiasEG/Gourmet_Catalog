@@ -89,7 +89,7 @@ public class GourmetCatalogModel implements GourmetCatalogModelInterface{
 
     @Override
     public void searchAllArticleCoincidencesInWikipedia(String textToSearch) {
-        allCoincidences = JsonParser.searchAllCoincidencesInWikipedia(SearchLogic.executeSearchOfTermInWikipedia(textToSearch));
+        allCoincidences = ResponseParser.searchAllCoincidencesInWikipedia(SearchLogic.executeSearchOfTermInWikipedia(textToSearch));
         notifyFoundArticles();
     }
 
@@ -100,13 +100,13 @@ public class GourmetCatalogModel implements GourmetCatalogModelInterface{
 
     @Override
     public void searchFirstTermArticleInWikipedia(SearchResult searchResult) {
-        articleInWikipedia = JsonParser.parseWikipediaResponse(SearchLogic.executeSpecificSearchInWikipediaForFirstTerm(searchResult));
+        articleInWikipedia = ResponseParser.parseWikipediaResponse(SearchLogic.executeSpecificSearchInWikipediaForFirstTerm(searchResult));
         notifyFoundExtract();
     }
 
     @Override
     public void searchCompleteArticleInWikipedia(SearchResult searchResult){
-        articleInWikipedia = JsonParser.parseWikipediaResponse(SearchLogic.executeSpecificSearchInWikipediaForEntireArticle(searchResult));
+        articleInWikipedia = ResponseParser.parseWikipediaResponse(SearchLogic.executeSpecificSearchInWikipediaForEntireArticle(searchResult));
         notifyFoundExtract();
     }
 
