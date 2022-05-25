@@ -99,25 +99,21 @@ public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface
 
     @Override
     public void onEventSearchWikipediaArticle() {
-        new Thread(() -> {
-            mainView.startWorkingStatus();
-            gourmetCatalogModel.searchAllArticleCoincidencesInWikipedia(mainView.getSearchText());
-            mainView.stopWorkingStatus();
-        }).start();
+        mainView.startWorkingStatus();
+        gourmetCatalogModel.searchAllArticleCoincidencesInWikipedia(mainView.getSearchText());
+        mainView.stopWorkingStatus();
     }
 
     @Override
     public void onEventSelectWikipediaArticle() {
-        new Thread(() -> {
-            mainView.startWorkingStatus();
-            if(!mainView.completeArticleIsSelected()){
-                gourmetCatalogModel.searchFirstTermArticleInWikipedia(listOfSearchResults.get(mainView.getIndexOfSelectedSearchResult()));
-            }else{
-                gourmetCatalogModel.searchCompleteArticleInWikipedia(listOfSearchResults.get(mainView.getIndexOfSelectedSearchResult()));
-            }
-            mainView.setContentTextOfSearchResult(gourmetCatalogModel.getSearchedArticleInWikipedia());
-            mainView.stopWorkingStatus();
-        }).start();
+        mainView.startWorkingStatus();
+        if(!mainView.completeArticleIsSelected()){
+            gourmetCatalogModel.searchFirstTermArticleInWikipedia(listOfSearchResults.get(mainView.getIndexOfSelectedSearchResult()));
+        }else{
+            gourmetCatalogModel.searchCompleteArticleInWikipedia(listOfSearchResults.get(mainView.getIndexOfSelectedSearchResult()));
+        }
+        mainView.setContentTextOfSearchResult(gourmetCatalogModel.getSearchedArticleInWikipedia());
+        mainView.stopWorkingStatus();
     }
 
     @Override
