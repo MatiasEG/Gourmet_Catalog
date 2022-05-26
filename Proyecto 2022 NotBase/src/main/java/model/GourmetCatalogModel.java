@@ -3,6 +3,7 @@ package model;
 import model.Search.SearchLogic;
 import model.Search.SearchResult;
 
+import model.listeners.ErrorListener;
 import model.listeners.LoadArticleListener;
 import model.listeners.SearchListener;
 import model.listeners.StoredArticlesListener;
@@ -18,6 +19,7 @@ public class GourmetCatalogModel implements GourmetCatalogModelInterface{
     private List<LoadArticleListener> loadArticleListeners = new ArrayList<>();
     private List<SearchListener> searchListeners = new ArrayList<>();
     private List<StoredArticlesListener> storedArticlesListeners = new ArrayList<>();
+    private List<ErrorListener> errorListeners = new ArrayList<>();
 
     public GourmetCatalogModel(){
         DataBase.loadDatabase();
@@ -37,6 +39,11 @@ public class GourmetCatalogModel implements GourmetCatalogModelInterface{
     @Override
     public void addLoadArticleListener(LoadArticleListener loadArticleListener) {
         loadArticleListeners.add(loadArticleListener);
+    }
+
+    @Override
+    public void addErrorListener(ErrorListener errorListener){
+        errorListeners.add(errorListener);
     }
 
     private void notifyUpdateArticle(){
@@ -69,10 +76,22 @@ public class GourmetCatalogModel implements GourmetCatalogModelInterface{
             loadArticleListener.didLoadArticle();
     }
 
+    private void notifyErrorOccurred(String errorMessage){
+        for(ErrorListener errorListener : errorListeners)
+            errorListener.didErrorOccurred(errorMessage);
+    }
+
     @Override
     public void deleteArticle(String articleTitle) {
-        DataBase.deleteEntry(articleTitle);
-        notifyDeleteArticle();
+        if(isValidString(articleTitle)) {
+            DataBase.deleteEntry(articleTitle);
+            notifyDeleteArticle();
+        } else
+            notifyErrorOccurred("Article Not Selected");
+    }
+
+    private boolean isValidString(String string){
+        return string != null && !string.equals("");
     }
 
     @Override
@@ -83,14 +102,20 @@ public class GourmetCatalogModel implements GourmetCatalogModelInterface{
 
     @Override
     public void updateArticle(String articleTitle, String articleExtract) {
-        DataBase.saveInfo(articleTitle, articleExtract);
-        notifyUpdateArticle();
+        if(isValidString(articleTitle)) {
+            DataBase.saveInfo(articleTitle, articleExtract);
+            notifyUpdateArticle();
+        } else
+            notifyErrorOccurred("Article Not Selected");
     }
 
     @Override
     public void searchAllArticleCoincidencesInWikipedia(String textToSearch) {
-        allCoincidences = ResponseParser.searchAllCoincidencesInWikipedia(SearchLogic.executeSearchOfTermInWikipedia(textToSearch));
-        notifyFoundArticles();
+        if(isValidString(textToSearch)) {
+            allCoincidences = ResponseParser.searchAllCoincidencesInWikipedia(SearchLogic.executeSearchOfTermInWikipedia(textToSearch));
+            notifyFoundArticles();
+        } else
+            notifyErrorOccurred("Empty Search Field");
     }
 
     @Override
@@ -117,8 +142,11 @@ public class GourmetCatalogModel implements GourmetCatalogModelInterface{
 
     @Override
     public void selectStoredArticleExtract(String articleTitle) {
-        articleExtract = DataBase.getExtract(articleTitle);
-        notifyLoadArticle();
+        if(isValidString(articleTitle)) {
+            articleExtract = DataBase.getExtract(articleTitle);
+            notifyLoadArticle();
+        } else
+            notifyErrorOccurred("Article Not Selected");
     }
 
     @Override

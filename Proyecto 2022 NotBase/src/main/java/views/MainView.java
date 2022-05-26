@@ -77,7 +77,10 @@ public class MainView implements  MainViewInterface{
     private void initListeners(){
         searchTextField.addActionListener(actionEvent -> gourmetCatalogPresenter.onEventSearchWikipediaArticle());
         saveLocallyButton.addActionListener(actionEvent -> gourmetCatalogPresenter.onEventSaveWikipediaArticle());
-        storedArticlesComboBox.addActionListener(actionEvent -> gourmetCatalogPresenter.onEventSelectStoredArticle());
+        storedArticlesComboBox.addActionListener(actionEvent -> {
+            if(storedArticlesComboBox.getSelectedIndex() > -1)
+                gourmetCatalogPresenter.onEventSelectStoredArticle();
+        });
         deleteMenuItem.addActionListener(actionEvent -> gourmetCatalogPresenter.onEvenDeleteStoredArticle());
         saveMenuItem.addActionListener(actionEvent -> gourmetCatalogPresenter.onEventUpdateStoredArticle());
     }

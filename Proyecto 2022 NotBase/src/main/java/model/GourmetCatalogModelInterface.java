@@ -1,6 +1,7 @@
 package model;
 
 import model.Search.SearchResult;
+import model.listeners.ErrorListener;
 import model.listeners.LoadArticleListener;
 import model.listeners.SearchListener;
 import model.listeners.StoredArticlesListener;
@@ -14,6 +15,8 @@ public interface GourmetCatalogModelInterface {
     void addSearchListener(SearchListener searchListener);
 
     void addLoadArticleListener(LoadArticleListener loadArticleListener);
+
+    void addErrorListener(ErrorListener errorListener);
 
     void deleteArticle(String articleTitle);
 
