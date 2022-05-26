@@ -13,7 +13,7 @@ import java.util.List;
 
 public class GourmetCatalogModel implements GourmetCatalogModelInterface{
 
-    private String articleExtract;
+    private String articleContent;
     private List<SearchResult> allCoincidences;
     private String articleInWikipedia;
     private List<LoadArticleListener> loadArticleListeners = new ArrayList<>();
@@ -66,9 +66,9 @@ public class GourmetCatalogModel implements GourmetCatalogModelInterface{
             searchListener.didFindArticles();
     }
 
-    private void notifyFoundExtract(){
+    private void notifyFoundArticleContent(){
         for(SearchListener searchListener : searchListeners)
-            searchListener.didFindExtract();
+            searchListener.didFindArticleContent();
     }
 
     private void notifyLoadArticle(){
@@ -95,15 +95,15 @@ public class GourmetCatalogModel implements GourmetCatalogModelInterface{
     }
 
     @Override
-    public void saveArticle(String articleTitle, String articleExtract) {
-        DataBase.saveInfo(articleTitle, articleExtract);
+    public void saveArticle(String articleTitle, String articleContent) {
+        DataBase.saveInfo(articleTitle, articleContent);
         notifySaveArticle();
     }
 
     @Override
-    public void updateArticle(String articleTitle, String articleExtract) {
+    public void updateArticle(String articleTitle, String articleContent) {
         if(isValidString(articleTitle)) {
-            DataBase.saveInfo(articleTitle, articleExtract);
+            DataBase.saveInfo(articleTitle, articleContent);
             notifyUpdateArticle();
         } else
             notifyErrorOccurred("Article Not Selected");
@@ -126,13 +126,13 @@ public class GourmetCatalogModel implements GourmetCatalogModelInterface{
     @Override
     public void searchFirstTermArticleInWikipedia(SearchResult searchResult) {
         articleInWikipedia = ResponseParser.parseWikipediaResponse(SearchLogic.executeSpecificSearchInWikipediaForFirstTerm(searchResult));
-        notifyFoundExtract();
+        notifyFoundArticleContent();
     }
 
     @Override
     public void searchCompleteArticleInWikipedia(SearchResult searchResult){
         articleInWikipedia = ResponseParser.parseWikipediaResponse(SearchLogic.executeSpecificSearchInWikipediaForEntireArticle(searchResult));
-        notifyFoundExtract();
+        notifyFoundArticleContent();
     }
 
     @Override
@@ -141,17 +141,17 @@ public class GourmetCatalogModel implements GourmetCatalogModelInterface{
     }
 
     @Override
-    public void selectStoredArticleExtract(String articleTitle) {
+    public void selectStoredArticle(String articleTitle) {
         if(isValidString(articleTitle)) {
-            articleExtract = DataBase.getExtract(articleTitle);
+            articleContent = DataBase.getContent(articleTitle);
             notifyLoadArticle();
         } else
             notifyErrorOccurred("Article Not Selected");
     }
 
     @Override
-    public String getExtractOfSelectedStoredArticle() {
-        return articleExtract;
+    public String getSelectedStoredArticleContent() {
+        return articleContent;
     }
 
     @Override

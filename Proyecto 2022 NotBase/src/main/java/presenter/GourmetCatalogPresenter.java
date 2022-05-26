@@ -35,12 +35,12 @@ public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface
             }
 
             @Override
-            public void didFindExtract() {
+            public void didFindArticleContent() {
                 mainView.setContentTextOfSearchResult(gourmetCatalogModel.getSearchedArticleInWikipedia());
             }
         });
 
-        gourmetCatalogModel.addLoadArticleListener(() -> mainView.setStoredArticleContentText(gourmetCatalogModel.getExtractOfSelectedStoredArticle()));
+        gourmetCatalogModel.addLoadArticleListener(() -> mainView.setStoredArticleContentText(gourmetCatalogModel.getSelectedStoredArticleContent()));
 
         gourmetCatalogModel.addStoredArticlesListener(new StoredArticlesListener() {
             @Override
@@ -89,7 +89,7 @@ public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface
     @Override
     public void onEventSelectStoredArticle() {
         String storedArticleTitle = mainView.getSelectedStoredArticleTitle();
-        gourmetCatalogModel.selectStoredArticleExtract(storedArticleTitle);
+        gourmetCatalogModel.selectStoredArticle(storedArticleTitle);
     }
 
     @Override

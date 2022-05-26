@@ -4,5 +4,5 @@ public interface SearchListener {
 
     void didFindArticles();
 
-    void didFindExtract();
+    void didFindArticleContent();
 }

@@ -31,8 +31,8 @@ public interface GourmetCatalogModelInterface {
     void searchCompleteArticleInWikipedia(SearchResult searchResult);
     String getSearchedArticleInWikipedia();
 
-    void selectStoredArticleExtract(String articleTitle);
-    String getExtractOfSelectedStoredArticle();
+    void selectStoredArticle(String articleTitle);
+    String getSelectedStoredArticleContent();
 
     Object[] getTitlesOfStoredArticles();
 }
