@@ -1,6 +1,7 @@
 package views;
 
-import presenter.GourmetCatalogPresenterInterface;
+import presenter.GourmetCatalogSearchViewPresenterInterface;
+import presenter.GourmetCatalogStoredInfoViewPresenterInterface;
 
 import javax.swing.*;
 
@@ -11,21 +12,23 @@ public class MainView implements  MainViewInterface{
     private JPanel storedInfoPanel;
     private JPanel mainPanel;
     private JFrame mainFrame;
-    private GourmetCatalogPresenterInterface gourmetCatalogPresenter;
+    private GourmetCatalogStoredInfoViewPresenterInterface storedInfoViewPresenter;
+    private GourmetCatalogSearchViewPresenterInterface searchViewPresenter;
     private SearchView searchView;
     private StoredInfoView storedInfoView;
 
-    public MainView(GourmetCatalogPresenterInterface gourmetCatalogPresenter){
-        this.gourmetCatalogPresenter = gourmetCatalogPresenter;
+    public MainView(GourmetCatalogStoredInfoViewPresenterInterface storedInfoViewPresenter, GourmetCatalogSearchViewPresenterInterface searchViewPresenter){
+        this.storedInfoViewPresenter = storedInfoViewPresenter;
+        this.searchViewPresenter = searchViewPresenter;
         initView();
     }
 
     private void createUIComponents() {
         // TODO: place custom component creation code here
-        this.storedInfoView = new StoredInfoView(gourmetCatalogPresenter);
+        this.storedInfoView = new StoredInfoView(storedInfoViewPresenter);
         this.storedInfoPanel = storedInfoView.getPanel();
 
-        this.searchView = new SearchView(gourmetCatalogPresenter);
+        this.searchView = new SearchView(searchViewPresenter);
         this.searchInWikipediaPanel = searchView.getPanel();
     }
 

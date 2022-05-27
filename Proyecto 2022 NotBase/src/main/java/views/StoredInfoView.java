@@ -1,6 +1,6 @@
 package views;
 
-import presenter.GourmetCatalogPresenterInterface;
+import presenter.GourmetCatalogStoredInfoViewPresenterInterface;
 
 import javax.swing.*;
 
@@ -13,9 +13,9 @@ public class StoredInfoView implements StoredInfoViewInterface{
     private JMenuItem deleteMenuItem;
     private JMenuItem saveMenuItem;
 
-    private GourmetCatalogPresenterInterface gourmetCatalogPresenter;
+    private GourmetCatalogStoredInfoViewPresenterInterface gourmetCatalogPresenter;
 
-    public StoredInfoView(GourmetCatalogPresenterInterface gourmetCatalogPresenter){
+    public StoredInfoView(GourmetCatalogStoredInfoViewPresenterInterface gourmetCatalogPresenter){
         this.gourmetCatalogPresenter = gourmetCatalogPresenter;
         initView();
         initListeners();
@@ -69,5 +69,9 @@ public class StoredInfoView implements StoredInfoViewInterface{
     public void setStoredArticleContentText(String contentText) {
         storedArticleTextPane.setText(contentText);
         storedArticleTextPane.setCaretPosition(0);
+    }
+
+    public void showView(){
+        storedInfoPanel.setVisible(true);
     }
 }

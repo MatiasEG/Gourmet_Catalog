@@ -10,4 +10,5 @@ public interface SearchViewInterface {
     boolean completeArticleIsSelected();
     void startWorkingStatus();
     void stopWorkingStatus();
+    void showView();
 }

@@ -1,6 +1,7 @@
 package views;
 
-import presenter.GourmetCatalogPresenterInterface;
+import presenter.GourmetCatalogSearchViewPresenterInterface;
+import presenter.GourmetCatalogStoredInfoViewPresenterInterface;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,9 +17,9 @@ public class SearchView implements SearchViewInterface{
     private JButton saveLocallyButton;
     private int indexOfSelectedSearchResult;
 
-    private GourmetCatalogPresenterInterface gourmetCatalogPresenter;
+    private GourmetCatalogSearchViewPresenterInterface gourmetCatalogPresenter;
 
-    public SearchView(GourmetCatalogPresenterInterface gourmetCatalogPresenter){
+    public SearchView(GourmetCatalogSearchViewPresenterInterface gourmetCatalogPresenter){
         this.gourmetCatalogPresenter = gourmetCatalogPresenter;
         initView();
         initListeners();
@@ -93,4 +94,6 @@ public class SearchView implements SearchViewInterface{
         for(Component c: this.searchInWikipediaPanel.getComponents()) c.setEnabled(true);
         wikipediaArticleTextPane.setEnabled(true);
     }
+
+    public void showView(){ searchInWikipediaPanel.setVisible(true); }
 }
