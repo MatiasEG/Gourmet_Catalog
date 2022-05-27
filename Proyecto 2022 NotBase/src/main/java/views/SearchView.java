@@ -1,7 +1,6 @@
 package views;
 
 import presenter.GourmetCatalogSearchViewPresenterInterface;
-import presenter.GourmetCatalogStoredInfoViewPresenterInterface;
 
 import javax.swing.*;
 import java.awt.*;

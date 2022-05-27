@@ -18,9 +18,6 @@ public class GourmetCatalogSearchViewPresenter implements GourmetCatalogSearchVi
 
     public GourmetCatalogSearchViewPresenter(GourmetCatalogModelInterface gourmetCatalogModel){
         this.gourmetCatalogModel = gourmetCatalogModel;
-//        this.mainView = mainView;
-//        this.searchView = mainView.getSearchView();
-//        initListeners();
     }
 
     @Override

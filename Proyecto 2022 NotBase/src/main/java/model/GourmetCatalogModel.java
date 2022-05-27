@@ -83,11 +83,6 @@ public class GourmetCatalogModel implements GourmetCatalogModelInterface{
 
     @Override
     public void deleteArticle(String articleTitle) {
-
-        System.out.println(" --------------- delete");
-        System.out.println(articleTitle);
-        System.out.println(" --------------- delete");
-
         if(isValidString(articleTitle)) {
             DataBase.deleteEntry(articleTitle);
             notifyDeleteArticle();
@@ -107,11 +102,6 @@ public class GourmetCatalogModel implements GourmetCatalogModelInterface{
 
     @Override
     public void updateArticle(String articleTitle, String articleContent) {
-
-        System.out.println(" --------------- update");
-        System.out.println(articleTitle);
-        System.out.println(" --------------- update");
-
         if(isValidString(articleTitle)) {
             DataBase.saveInfo(articleTitle, articleContent);
             notifyUpdateArticle();
@@ -152,11 +142,6 @@ public class GourmetCatalogModel implements GourmetCatalogModelInterface{
 
     @Override
     public void selectStoredArticle(String articleTitle) {
-
-        System.out.println(" --------------- stored");
-        System.out.println(articleTitle);
-        System.out.println(" --------------- stored");
-
         if(isValidString(articleTitle)) {
             articleContent = DataBase.getContent(articleTitle);
             notifyLoadArticle();

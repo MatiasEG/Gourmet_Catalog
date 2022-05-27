@@ -8,9 +8,5 @@ public interface GourmetCatalogStoredInfoViewPresenterInterface {
     void onEventSelectStoredArticle();
     void onEvenDeleteStoredArticle();
     void onEventUpdateStoredArticle();
-//    void onEventSearchWikipediaArticle();
-//    void onEventSelectWikipediaArticle();
-//    void onEventSaveWikipediaArticle();
-
     void showView();
 }

@@ -3,7 +3,6 @@ package presenter;
 import model.GourmetCatalogModel;
 import model.GourmetCatalogModelInterface;
 import views.MainView;
-import views.SearchView;
 
 public class Main {
     public static void main(String[] args){
