@@ -17,7 +17,7 @@ public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface
     public GourmetCatalogPresenter(GourmetCatalogModelInterface gourmetCatalogModel){
         this.gourmetCatalogModel = gourmetCatalogModel;
         mainView = new MainView(this);
-        mainView.setStoredArticlesTitles(this.gourmetCatalogModel.getTitlesOfStoredArticles());
+        mainView.getStoredInfoView().setStoredArticlesTitles(this.gourmetCatalogModel.getTitlesOfStoredArticles());
         initListeners();
     }
 
@@ -29,18 +29,18 @@ public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface
                 if(articleCoincidences.isEmpty())
                     notifyInfoToUser("No Coincidences Found");
                 else {
-                    mainView.setSearchResultsList(parseListSearchResult(articleCoincidences));
+                    mainView.getSearchView().setSearchResultsList(parseListSearchResult(articleCoincidences));
                     listOfSearchResults = gourmetCatalogModel.getAllArticleCoincidencesInWikipedia();
                 }
             }
 
             @Override
             public void didFindArticleContent() {
-                mainView.setContentTextOfSearchResult(gourmetCatalogModel.getSearchedArticleInWikipedia());
+                mainView.getSearchView().setContentTextOfSearchResult(gourmetCatalogModel.getSearchedArticleInWikipedia());
             }
         });
 
-        gourmetCatalogModel.addLoadArticleListener(() -> mainView.setStoredArticleContentText(gourmetCatalogModel.getSelectedStoredArticleContent()));
+        gourmetCatalogModel.addLoadArticleListener(() -> mainView.getStoredInfoView().setStoredArticleContentText(gourmetCatalogModel.getSelectedStoredArticleContent()));
 
         gourmetCatalogModel.addStoredArticlesListener(new StoredArticlesListener() {
             @Override
@@ -50,15 +50,15 @@ public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface
 
             @Override
             public void didSaveArticle() {
-                mainView.setStoredArticlesTitles(gourmetCatalogModel.getTitlesOfStoredArticles());
-                mainView.clearStoredArticleView();
+                mainView.getStoredInfoView().setStoredArticlesTitles(gourmetCatalogModel.getTitlesOfStoredArticles());
+                mainView.getStoredInfoView().clearStoredArticleView();
                 notifyInfoToUser("Article Saved");
             }
 
             @Override
             public void didDeleteArticle() {
-                mainView.setStoredArticlesTitles(gourmetCatalogModel.getTitlesOfStoredArticles());
-                mainView.clearStoredArticleView();
+                mainView.getStoredInfoView().setStoredArticlesTitles(gourmetCatalogModel.getTitlesOfStoredArticles());
+                mainView.getStoredInfoView().clearStoredArticleView();
                 notifyInfoToUser("Article Deleted");
             }
         });
@@ -88,45 +88,45 @@ public class GourmetCatalogPresenter implements GourmetCatalogPresenterInterface
 
     @Override
     public void onEventSelectStoredArticle() {
-        String storedArticleTitle = mainView.getSelectedStoredArticleTitle();
+        String storedArticleTitle = mainView.getStoredInfoView().getSelectedStoredArticleTitle();
         gourmetCatalogModel.selectStoredArticle(storedArticleTitle);
     }
 
     @Override
     public void onEvenDeleteStoredArticle() {
-        String storedArticleTitle = mainView.getSelectedStoredArticleTitle();
+        String storedArticleTitle = mainView.getStoredInfoView().getSelectedStoredArticleTitle();
         gourmetCatalogModel.deleteArticle(storedArticleTitle);
     }
 
     @Override
     public void onEventUpdateStoredArticle() {
-        String storedArticleTitle = mainView.getSelectedStoredArticleTitle();
-        String storedArticleContent = mainView.getStoredArticleContentText();
+        String storedArticleTitle = mainView.getStoredInfoView().getSelectedStoredArticleTitle();
+        String storedArticleContent = mainView.getStoredInfoView().getStoredArticleContentText();
         gourmetCatalogModel.updateArticle(storedArticleTitle, storedArticleContent);
     }
 
     @Override
     public void onEventSearchWikipediaArticle() {
-        mainView.startWorkingStatus();
-        gourmetCatalogModel.searchAllArticleCoincidencesInWikipedia(mainView.getSearchText());
-        mainView.stopWorkingStatus();
+        mainView.getSearchView().startWorkingStatus();
+        gourmetCatalogModel.searchAllArticleCoincidencesInWikipedia(mainView.getSearchView().getSearchText());
+        mainView.getSearchView().stopWorkingStatus();
     }
 
     @Override
     public void onEventSelectWikipediaArticle() {
-        mainView.startWorkingStatus();
-        if(!mainView.completeArticleIsSelected()){
-            gourmetCatalogModel.searchFirstTermArticleInWikipedia(listOfSearchResults.get(mainView.getIndexOfSelectedSearchResult()));
+        mainView.getSearchView().startWorkingStatus();
+        if(!mainView.getSearchView().completeArticleIsSelected()){
+            gourmetCatalogModel.searchFirstTermArticleInWikipedia(listOfSearchResults.get(mainView.getSearchView().getIndexOfSelectedSearchResult()));
         }else{
-            gourmetCatalogModel.searchCompleteArticleInWikipedia(listOfSearchResults.get(mainView.getIndexOfSelectedSearchResult()));
+            gourmetCatalogModel.searchCompleteArticleInWikipedia(listOfSearchResults.get(mainView.getSearchView().getIndexOfSelectedSearchResult()));
         }
-        mainView.setContentTextOfSearchResult(gourmetCatalogModel.getSearchedArticleInWikipedia());
-        mainView.stopWorkingStatus();
+        mainView.getSearchView().setContentTextOfSearchResult(gourmetCatalogModel.getSearchedArticleInWikipedia());
+        mainView.getSearchView().stopWorkingStatus();
     }
 
     @Override
     public void onEventSaveWikipediaArticle() {
-        int indexOfSelectedSearchResult = mainView.getIndexOfSelectedSearchResult();
+        int indexOfSelectedSearchResult = mainView.getSearchView().getIndexOfSelectedSearchResult();
         SearchResult selectedSearchResult;
         if(listOfSearchResults != null && indexOfSelectedSearchResult != -1) {
             selectedSearchResult = listOfSearchResults.get(indexOfSelectedSearchResult);
