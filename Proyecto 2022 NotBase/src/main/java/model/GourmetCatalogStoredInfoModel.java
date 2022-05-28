@@ -1,27 +1,20 @@
 package model;
 
-import model.Search.SearchLogic;
-import model.Search.SearchResult;
-
 import model.listeners.ErrorListener;
 import model.listeners.LoadArticleListener;
-import model.listeners.SearchListener;
 import model.listeners.StoredArticlesListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GourmetCatalogModel implements GourmetCatalogModelInterface{
+public class GourmetCatalogStoredInfoModel implements GourmetCatalogStoredInfoModelInterface {
 
     private String articleContent;
-    private List<SearchResult> allCoincidences;
-    private String articleInWikipedia;
     private List<LoadArticleListener> loadArticleListeners = new ArrayList<>();
-    private List<SearchListener> searchListeners = new ArrayList<>();
     private List<StoredArticlesListener> storedArticlesListeners = new ArrayList<>();
     private List<ErrorListener> errorListeners = new ArrayList<>();
 
-    public GourmetCatalogModel(){
+    public GourmetCatalogStoredInfoModel(){
         DataBase.loadDatabase();
     }
 
@@ -29,11 +22,6 @@ public class GourmetCatalogModel implements GourmetCatalogModelInterface{
     @Override
     public void addStoredArticlesListener(StoredArticlesListener storedArticlesListener) {
         storedArticlesListeners.add(storedArticlesListener);
-    }
-
-    @Override
-    public void addSearchListener(SearchListener searchListener) {
-        searchListeners.add(searchListener);
     }
 
     @Override
@@ -61,16 +49,6 @@ public class GourmetCatalogModel implements GourmetCatalogModelInterface{
             storedArticlesListener.didDeleteArticle();
     }
 
-    private void notifyFoundArticles(){
-        for(SearchListener searchListener : searchListeners)
-            searchListener.didFindArticles();
-    }
-
-    private void notifyFoundArticleContent(){
-        for(SearchListener searchListener : searchListeners)
-            searchListener.didFindArticleContent();
-    }
-
     private void notifyLoadArticle(){
         for(LoadArticleListener loadArticleListener : loadArticleListeners)
             loadArticleListener.didLoadArticle();
@@ -90,9 +68,7 @@ public class GourmetCatalogModel implements GourmetCatalogModelInterface{
             notifyErrorOccurred("Article Not Selected");
     }
 
-    private boolean isValidString(String string){
-        return string != null && !string.equals("");
-    }
+    private boolean isValidString(String string){ return string != null && !string.equals(""); }
 
     @Override
     public void saveArticle(String articleTitle, String articleContent) {
@@ -107,37 +83,6 @@ public class GourmetCatalogModel implements GourmetCatalogModelInterface{
             notifyUpdateArticle();
         } else
             notifyErrorOccurred("Article Not Selected");
-    }
-
-    @Override
-    public void searchAllArticleCoincidencesInWikipedia(String textToSearch) {
-        if(isValidString(textToSearch)) {
-            allCoincidences = ResponseParser.searchAllCoincidencesInWikipedia(SearchLogic.executeSearchOfTermInWikipedia(textToSearch));
-            notifyFoundArticles();
-        } else
-            notifyErrorOccurred("Empty Search Field");
-    }
-
-    @Override
-    public List<SearchResult> getAllArticleCoincidencesInWikipedia() {
-        return allCoincidences;
-    }
-
-    @Override
-    public void searchFirstTermArticleInWikipedia(SearchResult searchResult) {
-        articleInWikipedia = ResponseParser.parseWikipediaResponse(SearchLogic.executeSpecificSearchInWikipediaForFirstTerm(searchResult));
-        notifyFoundArticleContent();
-    }
-
-    @Override
-    public void searchCompleteArticleInWikipedia(SearchResult searchResult){
-        articleInWikipedia = ResponseParser.parseWikipediaResponse(SearchLogic.executeSpecificSearchInWikipediaForEntireArticle(searchResult));
-        notifyFoundArticleContent();
-    }
-
-    @Override
-    public String getSearchedArticleInWikipedia() {
-        return articleInWikipedia;
     }
 
     @Override

@@ -1,8 +1,9 @@
 package presenter;
 
-import model.GourmetCatalogModelInterface;
+import model.GourmetCatalogStoredInfoModelInterface;
 import model.Search.SearchResult;
 import model.listeners.SearchListener;
+import model.searchModel.GourmetCatalogSearchModelInterface;
 import views.MainView;
 import views.MainViewInterface;
 import views.SearchView;
@@ -13,10 +14,12 @@ import java.util.List;
 public class GourmetCatalogSearchViewPresenter implements GourmetCatalogSearchViewPresenterInterface {
     MainViewInterface mainView;
     SearchView searchView;
-    GourmetCatalogModelInterface gourmetCatalogModel;
+    GourmetCatalogSearchModelInterface gourmetCatalogSearchModel;
+    GourmetCatalogStoredInfoModelInterface gourmetCatalogModel;
     List<SearchResult> listOfSearchResults;
 
-    public GourmetCatalogSearchViewPresenter(GourmetCatalogModelInterface gourmetCatalogModel){
+    public GourmetCatalogSearchViewPresenter(GourmetCatalogSearchModelInterface gourmetCatalogSearchModel, GourmetCatalogStoredInfoModelInterface gourmetCatalogModel){
+        this.gourmetCatalogSearchModel = gourmetCatalogSearchModel;
         this.gourmetCatalogModel = gourmetCatalogModel;
     }
 
@@ -28,21 +31,21 @@ public class GourmetCatalogSearchViewPresenter implements GourmetCatalogSearchVi
     }
 
     private void initListeners(){
-        gourmetCatalogModel.addSearchListener(new SearchListener() {
+        gourmetCatalogSearchModel.addSearchListener(new SearchListener() {
             @Override
             public void didFindArticles() {
-                List<SearchResult> articleCoincidences = gourmetCatalogModel.getAllArticleCoincidencesInWikipedia();
+                List<SearchResult> articleCoincidences = gourmetCatalogSearchModel.getAllArticleCoincidencesInWikipedia();
                 if(articleCoincidences.isEmpty())
                     notifyInfoToUser("No Coincidences Found");
                 else {
                     searchView.setSearchResultsList(parseListSearchResult(articleCoincidences));
-                    listOfSearchResults = gourmetCatalogModel.getAllArticleCoincidencesInWikipedia();
+                    listOfSearchResults = gourmetCatalogSearchModel.getAllArticleCoincidencesInWikipedia();
                 }
             }
 
             @Override
             public void didFindArticleContent() {
-                searchView.setContentTextOfSearchResult(gourmetCatalogModel.getSearchedArticleInWikipedia());
+                searchView.setContentTextOfSearchResult(gourmetCatalogSearchModel.getSearchedArticleInWikipedia());
             }
         });
     }
@@ -62,7 +65,7 @@ public class GourmetCatalogSearchViewPresenter implements GourmetCatalogSearchVi
     @Override
     public void onEventSearchWikipediaArticle() {
         searchView.startWorkingStatus();
-        gourmetCatalogModel.searchAllArticleCoincidencesInWikipedia(searchView.getSearchText());
+        gourmetCatalogSearchModel.searchAllArticleCoincidencesInWikipedia(searchView.getSearchText());
         searchView.stopWorkingStatus();
     }
 
@@ -70,11 +73,11 @@ public class GourmetCatalogSearchViewPresenter implements GourmetCatalogSearchVi
     public void onEventSelectWikipediaArticle() {
         searchView.startWorkingStatus();
         if(!searchView.completeArticleIsSelected()){
-            gourmetCatalogModel.searchFirstTermArticleInWikipedia(listOfSearchResults.get(searchView.getIndexOfSelectedSearchResult()));
+            gourmetCatalogSearchModel.searchFirstTermArticleInWikipedia(listOfSearchResults.get(searchView.getIndexOfSelectedSearchResult()));
         }else{
-            gourmetCatalogModel.searchCompleteArticleInWikipedia(listOfSearchResults.get(searchView.getIndexOfSelectedSearchResult()));
+            gourmetCatalogSearchModel.searchCompleteArticleInWikipedia(listOfSearchResults.get(searchView.getIndexOfSelectedSearchResult()));
         }
-        mainView.getSearchView().setContentTextOfSearchResult(gourmetCatalogModel.getSearchedArticleInWikipedia());
+        mainView.getSearchView().setContentTextOfSearchResult(gourmetCatalogSearchModel.getSearchedArticleInWikipedia());
         mainView.getSearchView().stopWorkingStatus();
     }
 
@@ -84,7 +87,7 @@ public class GourmetCatalogSearchViewPresenter implements GourmetCatalogSearchVi
         SearchResult selectedSearchResult;
         if(listOfSearchResults != null && indexOfSelectedSearchResult != -1) {
             selectedSearchResult = listOfSearchResults.get(indexOfSelectedSearchResult);
-            gourmetCatalogModel.saveArticle(selectedSearchResult.getTitle(), gourmetCatalogModel.getSearchedArticleInWikipedia());
+            gourmetCatalogModel.saveArticle(selectedSearchResult.getTitle(), gourmetCatalogSearchModel.getSearchedArticleInWikipedia());
         } else
             notifyErrorToUser("Search Result Not Selected");
     }

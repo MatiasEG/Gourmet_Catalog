@@ -1,6 +1,6 @@
 package presenter;
 
-import model.GourmetCatalogModelInterface;
+import model.GourmetCatalogStoredInfoModelInterface;
 import model.listeners.StoredArticlesListener;
 import views.MainView;
 import views.MainViewInterface;
@@ -9,9 +9,9 @@ import views.StoredInfoView;
 public class GourmetCatalogStoredInfoViewPresenter implements GourmetCatalogStoredInfoViewPresenterInterface {
     MainViewInterface mainView;
     StoredInfoView storedInfoView;
-    GourmetCatalogModelInterface gourmetCatalogModel;
+    GourmetCatalogStoredInfoModelInterface gourmetCatalogModel;
 
-    public GourmetCatalogStoredInfoViewPresenter(GourmetCatalogModelInterface gourmetCatalogModel){
+    public GourmetCatalogStoredInfoViewPresenter(GourmetCatalogStoredInfoModelInterface gourmetCatalogModel){
         this.gourmetCatalogModel = gourmetCatalogModel;
     }
 

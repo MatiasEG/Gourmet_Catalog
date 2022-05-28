@@ -1,15 +1,18 @@
 package presenter;
 
-import model.GourmetCatalogModel;
-import model.GourmetCatalogModelInterface;
+import model.GourmetCatalogStoredInfoModel;
+import model.GourmetCatalogStoredInfoModelInterface;
+import model.searchModel.GourmetCatalogSearchModel;
+import model.searchModel.GourmetCatalogSearchModelInterface;
 import views.MainView;
 
 public class Main {
     public static void main(String[] args){
-        GourmetCatalogModelInterface gourmetCatalogModel = new GourmetCatalogModel();
+        GourmetCatalogStoredInfoModelInterface gourmetCatalogModel = new GourmetCatalogStoredInfoModel();
+        GourmetCatalogSearchModelInterface gourmetCatalogSearchModel = new GourmetCatalogSearchModel();
 
         GourmetCatalogStoredInfoViewPresenterInterface storedInfoViewPresenter = new GourmetCatalogStoredInfoViewPresenter(gourmetCatalogModel);
-        GourmetCatalogSearchViewPresenterInterface searchViewPresenter = new GourmetCatalogSearchViewPresenter(gourmetCatalogModel);
+        GourmetCatalogSearchViewPresenterInterface searchViewPresenter = new GourmetCatalogSearchViewPresenter(gourmetCatalogSearchModel, gourmetCatalogModel);
 
         MainView mainView = new MainView(storedInfoViewPresenter, searchViewPresenter);
 

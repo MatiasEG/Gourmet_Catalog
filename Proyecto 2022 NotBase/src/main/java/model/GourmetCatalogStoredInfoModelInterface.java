@@ -1,18 +1,12 @@
 package model;
 
-import model.Search.SearchResult;
 import model.listeners.ErrorListener;
 import model.listeners.LoadArticleListener;
-import model.listeners.SearchListener;
 import model.listeners.StoredArticlesListener;
 
-import java.util.List;
-
-public interface GourmetCatalogModelInterface {
+public interface GourmetCatalogStoredInfoModelInterface {
 
     void addStoredArticlesListener(StoredArticlesListener storedArticlesListener);
-
-    void addSearchListener(SearchListener searchListener);
 
     void addLoadArticleListener(LoadArticleListener loadArticleListener);
 
@@ -23,13 +17,6 @@ public interface GourmetCatalogModelInterface {
     void saveArticle(String articleTitle, String articleExtract);
 
     void updateArticle(String articleTitle, String articleExtract);
-
-    void searchAllArticleCoincidencesInWikipedia(String textToSearch);
-    List<SearchResult> getAllArticleCoincidencesInWikipedia();
-
-    void searchFirstTermArticleInWikipedia(SearchResult searchResult);
-    void searchCompleteArticleInWikipedia(SearchResult searchResult);
-    String getSearchedArticleInWikipedia();
 
     void selectStoredArticle(String articleTitle);
     String getSelectedStoredArticleContent();
