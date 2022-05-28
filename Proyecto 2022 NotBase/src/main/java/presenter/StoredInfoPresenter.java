@@ -5,10 +5,11 @@ import model.listeners.StoredArticlesListener;
 import views.MainView;
 import views.MainViewInterface;
 import views.StoredInfoView;
+import views.StoredInfoViewInterface;
 
 public class StoredInfoPresenter implements StoredInfoPresenterInterface {
     MainViewInterface mainView;
-    StoredInfoView storedInfoView;
+    StoredInfoViewInterface storedInfoView;
     StoredInfoModelInterface storedInfoModel;
 
     public StoredInfoPresenter(StoredInfoModelInterface storedInfoModel){

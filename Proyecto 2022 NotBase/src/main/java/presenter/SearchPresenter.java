@@ -1,20 +1,20 @@
 package presenter;
 
 import model.StoredInfoModel.StoredInfoModelInterface;
-import model.listeners.ErrorListener;
 import model.searchModel.Search.SearchResult;
 import model.listeners.SearchListener;
 import model.searchModel.SearchModelInterface;
 import views.MainView;
 import views.MainViewInterface;
 import views.SearchView;
+import views.SearchViewInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SearchPresenter implements SearchPresenterInterface {
     MainViewInterface mainView;
-    SearchView searchView;
+    SearchViewInterface searchView;
     SearchModelInterface searchModel;
     StoredInfoModelInterface storedInfoModel;
     List<SearchResult> listOfSearchResults;
@@ -46,7 +46,7 @@ public class SearchPresenter implements SearchPresenterInterface {
 
             @Override
             public void didFindArticleContent() {
-                searchView.setContentTextOfSearchResult(searchModel.getSearchedArticleInWikipedia());
+                searchView.setArticleContent(searchModel.getSearchedArticleInWikipedia());
             }
         });
 
@@ -75,18 +75,18 @@ public class SearchPresenter implements SearchPresenterInterface {
     @Override
     public void onEventSelectWikipediaArticle() {
         searchView.startWorkingStatus();
-        if(!searchView.completeArticleIsSelected()){
-            searchModel.searchFirstTermArticleInWikipedia(listOfSearchResults.get(searchView.getIndexOfSelectedSearchResult()));
+        if(!searchView.fullArticleIsSelected()){
+            searchModel.searchFirstTermArticleInWikipedia(listOfSearchResults.get(searchView.getSelectedSearchResultIndex()));
         }else{
-            searchModel.searchCompleteArticleInWikipedia(listOfSearchResults.get(searchView.getIndexOfSelectedSearchResult()));
+            searchModel.searchCompleteArticleInWikipedia(listOfSearchResults.get(searchView.getSelectedSearchResultIndex()));
         }
-        searchView.setContentTextOfSearchResult(searchModel.getSearchedArticleInWikipedia());
+        searchView.setArticleContent(searchModel.getSearchedArticleInWikipedia());
         searchView.stopWorkingStatus();
     }
 
     @Override
     public void onEventSaveWikipediaArticle() {
-        int indexOfSelectedSearchResult = searchView.getIndexOfSelectedSearchResult();
+        int indexOfSelectedSearchResult = searchView.getSelectedSearchResultIndex();
         SearchResult selectedSearchResult;
         if(listOfSearchResults != null && indexOfSelectedSearchResult != -1) {
             selectedSearchResult = listOfSearchResults.get(indexOfSelectedSearchResult);

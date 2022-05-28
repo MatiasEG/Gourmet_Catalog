@@ -1,5 +1,7 @@
 package views;
 
+import javax.swing.*;
+
 public interface StoredInfoViewInterface {
 
     String getSelectedStoredArticleTitle();
@@ -7,4 +9,5 @@ public interface StoredInfoViewInterface {
     void clearStoredArticleView();
     void setStoredArticlesTitles(Object[] localCopies);
     void setStoredArticleContentText(String contentText);
+    JPanel getPanel();
 }

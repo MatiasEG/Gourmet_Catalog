@@ -8,22 +8,22 @@ import java.util.List;
 
 public class SearchView implements SearchViewInterface{
     private JPanel searchInWikipediaPanel;
-    private JScrollPane wikipediaArticleScrollPane;
-    private JTextPane wikipediaArticleTextPane;
+    private JScrollPane articleContentScrollPane;
+    private JTextPane articleContentTextPane;
     private JTextField searchTextField;
-    private JRadioButton completeArticleRadioButton;
+    private JRadioButton fullArticleRadioButton;
     private JRadioButton articleSummaryRadioButton;
     private JButton saveLocallyButton;
-    private int indexOfSelectedSearchResult;
+    private int selectedSearchResultIndex;
 
-    private SearchPresenterInterface gourmetCatalogPresenter;
+    private SearchPresenterInterface searchPresenter;
 
-    public SearchView(SearchPresenterInterface gourmetCatalogPresenter){
-        this.gourmetCatalogPresenter = gourmetCatalogPresenter;
+    public SearchView(SearchPresenterInterface searchPresenter){
+        this.searchPresenter = searchPresenter;
         initView();
         initListeners();
     }
-
+    @Override
     public JPanel getPanel(){
         return searchInWikipediaPanel;
     }
@@ -34,21 +34,21 @@ public class SearchView implements SearchViewInterface{
     }
 
     private void initListeners(){
-        searchTextField.addActionListener(actionEvent -> gourmetCatalogPresenter.onEventSearchWikipediaArticle());
-        saveLocallyButton.addActionListener(actionEvent -> gourmetCatalogPresenter.onEventSaveWikipediaArticle());
+        searchTextField.addActionListener(actionEvent -> searchPresenter.onEventSearchWikipediaArticle());
+        saveLocallyButton.addActionListener(actionEvent -> searchPresenter.onEventSaveWikipediaArticle());
     }
 
     private void initTextPanes() {
-        wikipediaArticleTextPane.setContentType("text/html");
-        wikipediaArticleTextPane.setEditable(false);
+        articleContentTextPane.setContentType("text/html");
+        articleContentTextPane.setEditable(false);
     }
 
     private void initRadioButtons(){
-        completeArticleRadioButton.setText("Full Article");
+        fullArticleRadioButton.setText("Full Article");
         articleSummaryRadioButton.setText("Article Summary");
-        completeArticleRadioButton.setSelected(true);
+        fullArticleRadioButton.setSelected(true);
         ButtonGroup group = new ButtonGroup();
-        group.add(completeArticleRadioButton);
+        group.add(fullArticleRadioButton);
         group.add(articleSummaryRadioButton);
     }
 
@@ -56,41 +56,41 @@ public class SearchView implements SearchViewInterface{
         return searchTextField.getText();
     }
 
-    public int getIndexOfSelectedSearchResult(){
-        return indexOfSelectedSearchResult;
+    public int getSelectedSearchResultIndex(){
+        return selectedSearchResultIndex;
     }
 
     public void setSearchResultsList(List<String> searchResults) {
         JPopupMenu searchOptionsMenu = new JPopupMenu("Search Results");
-        indexOfSelectedSearchResult= -1;
+        selectedSearchResultIndex = -1;
         int currentIndex = 0;
         for(String searchResult : searchResults){
             JMenuItem searchResultMenuItem = new JMenuItem(searchResult);
             searchOptionsMenu.add(searchResultMenuItem);
             int searchResultIndex = currentIndex;
             searchResultMenuItem.addActionListener(actionEvent -> {
-                indexOfSelectedSearchResult= searchResultIndex;
-                gourmetCatalogPresenter.onEventSelectWikipediaArticle();
+                selectedSearchResultIndex = searchResultIndex;
+                searchPresenter.onEventSelectWikipediaArticle();
             });
             ++currentIndex;
         }
         searchOptionsMenu.show(searchTextField, searchTextField.getX(), searchTextField.getY());
     }
 
-    public boolean completeArticleIsSelected(){ return completeArticleRadioButton.isSelected(); }
+    public boolean fullArticleIsSelected(){ return fullArticleRadioButton.isSelected(); }
 
-    public void setContentTextOfSearchResult(String contentText) {
-        wikipediaArticleTextPane.setText(contentText);
-        wikipediaArticleTextPane.setCaretPosition(0);
+    public void setArticleContent(String contentText) {
+        articleContentTextPane.setText(contentText);
+        articleContentTextPane.setCaretPosition(0);
     }
 
     public void startWorkingStatus() {
         for(Component c: this.searchInWikipediaPanel.getComponents()) c.setEnabled(false);
-        wikipediaArticleTextPane.setEnabled(false);
+        articleContentTextPane.setEnabled(false);
     }
 
     public void stopWorkingStatus() {
         for(Component c: this.searchInWikipediaPanel.getComponents()) c.setEnabled(true);
-        wikipediaArticleTextPane.setEnabled(true);
+        articleContentTextPane.setEnabled(true);
     }
 }

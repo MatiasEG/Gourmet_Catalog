@@ -12,33 +12,33 @@ public class MainView implements  MainViewInterface{
     private JPanel storedInfoPanel;
     private JPanel mainPanel;
     private JFrame mainFrame;
-    private StoredInfoPresenterInterface storedInfoViewPresenter;
-    private SearchPresenterInterface searchViewPresenter;
-    private SearchView searchView;
-    private StoredInfoView storedInfoView;
+    private StoredInfoPresenterInterface storedInfoPresenter;
+    private SearchPresenterInterface searchPresenter;
+    private SearchViewInterface searchView;
+    private StoredInfoViewInterface storedInfoView;
 
-    public MainView(StoredInfoPresenterInterface storedInfoViewPresenter, SearchPresenterInterface searchViewPresenter){
-        this.storedInfoViewPresenter = storedInfoViewPresenter;
-        this.searchViewPresenter = searchViewPresenter;
+    public MainView(StoredInfoPresenterInterface storedInfoPresenter, SearchPresenterInterface searchPresenter){
+        this.storedInfoPresenter = storedInfoPresenter;
+        this.searchPresenter = searchPresenter;
         initView();
     }
 
     private void createUIComponents() {
         // TODO: place custom component creation code here
-        this.storedInfoView = new StoredInfoView(storedInfoViewPresenter);
+        this.storedInfoView = new StoredInfoView(storedInfoPresenter);
         this.storedInfoPanel = storedInfoView.getPanel();
 
-        this.searchView = new SearchView(searchViewPresenter);
+        this.searchView = new SearchView(searchPresenter);
         this.searchInWikipediaPanel = searchView.getPanel();
     }
 
     @Override
-    public StoredInfoView getStoredInfoView(){
+    public StoredInfoViewInterface getStoredInfoView(){
         return storedInfoView;
     }
 
     @Override
-    public SearchView getSearchView(){
+    public SearchViewInterface getSearchView(){
         return searchView;
     }
 
