@@ -8,7 +8,7 @@ public class DataBase {
 
   public static void createDatabaseIfDoesNotExists() {
     try (Connection connection = DriverManager.getConnection(databaseUrl)) {
-      executeUpdate(connection, "create table catalog (id INTEGER, title string PRIMARY KEY, content string, source integer)");
+      executeUpdate(connection, "create table articles (id INTEGER, title string PRIMARY KEY, content string, source integer)");
     } catch (SQLException e) {
       //TODO database already exists
     }
@@ -26,27 +26,26 @@ public class DataBase {
     return statement.executeQuery(sql);
   }
 
-  public static ArrayList<String> getTitles() {
+  public static ArrayList<String> getAllArticleTitles() throws Exception{
     ArrayList<String> titles = new ArrayList<>();
     try (Connection connection = DriverManager.getConnection(databaseUrl)){
-      ResultSet resultSet = executeQuery(connection, "select * from catalog");
+      ResultSet resultSet = executeQuery(connection, "select * from articles");
       while(resultSet.next()) titles.add(resultSet.getString("title"));
     }
     catch(SQLException e) {
-      System.err.println(e.getMessage());
+      throw new Exception("Error while getting article titles from the database");
     }
     return titles;
   }
 
-  public static void saveInfo(String title, String content)
-  {
+  public static void saveArticle(String title, String content) throws Exception{
     title = escapeSpecialCharacters(title);
     content = escapeSpecialCharacters(content);
     try (Connection connection = DriverManager.getConnection(databaseUrl)){
-      executeUpdate(connection, "replace into catalog values(null, '"+ title + "', '"+ content + "', 1)");
+      executeUpdate(connection, "replace into articles values(null, '"+ title + "', '"+ content + "', 1)");
     }
     catch(SQLException e){
-      System.err.println("Error saving " + e.getMessage());
+      throw new Exception("Error while saving article in the database");
     }
   }
 
@@ -54,24 +53,23 @@ public class DataBase {
     return title.replace("'", "''");
   }
 
-  public static String getContent(String title)  {
+  public static String getArticleContent(String title) throws Exception{
     try (Connection connection = DriverManager.getConnection(databaseUrl)){
-      ResultSet resultSet = executeQuery(connection, "select * from catalog WHERE title = '" + title + "'" );
+      ResultSet resultSet = executeQuery(connection, "select * from articles WHERE title = '" + title + "'" );
       resultSet.next();
       return resultSet.getString("content");
     }
     catch(SQLException e) {
-      System.err.println("Get title error " + e.getMessage());
-      return null;
+      throw new Exception("Error while getting article content from the database");
     }
   }
 
-  public static void deleteEntry(String title)  {
+  public static void deleteArticle(String title) throws Exception{
     try (Connection connection = DriverManager.getConnection(databaseUrl)){
-      executeUpdate(connection, "DELETE FROM catalog WHERE title = '" + title + "'" );
+      executeUpdate(connection, "DELETE FROM articles WHERE title = '" + title + "'" );
     }
     catch(SQLException e) {
-      System.err.println("Get title error " + e.getMessage());
+      throw new Exception("Error while deleting article from the database");
     }
   }
 
@@ -87,7 +85,7 @@ public class DataBase {
       Statement statement = connection.createStatement();
       statement.setQueryTimeout(30);
 
-      ResultSet rs = statement.executeQuery("select * from catalog");
+      ResultSet rs = statement.executeQuery("select * from articles");
       while(rs.next())
       {
         // read the result set

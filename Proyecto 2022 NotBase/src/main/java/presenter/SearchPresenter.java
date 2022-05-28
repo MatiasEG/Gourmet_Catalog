@@ -33,7 +33,6 @@ public class SearchPresenter implements SearchPresenterInterface {
 
     private void initListeners(){
         searchModel.addSearchListener(new SearchListener() {
-            @Override
             public void didFindArticleCoincidences() {
                 searchResultsList = searchModel.getAllCoincidencesFound();
                 if(searchResultsList.isEmpty())
@@ -41,8 +40,6 @@ public class SearchPresenter implements SearchPresenterInterface {
                 else
                     searchView.setSearchResultsList(parseListSearchResult(searchResultsList));
             }
-
-            @Override
             public void didFindArticleContent() {
                 String articleContent = searchModel.getFoundArticleContent();
                 searchView.setArticleContent(articleContent);
@@ -90,7 +87,6 @@ public class SearchPresenter implements SearchPresenterInterface {
             String articleTitle = selectedSearchResult.getTitle();
             String articleContent = searchModel.getFoundArticleContent();
             storedInfoModel.saveArticle(articleTitle, articleContent);
-            selectedSearchResult = null;
         } else
             notifyErrorToUser("Search Result Not Selected");
     }

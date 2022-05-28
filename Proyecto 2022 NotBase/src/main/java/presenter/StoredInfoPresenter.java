@@ -1,6 +1,7 @@
 package presenter;
 
 import model.StoredInfoModel.StoredInfoModelInterface;
+import model.listeners.LoadArticleListener;
 import model.listeners.StoredArticlesListener;
 import views.MainView;
 import views.MainViewInterface;
@@ -18,36 +19,31 @@ public class StoredInfoPresenter implements StoredInfoPresenterInterface {
     public void setView(MainView mainView){
         this.mainView = mainView;
         this.storedInfoView = mainView.getStoredInfoView();
-        Object[] storedArticleTitles = storedInfoModel.getStoredArticleTitles();
-        this.storedInfoView.setStoredArticlesTitles(storedArticleTitles);
         initListeners();
+        storedInfoModel.loadStoredArticleTitles();
     }
 
     private void initListeners(){
-        storedInfoModel.addLoadArticleListener(() -> {
-            String articleContent = storedInfoModel.getLoadedArticleContent();
-            storedInfoView.setArticleContent(articleContent);
+        storedInfoModel.addLoadArticleListener(new LoadArticleListener() {
+            public void didLoadTitles() {
+                Object[] storedArticleTitles = storedInfoModel.getStoredArticleTitles();
+                storedInfoView.setStoredArticlesTitles(storedArticleTitles);
+                storedInfoView.clearView();
+            }
+            public void didLoadArticleContent() {
+                String articleContent = storedInfoModel.getLoadedArticleContent();
+                storedInfoView.setArticleContent(articleContent);
+            }
         });
 
         storedInfoModel.addStoredArticlesListener(new StoredArticlesListener() {
-            @Override
-            public void didUpdateArticle() {
-                notifyInfoToUser("Article Updated");
-            }
-
-            @Override
+            public void didUpdateArticle() { notifyInfoToUser("Article Updated"); }
             public void didSaveArticle() {
-                Object[] storedArticleTitles = storedInfoModel.getStoredArticleTitles();
-                storedInfoView.setStoredArticlesTitles(storedArticleTitles);
-                storedInfoView.clearView();
+                storedInfoModel.loadStoredArticleTitles();
                 notifyInfoToUser("Article Saved");
             }
-
-            @Override
             public void didDeleteArticle() {
-                Object[] storedArticleTitles = storedInfoModel.getStoredArticleTitles();
-                storedInfoView.setStoredArticlesTitles(storedArticleTitles);
-                storedInfoView.clearView();
+                storedInfoModel.loadStoredArticleTitles();
                 notifyInfoToUser("Article Deleted");
             }
         });

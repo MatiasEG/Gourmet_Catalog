@@ -10,6 +10,7 @@ import java.util.List;
 public class StoredInfoModel implements StoredInfoModelInterface {
 
     private String loadedArticleContent;
+    private Object[] storedArticleTitles;
     private List<LoadArticleListener> loadArticleListeners = new ArrayList<>();
     private List<StoredArticlesListener> storedArticlesListeners = new ArrayList<>();
     private List<ErrorListener> errorListeners = new ArrayList<>();
@@ -51,7 +52,12 @@ public class StoredInfoModel implements StoredInfoModelInterface {
 
     private void notifyLoadArticle(){
         for(LoadArticleListener loadArticleListener : loadArticleListeners)
-            loadArticleListener.didLoadArticle();
+            loadArticleListener.didLoadArticleContent();
+    }
+
+    private void notifyLoadTitles(){
+        for(LoadArticleListener loadArticleListener : loadArticleListeners)
+            loadArticleListener.didLoadTitles();
     }
 
     private void notifyErrorOccurred(String errorMessage){
@@ -64,8 +70,12 @@ public class StoredInfoModel implements StoredInfoModelInterface {
         if(isEmptyOrInvalid(articleTitle))
             notifyErrorOccurred("Article Not Selected");
         else {
-            DataBase.deleteEntry(articleTitle);
-            notifyDeleteArticle();
+            try {
+                DataBase.deleteArticle(articleTitle);
+                notifyDeleteArticle();
+            } catch (Exception e) {
+                notifyErrorOccurred("Database Error");
+            }
         }
     }
 
@@ -76,8 +86,12 @@ public class StoredInfoModel implements StoredInfoModelInterface {
         if(isEmptyOrInvalid(articleTitle))
             notifyErrorOccurred("Article Not Selected");
         else {
-            DataBase.saveInfo(articleTitle, articleContent);
-            notifySaveArticle();
+            try {
+                DataBase.saveArticle(articleTitle, articleContent);
+                notifySaveArticle();
+            } catch (Exception e) {
+                notifyErrorOccurred("Database Error");
+            }
         }
     }
 
@@ -86,8 +100,12 @@ public class StoredInfoModel implements StoredInfoModelInterface {
         if(isEmptyOrInvalid(articleTitle))
             notifyErrorOccurred("Article Not Selected");
         else {
-            DataBase.saveInfo(articleTitle, articleContent);
-            notifyUpdateArticle();
+            try {
+                DataBase.saveArticle(articleTitle, articleContent);
+                notifyUpdateArticle();
+            } catch (Exception e) {
+                notifyErrorOccurred("Database Error");
+            }
         }
     }
 
@@ -96,8 +114,12 @@ public class StoredInfoModel implements StoredInfoModelInterface {
         if(isEmptyOrInvalid(articleTitle))
             notifyErrorOccurred("Article Not Selected");
         else {
-            loadedArticleContent = DataBase.getContent(articleTitle);
-            notifyLoadArticle();
+            try {
+                loadedArticleContent = DataBase.getArticleContent(articleTitle);
+                notifyLoadArticle();
+            } catch (Exception e) {
+                notifyErrorOccurred("Database Error");
+            }
         }
     }
 
@@ -107,5 +129,17 @@ public class StoredInfoModel implements StoredInfoModelInterface {
     }
 
     @Override
-    public Object[] getStoredArticleTitles(){ return DataBase.getTitles().stream().sorted().toArray(); }
+    public void loadStoredArticleTitles(){
+        try {
+            storedArticleTitles = DataBase.getAllArticleTitles().stream().sorted().toArray();
+            notifyLoadTitles();
+        } catch (Exception e) {
+            notifyErrorOccurred("Database Error");
+        }
+    }
+
+    @Override
+    public Object[] getStoredArticleTitles(){
+        return storedArticleTitles;
+    }
 }

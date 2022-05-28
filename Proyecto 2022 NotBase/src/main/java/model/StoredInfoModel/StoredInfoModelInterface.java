@@ -21,5 +21,7 @@ public interface StoredInfoModelInterface {
     void loadArticle(String articleTitle);
     String getLoadedArticleContent();
 
+    void loadStoredArticleTitles();
+
     Object[] getStoredArticleTitles();
 }
