@@ -50,7 +50,12 @@ public class SearchModel implements SearchModelInterface {
         if(isEmptyOrInvalid(textToSearch))
             notifyErrorOccurred("Empty Search Field");
         else {
-            Response<String> allCoincidencesResponse = SearchLogic.executeSearchOfTermInWikipedia(textToSearch);
+            Response<String> allCoincidencesResponse = null;
+            try {
+                allCoincidencesResponse = SearchLogic.executeSearchOfTermInWikipedia(textToSearch);
+            }catch(Exception e){
+                notifyErrorOccurred("Search error");
+            }
             allCoincidencesFound = ResponseParser.parseWikipediaCoincidences(allCoincidencesResponse);
             notifyFoundCoincidences();
         }
@@ -63,14 +68,24 @@ public class SearchModel implements SearchModelInterface {
 
     @Override
     public void searchArticleSummaryInWikipedia(SearchResult searchResult) {
-        Response<String> foundArticleContentResponse = SearchLogic.executeSpecificSearchInWikipediaForFirstTerm(searchResult);
+        Response<String> foundArticleContentResponse = null;
+        try {
+            foundArticleContentResponse = SearchLogic.executeSpecificSearchInWikipediaForFirstTerm(searchResult);
+        }catch(Exception e){
+            notifyErrorOccurred("Search error");
+        }
         foundArticleContent = ResponseParser.parseWikipediaArticle(foundArticleContentResponse);
         notifyFoundArticleContent();
     }
 
     @Override
     public void searchFullArticleInWikipedia(SearchResult searchResult){
-        Response<String> foundArticleContentResponse = SearchLogic.executeSpecificSearchInWikipediaForEntireArticle(searchResult);
+        Response<String> foundArticleContentResponse = null;
+        try {
+            foundArticleContentResponse = SearchLogic.executeSpecificSearchInWikipediaForEntireArticle(searchResult);
+        }catch(Exception e){
+            notifyErrorOccurred("Search error");
+        }
         foundArticleContent = ResponseParser.parseWikipediaArticle(foundArticleContentResponse);
         notifyFoundArticleContent();
     }
