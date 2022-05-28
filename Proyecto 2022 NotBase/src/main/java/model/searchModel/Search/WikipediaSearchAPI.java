@@ -1,4 +1,4 @@
-package model.Search;
+package model.searchModel.Search;
 
 
 import retrofit2.Call;

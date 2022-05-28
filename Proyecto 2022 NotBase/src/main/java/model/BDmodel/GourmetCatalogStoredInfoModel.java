@@ -1,4 +1,4 @@
-package model;
+package model.BDmodel;
 
 import model.listeners.ErrorListener;
 import model.listeners.LoadArticleListener;

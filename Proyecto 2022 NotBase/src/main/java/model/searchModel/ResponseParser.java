@@ -1,10 +1,10 @@
-package model;
+package model.searchModel;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import model.Search.SearchResult;
+import model.searchModel.Search.SearchResult;
 import retrofit2.Response;
 
 import java.util.*;

@@ -1,4 +1,4 @@
-package model.Search;
+package model.searchModel.Search;
 
 import retrofit2.Response;
 import retrofit2.Retrofit;

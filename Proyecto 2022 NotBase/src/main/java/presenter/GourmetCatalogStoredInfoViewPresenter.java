@@ -1,6 +1,6 @@
 package presenter;
 
-import model.GourmetCatalogStoredInfoModelInterface;
+import model.BDmodel.GourmetCatalogStoredInfoModelInterface;
 import model.listeners.StoredArticlesListener;
 import views.MainView;
 import views.MainViewInterface;

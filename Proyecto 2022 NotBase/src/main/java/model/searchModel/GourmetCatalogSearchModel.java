@@ -1,8 +1,7 @@
 package model.searchModel;
 
-import model.ResponseParser;
-import model.Search.SearchLogic;
-import model.Search.SearchResult;
+import model.searchModel.Search.SearchLogic;
+import model.searchModel.Search.SearchResult;
 import model.listeners.ErrorListener;
 import model.listeners.SearchListener;
 

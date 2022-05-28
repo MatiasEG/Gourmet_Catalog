@@ -1,7 +1,7 @@
 package presenter;
 
-import model.GourmetCatalogStoredInfoModel;
-import model.GourmetCatalogStoredInfoModelInterface;
+import model.BDmodel.GourmetCatalogStoredInfoModel;
+import model.BDmodel.GourmetCatalogStoredInfoModelInterface;
 import model.searchModel.GourmetCatalogSearchModel;
 import model.searchModel.GourmetCatalogSearchModelInterface;
 import views.MainView;
