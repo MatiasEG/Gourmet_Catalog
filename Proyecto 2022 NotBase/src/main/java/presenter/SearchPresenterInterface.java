@@ -4,8 +4,8 @@ import views.MainView;
 
 public interface SearchPresenterInterface {
 
-    void setUp(MainView mainView);
-    void onEventSearchWikipediaArticle();
-    void onEventSelectWikipediaArticle();
-    void onEventSaveWikipediaArticle();
+    void setView(MainView mainView);
+    void onEventSearchArticles();
+    void onEventSelectArticle();
+    void onEventSaveArticle();
 }

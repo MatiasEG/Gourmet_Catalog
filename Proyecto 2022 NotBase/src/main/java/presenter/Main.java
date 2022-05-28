@@ -16,8 +16,8 @@ public class Main {
 
         MainView mainView = new MainView(storedInfoPresenter, searchPresenter);
 
-        storedInfoPresenter.setUp(mainView);
-        searchPresenter.setUp(mainView);
+        storedInfoPresenter.setView(mainView);
+        searchPresenter.setView(mainView);
 
         mainView.showView();
     }

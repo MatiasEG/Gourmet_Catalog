@@ -44,8 +44,8 @@ public class SearchView implements SearchViewInterface{
     }
 
     private void initListeners(){
-        searchTextField.addActionListener(actionEvent -> searchPresenter.onEventSearchWikipediaArticle());
-        saveLocallyButton.addActionListener(actionEvent -> searchPresenter.onEventSaveWikipediaArticle());
+        searchTextField.addActionListener(actionEvent -> searchPresenter.onEventSearchArticles());
+        saveLocallyButton.addActionListener(actionEvent -> searchPresenter.onEventSaveArticle());
     }
 
     @Override
@@ -75,7 +75,7 @@ public class SearchView implements SearchViewInterface{
             int searchResultIndex = currentIndex;
             searchResultMenuItem.addActionListener(actionEvent -> {
                 selectedSearchResultIndex = searchResultIndex;
-                searchPresenter.onEventSelectWikipediaArticle();
+                searchPresenter.onEventSelectArticle();
             });
             ++currentIndex;
         }

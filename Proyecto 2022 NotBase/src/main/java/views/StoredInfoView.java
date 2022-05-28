@@ -41,10 +41,10 @@ public class StoredInfoView implements StoredInfoViewInterface{
     private void initListeners(){
         storedArticlesComboBox.addItemListener(actionEvent -> {
             if(storedArticlesComboBox.getSelectedIndex() > -1)
-                storedInfoPresenter.onEventSelectStoredArticle();
+                storedInfoPresenter.onEventSelectArticle();
         });
-        deleteMenuItem.addActionListener(actionEvent -> storedInfoPresenter.onEvenDeleteStoredArticle());
-        saveMenuItem.addActionListener(actionEvent -> storedInfoPresenter.onEventUpdateStoredArticle());
+        deleteMenuItem.addActionListener(actionEvent -> storedInfoPresenter.onEvenDeleteArticle());
+        saveMenuItem.addActionListener(actionEvent -> storedInfoPresenter.onEventUpdateArticle());
     }
 
     @Override

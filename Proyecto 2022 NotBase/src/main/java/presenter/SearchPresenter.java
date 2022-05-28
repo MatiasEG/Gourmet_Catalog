@@ -6,7 +6,6 @@ import model.listeners.SearchListener;
 import model.searchModel.SearchModelInterface;
 import views.MainView;
 import views.MainViewInterface;
-import views.SearchView;
 import views.SearchViewInterface;
 
 import java.util.ArrayList;
@@ -17,7 +16,8 @@ public class SearchPresenter implements SearchPresenterInterface {
     SearchViewInterface searchView;
     SearchModelInterface searchModel;
     StoredInfoModelInterface storedInfoModel;
-    List<SearchResult> listOfSearchResults;
+    List<SearchResult> searchResultsList;
+    SearchResult selectedSearchResult;
 
     public SearchPresenter(SearchModelInterface searchModel, StoredInfoModelInterface storedInfoModel){
         this.searchModel = searchModel;
@@ -25,7 +25,7 @@ public class SearchPresenter implements SearchPresenterInterface {
     }
 
     @Override
-    public void setUp(MainView mainView){
+    public void setView(MainView mainView){
         this.mainView = mainView;
         this.searchView = mainView.getSearchView();
         initListeners();
@@ -35,28 +35,27 @@ public class SearchPresenter implements SearchPresenterInterface {
         searchModel.addSearchListener(new SearchListener() {
             @Override
             public void didFindArticles() {
-                List<SearchResult> articleCoincidences = searchModel.getAllArticleCoincidencesInWikipedia();
-                if(articleCoincidences.isEmpty())
+                searchResultsList = searchModel.getAllArticleCoincidencesInWikipedia();
+                if(searchResultsList.isEmpty())
                     notifyInfoToUser("No Coincidences Found");
-                else {
-                    searchView.setSearchResultsList(parseListSearchResult(articleCoincidences));
-                    listOfSearchResults = searchModel.getAllArticleCoincidencesInWikipedia();
-                }
+                else
+                    searchView.setSearchResultsList(parseListSearchResult(searchResultsList));
             }
 
             @Override
             public void didFindArticleContent() {
-                searchView.setArticleContent(searchModel.getSearchedArticleInWikipedia());
+                String articleContent = searchModel.getSearchedArticleInWikipedia();
+                searchView.setArticleContent(articleContent);
             }
         });
 
         searchModel.addErrorListener(errorMessage -> notifyErrorToUser(errorMessage));
     }
 
-    private List<String> parseListSearchResult(List<SearchResult> listOfSearchResults){
+    private List<String> parseListSearchResult(List<SearchResult> searchResultsList){
         List<String> listToReturn = new ArrayList<>();
         String textOfArticle;
-        for (SearchResult searchResult: listOfSearchResults){
+        for (SearchResult searchResult: searchResultsList){
             textOfArticle = searchResult.getTitle() + ": " + searchResult.getSnippet();
             textOfArticle = textOfArticle.replace("<span class=\"searchmatch\">", "")
                     .replace("</span>", "");
@@ -66,31 +65,32 @@ public class SearchPresenter implements SearchPresenterInterface {
     }
 
     @Override
-    public void onEventSearchWikipediaArticle() {
+    public void onEventSearchArticles() {
         searchView.startWorkingStatus();
-        searchModel.searchAllArticleCoincidencesInWikipedia(searchView.getSearchText());
+        String textToSearch = searchView.getSearchText();
+        searchModel.searchAllArticleCoincidencesInWikipedia(textToSearch);
         searchView.stopWorkingStatus();
     }
 
     @Override
-    public void onEventSelectWikipediaArticle() {
+    public void onEventSelectArticle() {
         searchView.startWorkingStatus();
-        if(!searchView.fullArticleIsSelected()){
-            searchModel.searchFirstTermArticleInWikipedia(listOfSearchResults.get(searchView.getSelectedSearchResultIndex()));
+        selectedSearchResult = searchResultsList.get(searchView.getSelectedSearchResultIndex());
+        if(searchView.fullArticleIsSelected()){
+            searchModel.searchCompleteArticleInWikipedia(selectedSearchResult);
         }else{
-            searchModel.searchCompleteArticleInWikipedia(listOfSearchResults.get(searchView.getSelectedSearchResultIndex()));
+            searchModel.searchFirstTermArticleInWikipedia(selectedSearchResult);
         }
-        searchView.setArticleContent(searchModel.getSearchedArticleInWikipedia());
         searchView.stopWorkingStatus();
     }
 
     @Override
-    public void onEventSaveWikipediaArticle() {
-        int indexOfSelectedSearchResult = searchView.getSelectedSearchResultIndex();
-        SearchResult selectedSearchResult;
-        if(listOfSearchResults != null && indexOfSelectedSearchResult != -1) {
-            selectedSearchResult = listOfSearchResults.get(indexOfSelectedSearchResult);
-            storedInfoModel.saveArticle(selectedSearchResult.getTitle(), searchModel.getSearchedArticleInWikipedia());
+    public void onEventSaveArticle() {
+        if(selectedSearchResult != null) {
+            String articleTitle = selectedSearchResult.getTitle();
+            String articleContent = searchModel.getSearchedArticleInWikipedia();
+            storedInfoModel.saveArticle(articleTitle, articleContent);
+            selectedSearchResult = null;
         } else
             notifyErrorToUser("Search Result Not Selected");
     }

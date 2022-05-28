@@ -15,15 +15,19 @@ public class StoredInfoPresenter implements StoredInfoPresenterInterface {
         this.storedInfoModel = storedInfoModel;
     }
 
-    public void setUp(MainView mainView){
+    public void setView(MainView mainView){
         this.mainView = mainView;
         this.storedInfoView = mainView.getStoredInfoView();
-        this.storedInfoView.setStoredArticlesTitles(this.storedInfoModel.getTitlesOfStoredArticles());
+        Object[] storedArticleTitles = storedInfoModel.getTitlesOfStoredArticles();
+        this.storedInfoView.setStoredArticlesTitles(storedArticleTitles);
         initListeners();
     }
 
     private void initListeners(){
-        storedInfoModel.addLoadArticleListener(() -> storedInfoView.setArticleContent(storedInfoModel.getSelectedStoredArticleContent()));
+        storedInfoModel.addLoadArticleListener(() -> {
+            String articleContent = storedInfoModel.getSelectedStoredArticleContent();
+            storedInfoView.setArticleContent(articleContent);
+        });
 
         storedInfoModel.addStoredArticlesListener(new StoredArticlesListener() {
             @Override
@@ -33,14 +37,16 @@ public class StoredInfoPresenter implements StoredInfoPresenterInterface {
 
             @Override
             public void didSaveArticle() {
-                storedInfoView.setStoredArticlesTitles(storedInfoModel.getTitlesOfStoredArticles());
+                Object[] storedArticleTitles = storedInfoModel.getTitlesOfStoredArticles();
+                storedInfoView.setStoredArticlesTitles(storedArticleTitles);
                 storedInfoView.clearView();
                 notifyInfoToUser("Article Saved");
             }
 
             @Override
             public void didDeleteArticle() {
-                storedInfoView.setStoredArticlesTitles(storedInfoModel.getTitlesOfStoredArticles());
+                Object[] storedArticleTitles = storedInfoModel.getTitlesOfStoredArticles();
+                storedInfoView.setStoredArticlesTitles(storedArticleTitles);
                 storedInfoView.clearView();
                 notifyInfoToUser("Article Deleted");
             }
@@ -58,19 +64,19 @@ public class StoredInfoPresenter implements StoredInfoPresenterInterface {
     }
 
     @Override
-    public void onEventSelectStoredArticle() {
+    public void onEventSelectArticle() {
         String storedArticleTitle = storedInfoView.getSelectedArticleTitle();
         storedInfoModel.selectStoredArticle(storedArticleTitle);
     }
 
     @Override
-    public void onEvenDeleteStoredArticle() {
+    public void onEvenDeleteArticle() {
         String storedArticleTitle = storedInfoView.getSelectedArticleTitle();
         storedInfoModel.deleteArticle(storedArticleTitle);
     }
 
     @Override
-    public void onEventUpdateStoredArticle() {
+    public void onEventUpdateArticle() {
         String storedArticleTitle = storedInfoView.getSelectedArticleTitle();
         String storedArticleContent = storedInfoView.getArticleContent();
         storedInfoModel.updateArticle(storedArticleTitle, storedArticleContent);
