@@ -1,10 +1,10 @@
-package model.BDmodel;
+package model.StoredInfoModel;
 
 import model.listeners.ErrorListener;
 import model.listeners.LoadArticleListener;
 import model.listeners.StoredArticlesListener;
 
-public interface GourmetCatalogStoredInfoModelInterface {
+public interface StoredInfoModelInterface {
 
     void addStoredArticlesListener(StoredArticlesListener storedArticlesListener);
 

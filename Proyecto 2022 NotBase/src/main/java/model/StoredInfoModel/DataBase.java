@@ -1,4 +1,4 @@
-package model.BDmodel;
+package model.StoredInfoModel;
 
 import java.sql.*;
 import java.util.ArrayList;

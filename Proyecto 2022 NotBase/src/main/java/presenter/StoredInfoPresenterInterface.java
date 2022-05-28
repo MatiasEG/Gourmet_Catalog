@@ -2,7 +2,7 @@ package presenter;
 
 import views.MainView;
 
-public interface GourmetCatalogStoredInfoViewPresenterInterface {
+public interface StoredInfoPresenterInterface {
 
     void setUp(MainView mainView);
     void onEventSelectStoredArticle();

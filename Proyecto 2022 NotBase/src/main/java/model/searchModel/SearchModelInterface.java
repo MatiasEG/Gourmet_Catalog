@@ -6,7 +6,7 @@ import model.listeners.SearchListener;
 
 import java.util.List;
 
-public interface GourmetCatalogSearchModelInterface {
+public interface SearchModelInterface {
 
     void addSearchListener(SearchListener searchListener);
     //TODO este error listener no se usa, pero creo que va por si hay algun error de la busqueda?

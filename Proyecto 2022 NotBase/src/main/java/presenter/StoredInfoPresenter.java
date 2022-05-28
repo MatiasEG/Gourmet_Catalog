@@ -1,31 +1,31 @@
 package presenter;
 
-import model.BDmodel.GourmetCatalogStoredInfoModelInterface;
+import model.StoredInfoModel.StoredInfoModelInterface;
 import model.listeners.StoredArticlesListener;
 import views.MainView;
 import views.MainViewInterface;
 import views.StoredInfoView;
 
-public class GourmetCatalogStoredInfoViewPresenter implements GourmetCatalogStoredInfoViewPresenterInterface {
+public class StoredInfoPresenter implements StoredInfoPresenterInterface {
     MainViewInterface mainView;
     StoredInfoView storedInfoView;
-    GourmetCatalogStoredInfoModelInterface gourmetCatalogModel;
+    StoredInfoModelInterface storedInfoModel;
 
-    public GourmetCatalogStoredInfoViewPresenter(GourmetCatalogStoredInfoModelInterface gourmetCatalogModel){
-        this.gourmetCatalogModel = gourmetCatalogModel;
+    public StoredInfoPresenter(StoredInfoModelInterface storedInfoModel){
+        this.storedInfoModel = storedInfoModel;
     }
 
     public void setUp(MainView mainView){
         this.mainView = mainView;
         this.storedInfoView = mainView.getStoredInfoView();
-        this.storedInfoView.setStoredArticlesTitles(this.gourmetCatalogModel.getTitlesOfStoredArticles());
+        this.storedInfoView.setStoredArticlesTitles(this.storedInfoModel.getTitlesOfStoredArticles());
         initListeners();
     }
 
     private void initListeners(){
-        gourmetCatalogModel.addLoadArticleListener(() -> mainView.getStoredInfoView().setStoredArticleContentText(gourmetCatalogModel.getSelectedStoredArticleContent()));
+        storedInfoModel.addLoadArticleListener(() -> mainView.getStoredInfoView().setStoredArticleContentText(storedInfoModel.getSelectedStoredArticleContent()));
 
-        gourmetCatalogModel.addStoredArticlesListener(new StoredArticlesListener() {
+        storedInfoModel.addStoredArticlesListener(new StoredArticlesListener() {
             @Override
             public void didUpdateArticle() {
                 notifyInfoToUser("Article Updated");
@@ -33,20 +33,20 @@ public class GourmetCatalogStoredInfoViewPresenter implements GourmetCatalogStor
 
             @Override
             public void didSaveArticle() {
-                mainView.getStoredInfoView().setStoredArticlesTitles(gourmetCatalogModel.getTitlesOfStoredArticles());
+                mainView.getStoredInfoView().setStoredArticlesTitles(storedInfoModel.getTitlesOfStoredArticles());
                 mainView.getStoredInfoView().clearStoredArticleView();
                 notifyInfoToUser("Article Saved");
             }
 
             @Override
             public void didDeleteArticle() {
-                mainView.getStoredInfoView().setStoredArticlesTitles(gourmetCatalogModel.getTitlesOfStoredArticles());
+                mainView.getStoredInfoView().setStoredArticlesTitles(storedInfoModel.getTitlesOfStoredArticles());
                 mainView.getStoredInfoView().clearStoredArticleView();
                 notifyInfoToUser("Article Deleted");
             }
         });
 
-        gourmetCatalogModel.addErrorListener(errorMessage -> notifyErrorToUser(errorMessage));
+        storedInfoModel.addErrorListener(errorMessage -> notifyErrorToUser(errorMessage));
     }
 
     private void notifyInfoToUser(String message){
@@ -60,20 +60,20 @@ public class GourmetCatalogStoredInfoViewPresenter implements GourmetCatalogStor
     @Override
     public void onEventSelectStoredArticle() {
         String storedArticleTitle = mainView.getStoredInfoView().getSelectedStoredArticleTitle();
-        gourmetCatalogModel.selectStoredArticle(storedArticleTitle);
+        storedInfoModel.selectStoredArticle(storedArticleTitle);
     }
 
     @Override
     public void onEvenDeleteStoredArticle() {
         String storedArticleTitle = mainView.getStoredInfoView().getSelectedStoredArticleTitle();
-        gourmetCatalogModel.deleteArticle(storedArticleTitle);
+        storedInfoModel.deleteArticle(storedArticleTitle);
     }
 
     @Override
     public void onEventUpdateStoredArticle() {
         String storedArticleTitle = mainView.getStoredInfoView().getSelectedStoredArticleTitle();
         String storedArticleContent = mainView.getStoredInfoView().getStoredArticleContentText();
-        gourmetCatalogModel.updateArticle(storedArticleTitle, storedArticleContent);
+        storedInfoModel.updateArticle(storedArticleTitle, storedArticleContent);
     }
 
     public void showView(){

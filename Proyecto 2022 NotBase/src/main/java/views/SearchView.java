@@ -1,6 +1,6 @@
 package views;
 
-import presenter.GourmetCatalogSearchViewPresenterInterface;
+import presenter.SearchPresenterInterface;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,9 +16,9 @@ public class SearchView implements SearchViewInterface{
     private JButton saveLocallyButton;
     private int indexOfSelectedSearchResult;
 
-    private GourmetCatalogSearchViewPresenterInterface gourmetCatalogPresenter;
+    private SearchPresenterInterface gourmetCatalogPresenter;
 
-    public SearchView(GourmetCatalogSearchViewPresenterInterface gourmetCatalogPresenter){
+    public SearchView(SearchPresenterInterface gourmetCatalogPresenter){
         this.gourmetCatalogPresenter = gourmetCatalogPresenter;
         initView();
         initListeners();

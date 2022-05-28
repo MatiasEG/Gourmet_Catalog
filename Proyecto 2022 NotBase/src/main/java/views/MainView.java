@@ -1,7 +1,7 @@
 package views;
 
-import presenter.GourmetCatalogSearchViewPresenterInterface;
-import presenter.GourmetCatalogStoredInfoViewPresenterInterface;
+import presenter.SearchPresenterInterface;
+import presenter.StoredInfoPresenterInterface;
 
 import javax.swing.*;
 
@@ -12,12 +12,12 @@ public class MainView implements  MainViewInterface{
     private JPanel storedInfoPanel;
     private JPanel mainPanel;
     private JFrame mainFrame;
-    private GourmetCatalogStoredInfoViewPresenterInterface storedInfoViewPresenter;
-    private GourmetCatalogSearchViewPresenterInterface searchViewPresenter;
+    private StoredInfoPresenterInterface storedInfoViewPresenter;
+    private SearchPresenterInterface searchViewPresenter;
     private SearchView searchView;
     private StoredInfoView storedInfoView;
 
-    public MainView(GourmetCatalogStoredInfoViewPresenterInterface storedInfoViewPresenter, GourmetCatalogSearchViewPresenterInterface searchViewPresenter){
+    public MainView(StoredInfoPresenterInterface storedInfoViewPresenter, SearchPresenterInterface searchViewPresenter){
         this.storedInfoViewPresenter = storedInfoViewPresenter;
         this.searchViewPresenter = searchViewPresenter;
         initView();

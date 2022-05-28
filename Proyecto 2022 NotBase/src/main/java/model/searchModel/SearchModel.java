@@ -8,7 +8,7 @@ import model.listeners.SearchListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GourmetCatalogSearchModel implements GourmetCatalogSearchModelInterface{
+public class SearchModel implements SearchModelInterface {
 
     private List<SearchResult> allCoincidences;
     private String articleInWikipedia;

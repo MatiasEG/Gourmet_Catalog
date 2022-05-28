@@ -1,4 +1,4 @@
-package model.BDmodel;
+package model.StoredInfoModel;
 
 import model.listeners.ErrorListener;
 import model.listeners.LoadArticleListener;
@@ -7,14 +7,14 @@ import model.listeners.StoredArticlesListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GourmetCatalogStoredInfoModel implements GourmetCatalogStoredInfoModelInterface {
+public class StoredInfoModel implements StoredInfoModelInterface {
 
     private String articleContent;
     private List<LoadArticleListener> loadArticleListeners = new ArrayList<>();
     private List<StoredArticlesListener> storedArticlesListeners = new ArrayList<>();
     private List<ErrorListener> errorListeners = new ArrayList<>();
 
-    public GourmetCatalogStoredInfoModel(){
+    public StoredInfoModel(){
         DataBase.loadDatabase();
     }
 

@@ -2,7 +2,7 @@ package presenter;
 
 import views.MainView;
 
-public interface GourmetCatalogSearchViewPresenterInterface {
+public interface SearchPresenterInterface {
 
     void setUp(MainView mainView);
     void onEventSearchWikipediaArticle();
