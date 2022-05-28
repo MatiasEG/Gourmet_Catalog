@@ -23,6 +23,17 @@ public class MainView implements  MainViewInterface{
         initView();
     }
 
+    private void initView(){
+        initMainFrame();
+    }
+    //TODO estos dos tal vez se podrian juntar en uno
+    private void initMainFrame() {
+        mainFrame = new JFrame("Gourmet Catalog");
+        mainFrame.setContentPane(mainPanel);
+        mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        mainFrame.pack();
+    }
+
     private void createUIComponents() {
         // TODO: place custom component creation code here
         this.storedInfoView = new StoredInfoView(storedInfoPresenter);
@@ -40,17 +51,6 @@ public class MainView implements  MainViewInterface{
     @Override
     public SearchViewInterface getSearchView(){
         return searchView;
-    }
-
-    private void initView(){
-        initMainFrame();
-    }
-
-    private void initMainFrame() {
-        mainFrame = new JFrame("Gourmet Catalog");
-        mainFrame.setContentPane(mainPanel);
-        mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        mainFrame.pack();
     }
 
 

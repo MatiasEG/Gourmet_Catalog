@@ -14,12 +14,12 @@
           <model/>
         </properties>
       </component>
-      <scrollpane id="d57b1" binding="storedArticleScrollPane">
+      <scrollpane id="d57b1" binding="storedArticleContentScrollPane">
         <constraints border-constraint="Center"/>
         <properties/>
         <border type="none"/>
         <children>
-          <component id="2db86" class="javax.swing.JTextPane" binding="storedArticleTextPane">
+          <component id="2db86" class="javax.swing.JTextPane" binding="storedArticleContentTextPane">
             <constraints/>
             <properties/>
           </component>

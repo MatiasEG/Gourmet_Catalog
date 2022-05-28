@@ -8,8 +8,8 @@ import java.util.List;
 
 public class SearchView implements SearchViewInterface{
     private JPanel searchInWikipediaPanel;
-    private JScrollPane articleContentScrollPane;
-    private JTextPane articleContentTextPane;
+    private JScrollPane wikipediaArticleContentScrollPane;
+    private JTextPane wikipediaArticleContentTextPane;
     private JTextField searchTextField;
     private JRadioButton fullArticleRadioButton;
     private JRadioButton articleSummaryRadioButton;
@@ -23,14 +23,24 @@ public class SearchView implements SearchViewInterface{
         initView();
         initListeners();
     }
-    @Override
-    public JPanel getPanel(){
-        return searchInWikipediaPanel;
-    }
 
     private void initView(){
         initTextPanes();
         initRadioButtons();
+    }
+
+    private void initTextPanes() {
+        wikipediaArticleContentTextPane.setContentType("text/html");
+        wikipediaArticleContentTextPane.setEditable(false);
+    }
+
+    private void initRadioButtons(){
+        fullArticleRadioButton.setText("Full Article");
+        articleSummaryRadioButton.setText("Article Summary");
+        articleSummaryRadioButton.setSelected(true);
+        ButtonGroup group = new ButtonGroup();
+        group.add(fullArticleRadioButton);
+        group.add(articleSummaryRadioButton);
     }
 
     private void initListeners(){
@@ -38,29 +48,24 @@ public class SearchView implements SearchViewInterface{
         saveLocallyButton.addActionListener(actionEvent -> searchPresenter.onEventSaveWikipediaArticle());
     }
 
-    private void initTextPanes() {
-        articleContentTextPane.setContentType("text/html");
-        articleContentTextPane.setEditable(false);
+    @Override
+    public JPanel getPanel(){
+        return searchInWikipediaPanel;
     }
 
-    private void initRadioButtons(){
-        fullArticleRadioButton.setText("Full Article");
-        articleSummaryRadioButton.setText("Article Summary");
-        fullArticleRadioButton.setSelected(true);
-        ButtonGroup group = new ButtonGroup();
-        group.add(fullArticleRadioButton);
-        group.add(articleSummaryRadioButton);
-    }
-
+    @Override
     public String getSearchText() {
         return searchTextField.getText();
     }
 
+    @Override
     public int getSelectedSearchResultIndex(){
         return selectedSearchResultIndex;
     }
 
+    @Override
     public void setSearchResultsList(List<String> searchResults) {
+        //TODO revisar
         JPopupMenu searchOptionsMenu = new JPopupMenu("Search Results");
         selectedSearchResultIndex = -1;
         int currentIndex = 0;
@@ -77,20 +82,24 @@ public class SearchView implements SearchViewInterface{
         searchOptionsMenu.show(searchTextField, searchTextField.getX(), searchTextField.getY());
     }
 
+    @Override
     public boolean fullArticleIsSelected(){ return fullArticleRadioButton.isSelected(); }
 
+    @Override
     public void setArticleContent(String contentText) {
-        articleContentTextPane.setText(contentText);
-        articleContentTextPane.setCaretPosition(0);
+        wikipediaArticleContentTextPane.setText(contentText);
+        wikipediaArticleContentTextPane.setCaretPosition(0);
     }
 
+    @Override
     public void startWorkingStatus() {
-        for(Component c: this.searchInWikipediaPanel.getComponents()) c.setEnabled(false);
-        articleContentTextPane.setEnabled(false);
+        for(Component component: this.searchInWikipediaPanel.getComponents()) component.setEnabled(false);
+        wikipediaArticleContentTextPane.setEnabled(false);
     }
 
+    @Override
     public void stopWorkingStatus() {
-        for(Component c: this.searchInWikipediaPanel.getComponents()) c.setEnabled(true);
-        articleContentTextPane.setEnabled(true);
+        for(Component component: this.searchInWikipediaPanel.getComponents()) component.setEnabled(true);
+        wikipediaArticleContentTextPane.setEnabled(true);
     }
 }
