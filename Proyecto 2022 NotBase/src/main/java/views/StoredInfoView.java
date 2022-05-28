@@ -64,7 +64,12 @@ public class StoredInfoView implements StoredInfoViewInterface{
     }
 
     @Override
-    public String getSelectedArticleTitle(){ return storedArticlesComboBox.getSelectedIndex() > -1 ? storedArticlesComboBox.getSelectedItem().toString() : ""; }
+    public String getSelectedArticleTitle(){
+        if (storedArticlesComboBox.getSelectedIndex() > -1)
+            return storedArticlesComboBox.getSelectedItem().toString();
+        else
+            return "";
+    }
 
     @Override
     // TODO check this name.
