@@ -12,7 +12,7 @@ public class SearchView implements SearchViewInterface{
     private JTextPane wikipediaArticleTextPane;
     private JTextField searchTextField;
     private JRadioButton completeArticleRadioButton;
-    private JRadioButton articleExtractRadioButton;
+    private JRadioButton articleSummaryRadioButton;
     private JButton saveLocallyButton;
     private int indexOfSelectedSearchResult;
 
@@ -44,12 +44,12 @@ public class SearchView implements SearchViewInterface{
     }
 
     private void initRadioButtons(){
-        completeArticleRadioButton.setText("Complete Article");
-        articleExtractRadioButton.setText("Article Extract");
+        completeArticleRadioButton.setText("Full Article");
+        articleSummaryRadioButton.setText("Article Summary");
         completeArticleRadioButton.setSelected(true);
         ButtonGroup group = new ButtonGroup();
         group.add(completeArticleRadioButton);
-        group.add(articleExtractRadioButton);
+        group.add(articleSummaryRadioButton);
     }
 
     public String getSearchText() {
