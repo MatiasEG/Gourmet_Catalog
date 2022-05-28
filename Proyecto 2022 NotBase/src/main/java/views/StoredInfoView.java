@@ -55,10 +55,10 @@ public class StoredInfoView implements StoredInfoViewInterface{
     @Override
     public void setStoredArticlesTitles(Object[] storedArticlesTitles) {
         storedArticlesComboBox.setModel(new DefaultComboBoxModel<Object>(storedArticlesTitles));
+        clearView();
     }
 
-    @Override
-    public void clearView(){
+    private void clearView(){
         storedArticlesComboBox.setSelectedIndex(-1);
         storedArticleContentTextPane.setText("");
     }

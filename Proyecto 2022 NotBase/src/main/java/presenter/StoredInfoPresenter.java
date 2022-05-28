@@ -28,7 +28,6 @@ public class StoredInfoPresenter implements StoredInfoPresenterInterface {
             public void didLoadTitles() {
                 Object[] storedArticleTitles = storedInfoModel.getStoredArticleTitles();
                 storedInfoView.setStoredArticlesTitles(storedArticleTitles);
-                storedInfoView.clearView();
             }
             public void didLoadArticleContent() {
                 String articleContent = storedInfoModel.getLoadedArticleContent();
