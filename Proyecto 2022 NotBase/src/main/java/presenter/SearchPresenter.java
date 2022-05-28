@@ -80,8 +80,8 @@ public class SearchPresenter implements SearchPresenterInterface {
         }else{
             searchModel.searchCompleteArticleInWikipedia(listOfSearchResults.get(searchView.getIndexOfSelectedSearchResult()));
         }
-        mainView.getSearchView().setContentTextOfSearchResult(searchModel.getSearchedArticleInWikipedia());
-        mainView.getSearchView().stopWorkingStatus();
+        searchView.setContentTextOfSearchResult(searchModel.getSearchedArticleInWikipedia());
+        searchView.stopWorkingStatus();
     }
 
     @Override
