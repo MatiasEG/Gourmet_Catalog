@@ -72,7 +72,6 @@ public class StoredInfoView implements StoredInfoViewInterface{
     }
 
     @Override
-    // TODO check this name.
     public String getArticleContent() {
         return storedArticleContentTextPane.getText();
     }
