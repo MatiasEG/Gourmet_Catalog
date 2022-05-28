@@ -13,7 +13,7 @@ public class DataBase {
       if (connection != null) {
         Statement statement = connection.createStatement();
         statement.setQueryTimeout(30);
-        statement.executeUpdate("create table catalog (id INTEGER, title string PRIMARY KEY, extract string, source integer)");
+        statement.executeUpdate("create table catalog (id INTEGER, title string PRIMARY KEY, content string, source integer)");
       }
     } catch (SQLException e) {
       System.out.println(e.getMessage());
@@ -38,7 +38,7 @@ public class DataBase {
         // read the result set
         System.out.println("id = " + rs.getInt("id"));
         System.out.println("title = " + rs.getString("title"));
-        System.out.println("content = " + rs.getString("extract"));
+        System.out.println("content = " + rs.getString("content"));
         System.out.println("source = " + rs.getString("source"));
 
       }
@@ -144,7 +144,7 @@ public class DataBase {
 
       ResultSet rs = statement.executeQuery("select * from catalog WHERE title = '" + title + "'" );
       rs.next();
-      return rs.getString("extract");
+      return rs.getString("content");
     }
     catch(SQLException e)
     {

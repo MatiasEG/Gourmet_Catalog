@@ -14,9 +14,9 @@ public interface StoredInfoModelInterface {
 
     void deleteArticle(String articleTitle);
 
-    void saveArticle(String articleTitle, String articleExtract);
+    void saveArticle(String articleTitle, String articleContent);
 
-    void updateArticle(String articleTitle, String articleExtract);
+    void updateArticle(String articleTitle, String articleContent);
 
     void selectStoredArticle(String articleTitle);
     String getSelectedStoredArticleContent();

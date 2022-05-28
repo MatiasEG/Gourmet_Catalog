@@ -1,6 +1,7 @@
 package presenter;
 
 import model.StoredInfoModel.StoredInfoModelInterface;
+import model.listeners.ErrorListener;
 import model.searchModel.Search.SearchResult;
 import model.listeners.SearchListener;
 import model.searchModel.SearchModelInterface;
@@ -48,6 +49,8 @@ public class SearchPresenter implements SearchPresenterInterface {
                 searchView.setContentTextOfSearchResult(searchModel.getSearchedArticleInWikipedia());
             }
         });
+
+        searchModel.addErrorListener(errorMessage -> notifyErrorToUser(errorMessage));
     }
 
     private List<String> parseListSearchResult(List<SearchResult> listOfSearchResults){
