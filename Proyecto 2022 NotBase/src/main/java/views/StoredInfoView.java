@@ -72,8 +72,4 @@ public class StoredInfoView implements StoredInfoViewInterface{
         storedArticleTextPane.setText(contentText);
         storedArticleTextPane.setCaretPosition(0);
     }
-
-    public void showView(){
-        storedInfoPanel.setVisible(true);
-    }
 }

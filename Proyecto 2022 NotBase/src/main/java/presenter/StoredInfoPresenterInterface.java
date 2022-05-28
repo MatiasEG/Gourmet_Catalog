@@ -8,5 +8,4 @@ public interface StoredInfoPresenterInterface {
     void onEventSelectStoredArticle();
     void onEvenDeleteStoredArticle();
     void onEventUpdateStoredArticle();
-    void showView();
 }

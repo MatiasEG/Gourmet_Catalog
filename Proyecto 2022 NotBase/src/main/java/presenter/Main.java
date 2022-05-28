@@ -19,9 +19,6 @@ public class Main {
         storedInfoPresenter.setUp(mainView);
         searchPresenter.setUp(mainView);
 
-        storedInfoPresenter.showView();
-        searchPresenter.showView();
-
         mainView.showView();
     }
 }

@@ -93,6 +93,4 @@ public class SearchView implements SearchViewInterface{
         for(Component c: this.searchInWikipediaPanel.getComponents()) c.setEnabled(true);
         wikipediaArticleTextPane.setEnabled(true);
     }
-
-    public void showView(){ searchInWikipediaPanel.setVisible(true); }
 }

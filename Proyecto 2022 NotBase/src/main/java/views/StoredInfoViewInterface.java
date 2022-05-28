@@ -7,5 +7,4 @@ public interface StoredInfoViewInterface {
     void clearStoredArticleView();
     void setStoredArticlesTitles(Object[] localCopies);
     void setStoredArticleContentText(String contentText);
-    void showView();
 }

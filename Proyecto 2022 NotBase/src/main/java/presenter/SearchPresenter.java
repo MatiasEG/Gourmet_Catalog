@@ -92,8 +92,6 @@ public class SearchPresenter implements SearchPresenterInterface {
             notifyErrorToUser("Search Result Not Selected");
     }
 
-    public void showView(){ searchView.showView(); }
-
     private void notifyInfoToUser(String message){
         mainView.notifyMessageToUser(message, "Info");
     }

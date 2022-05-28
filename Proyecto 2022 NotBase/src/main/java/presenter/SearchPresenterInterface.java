@@ -8,5 +8,4 @@ public interface SearchPresenterInterface {
     void onEventSearchWikipediaArticle();
     void onEventSelectWikipediaArticle();
     void onEventSaveWikipediaArticle();
-    void showView();
 }

@@ -76,8 +76,4 @@ public class StoredInfoPresenter implements StoredInfoPresenterInterface {
         storedInfoModel.updateArticle(storedArticleTitle, storedArticleContent);
     }
 
-    public void showView(){
-        storedInfoView.showView();
-    }
-
 }
