@@ -15,7 +15,7 @@ public class StoredInfoModel implements StoredInfoModelInterface {
     private List<ErrorListener> errorListeners = new ArrayList<>();
 
     public StoredInfoModel(){
-        DataBase.loadDatabase();
+        DataBase.createDatabaseIfDoesNotExists();
     }
 
 
