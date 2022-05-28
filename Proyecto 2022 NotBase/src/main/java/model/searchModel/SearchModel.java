@@ -4,14 +4,15 @@ import model.searchModel.Search.SearchLogic;
 import model.searchModel.Search.SearchResult;
 import model.listeners.ErrorListener;
 import model.listeners.SearchListener;
+import retrofit2.Response;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SearchModel implements SearchModelInterface {
 
-    private List<SearchResult> allCoincidences;
-    private String articleInWikipedia;
+    private List<SearchResult> allCoincidencesFound;
+    private String foundArticleContent;
     private List<SearchListener> searchListeners = new ArrayList<>();
     private List<ErrorListener> errorListeners = new ArrayList<>();
 
@@ -25,9 +26,9 @@ public class SearchModel implements SearchModelInterface {
         errorListeners.add(errorListener);
     }
 
-    private void notifyFoundArticles(){
+    private void notifyFoundCoincidences(){
         for(SearchListener searchListener : searchListeners)
-            searchListener.didFindArticles();
+            searchListener.didFindArticleCoincidences();
     }
 
     private void notifyFoundArticleContent(){
@@ -40,38 +41,42 @@ public class SearchModel implements SearchModelInterface {
             errorListener.didErrorOccurred(errorMessage);
     }
 
-    private boolean isValidString(String string){
-        return string != null && !string.equals("");
+    private boolean isEmptyOrInvalid(String string){
+        return string == null || string.equals("");
     }
 
     @Override
-    public void searchAllArticleCoincidencesInWikipedia(String textToSearch) {
-        if(isValidString(textToSearch)) {
-            allCoincidences = ResponseParser.searchAllCoincidencesInWikipedia(SearchLogic.executeSearchOfTermInWikipedia(textToSearch));
-            notifyFoundArticles();
-        } else
+    public void searchAllCoincidencesInWikipedia(String textToSearch) {
+        if(isEmptyOrInvalid(textToSearch))
             notifyErrorOccurred("Empty Search Field");
+        else {
+            Response<String> allCoincidencesResponse = SearchLogic.executeSearchOfTermInWikipedia(textToSearch);
+            allCoincidencesFound = ResponseParser.parseWikipediaCoincidences(allCoincidencesResponse);
+            notifyFoundCoincidences();
+        }
     }
 
     @Override
-    public List<SearchResult> getAllArticleCoincidencesInWikipedia() {
-        return allCoincidences;
+    public List<SearchResult> getAllCoincidencesFound() {
+        return allCoincidencesFound;
     }
 
     @Override
-    public void searchFirstTermArticleInWikipedia(SearchResult searchResult) {
-        articleInWikipedia = ResponseParser.parseWikipediaResponse(SearchLogic.executeSpecificSearchInWikipediaForFirstTerm(searchResult));
+    public void searchArticleSummaryInWikipedia(SearchResult searchResult) {
+        Response<String> foundArticleContentResponse = SearchLogic.executeSpecificSearchInWikipediaForFirstTerm(searchResult);
+        foundArticleContent = ResponseParser.parseWikipediaArticle(foundArticleContentResponse);
         notifyFoundArticleContent();
     }
 
     @Override
-    public void searchCompleteArticleInWikipedia(SearchResult searchResult){
-        articleInWikipedia = ResponseParser.parseWikipediaResponse(SearchLogic.executeSpecificSearchInWikipediaForEntireArticle(searchResult));
+    public void searchFullArticleInWikipedia(SearchResult searchResult){
+        Response<String> foundArticleContentResponse = SearchLogic.executeSpecificSearchInWikipediaForEntireArticle(searchResult);
+        foundArticleContent = ResponseParser.parseWikipediaArticle(foundArticleContentResponse);
         notifyFoundArticleContent();
     }
 
     @Override
-    public String getSearchedArticleInWikipedia() {
-        return articleInWikipedia;
+    public String getFoundArticleContent() {
+        return foundArticleContent;
     }
 }

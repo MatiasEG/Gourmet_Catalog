@@ -18,8 +18,8 @@ public interface StoredInfoModelInterface {
 
     void updateArticle(String articleTitle, String articleContent);
 
-    void selectStoredArticle(String articleTitle);
-    String getSelectedStoredArticleContent();
+    void loadArticle(String articleTitle);
+    String getLoadedArticleContent();
 
-    Object[] getTitlesOfStoredArticles();
+    Object[] getStoredArticleTitles();
 }

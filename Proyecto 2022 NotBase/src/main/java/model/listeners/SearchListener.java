@@ -2,7 +2,7 @@ package model.listeners;
 
 public interface SearchListener {
 
-    void didFindArticles();
+    void didFindArticleCoincidences();
 
     void didFindArticleContent();
 }

@@ -18,14 +18,14 @@ public class StoredInfoPresenter implements StoredInfoPresenterInterface {
     public void setView(MainView mainView){
         this.mainView = mainView;
         this.storedInfoView = mainView.getStoredInfoView();
-        Object[] storedArticleTitles = storedInfoModel.getTitlesOfStoredArticles();
+        Object[] storedArticleTitles = storedInfoModel.getStoredArticleTitles();
         this.storedInfoView.setStoredArticlesTitles(storedArticleTitles);
         initListeners();
     }
 
     private void initListeners(){
         storedInfoModel.addLoadArticleListener(() -> {
-            String articleContent = storedInfoModel.getSelectedStoredArticleContent();
+            String articleContent = storedInfoModel.getLoadedArticleContent();
             storedInfoView.setArticleContent(articleContent);
         });
 
@@ -37,7 +37,7 @@ public class StoredInfoPresenter implements StoredInfoPresenterInterface {
 
             @Override
             public void didSaveArticle() {
-                Object[] storedArticleTitles = storedInfoModel.getTitlesOfStoredArticles();
+                Object[] storedArticleTitles = storedInfoModel.getStoredArticleTitles();
                 storedInfoView.setStoredArticlesTitles(storedArticleTitles);
                 storedInfoView.clearView();
                 notifyInfoToUser("Article Saved");
@@ -45,7 +45,7 @@ public class StoredInfoPresenter implements StoredInfoPresenterInterface {
 
             @Override
             public void didDeleteArticle() {
-                Object[] storedArticleTitles = storedInfoModel.getTitlesOfStoredArticles();
+                Object[] storedArticleTitles = storedInfoModel.getStoredArticleTitles();
                 storedInfoView.setStoredArticlesTitles(storedArticleTitles);
                 storedInfoView.clearView();
                 notifyInfoToUser("Article Deleted");
@@ -66,7 +66,7 @@ public class StoredInfoPresenter implements StoredInfoPresenterInterface {
     @Override
     public void onEventSelectArticle() {
         String storedArticleTitle = storedInfoView.getSelectedArticleTitle();
-        storedInfoModel.selectStoredArticle(storedArticleTitle);
+        storedInfoModel.loadArticle(storedArticleTitle);
     }
 
     @Override

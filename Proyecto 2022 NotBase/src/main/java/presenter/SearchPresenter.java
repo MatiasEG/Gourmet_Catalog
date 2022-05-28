@@ -34,8 +34,8 @@ public class SearchPresenter implements SearchPresenterInterface {
     private void initListeners(){
         searchModel.addSearchListener(new SearchListener() {
             @Override
-            public void didFindArticles() {
-                searchResultsList = searchModel.getAllArticleCoincidencesInWikipedia();
+            public void didFindArticleCoincidences() {
+                searchResultsList = searchModel.getAllCoincidencesFound();
                 if(searchResultsList.isEmpty())
                     notifyInfoToUser("No Coincidences Found");
                 else
@@ -44,7 +44,7 @@ public class SearchPresenter implements SearchPresenterInterface {
 
             @Override
             public void didFindArticleContent() {
-                String articleContent = searchModel.getSearchedArticleInWikipedia();
+                String articleContent = searchModel.getFoundArticleContent();
                 searchView.setArticleContent(articleContent);
             }
         });
@@ -68,7 +68,7 @@ public class SearchPresenter implements SearchPresenterInterface {
     public void onEventSearchArticles() {
         searchView.startWorkingStatus();
         String textToSearch = searchView.getSearchText();
-        searchModel.searchAllArticleCoincidencesInWikipedia(textToSearch);
+        searchModel.searchAllCoincidencesInWikipedia(textToSearch);
         searchView.stopWorkingStatus();
     }
 
@@ -77,9 +77,9 @@ public class SearchPresenter implements SearchPresenterInterface {
         searchView.startWorkingStatus();
         selectedSearchResult = searchResultsList.get(searchView.getSelectedSearchResultIndex());
         if(searchView.fullArticleIsSelected()){
-            searchModel.searchCompleteArticleInWikipedia(selectedSearchResult);
+            searchModel.searchFullArticleInWikipedia(selectedSearchResult);
         }else{
-            searchModel.searchFirstTermArticleInWikipedia(selectedSearchResult);
+            searchModel.searchArticleSummaryInWikipedia(selectedSearchResult);
         }
         searchView.stopWorkingStatus();
     }
@@ -88,7 +88,7 @@ public class SearchPresenter implements SearchPresenterInterface {
     public void onEventSaveArticle() {
         if(selectedSearchResult != null) {
             String articleTitle = selectedSearchResult.getTitle();
-            String articleContent = searchModel.getSearchedArticleInWikipedia();
+            String articleContent = searchModel.getFoundArticleContent();
             storedInfoModel.saveArticle(articleTitle, articleContent);
             selectedSearchResult = null;
         } else

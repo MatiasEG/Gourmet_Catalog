@@ -11,9 +11,9 @@ import java.util.*;
 
 public class ResponseParser {
 
-    public static List<SearchResult> searchAllCoincidencesInWikipedia(Response<String> wikipediaResponse) {
-        JsonArray pagesJsonArray = getPagesAsJsonArray(wikipediaResponse);
-        return translatePagesJsonArrayToSearchResultList(pagesJsonArray);
+    public static List<SearchResult> parseWikipediaCoincidences(Response<String> wikipediaCoincidences) {
+        JsonArray pagesJsonArray = getPagesAsJsonArray(wikipediaCoincidences);
+        return parsePagesJsonArray(pagesJsonArray);
     }
 
     private static JsonArray getPagesAsJsonArray(Response<String> wikipediaResponse) {
@@ -23,7 +23,7 @@ public class ResponseParser {
         return responseQuery.get("search").getAsJsonArray();
     }
 
-    private static List<SearchResult> translatePagesJsonArrayToSearchResultList(JsonArray pagesJsonArray){
+    private static List<SearchResult> parsePagesJsonArray(JsonArray pagesJsonArray){
         List<SearchResult> searchResults = new ArrayList<SearchResult>();
         for (JsonElement pageJsonElement : pagesJsonArray) {
             JsonObject pageJsonObject = pageJsonElement.getAsJsonObject();
@@ -36,9 +36,9 @@ public class ResponseParser {
         return searchResults;
     }
 
-    public static String parseWikipediaResponse(Response<String> wikipediaResponse) {
+    public static String parseWikipediaArticle(Response<String> wikipediaArticle) {
         String articleContentString;
-        JsonObject pageJsonObject = getPageAsJsonObject(wikipediaResponse);
+        JsonObject pageJsonObject = getPageAsJsonObject(wikipediaArticle);
         JsonElement articleContentJsonElement = pageJsonObject.get("extract");
         if (articleContentJsonElement == null) {
             articleContentString = "No Results";

@@ -9,7 +9,7 @@ import java.util.List;
 
 public class StoredInfoModel implements StoredInfoModelInterface {
 
-    private String articleContent;
+    private String loadedArticleContent;
     private List<LoadArticleListener> loadArticleListeners = new ArrayList<>();
     private List<StoredArticlesListener> storedArticlesListeners = new ArrayList<>();
     private List<ErrorListener> errorListeners = new ArrayList<>();
@@ -61,44 +61,51 @@ public class StoredInfoModel implements StoredInfoModelInterface {
 
     @Override
     public void deleteArticle(String articleTitle) {
-        if(isValidString(articleTitle)) {
+        if(isEmptyOrInvalid(articleTitle))
+            notifyErrorOccurred("Article Not Selected");
+        else {
             DataBase.deleteEntry(articleTitle);
             notifyDeleteArticle();
-        } else
-            notifyErrorOccurred("Article Not Selected");
+        }
     }
 
-    private boolean isValidString(String string){ return string != null && !string.equals(""); }
+    private boolean isEmptyOrInvalid(String string){ return string == null || string.equals(""); }
 
     @Override
     public void saveArticle(String articleTitle, String articleContent) {
-        DataBase.saveInfo(articleTitle, articleContent);
-        notifySaveArticle();
+        if(isEmptyOrInvalid(articleTitle))
+            notifyErrorOccurred("Article Not Selected");
+        else {
+            DataBase.saveInfo(articleTitle, articleContent);
+            notifySaveArticle();
+        }
     }
 
     @Override
     public void updateArticle(String articleTitle, String articleContent) {
-        if(isValidString(articleTitle)) {
+        if(isEmptyOrInvalid(articleTitle))
+            notifyErrorOccurred("Article Not Selected");
+        else {
             DataBase.saveInfo(articleTitle, articleContent);
             notifyUpdateArticle();
-        } else
-            notifyErrorOccurred("Article Not Selected");
+        }
     }
 
     @Override
-    public void selectStoredArticle(String articleTitle) {
-        if(isValidString(articleTitle)) {
-            articleContent = DataBase.getContent(articleTitle);
+    public void loadArticle(String articleTitle) {
+        if(isEmptyOrInvalid(articleTitle))
+            notifyErrorOccurred("Article Not Selected");
+        else {
+            loadedArticleContent = DataBase.getContent(articleTitle);
             notifyLoadArticle();
-        } else
-            notifyErrorOccurred("Article Not Selected");
+        }
     }
 
     @Override
-    public String getSelectedStoredArticleContent() {
-        return articleContent;
+    public String getLoadedArticleContent() {
+        return loadedArticleContent;
     }
 
     @Override
-    public Object[] getTitlesOfStoredArticles(){ return DataBase.getTitles().stream().sorted().toArray(); }
+    public Object[] getStoredArticleTitles(){ return DataBase.getTitles().stream().sorted().toArray(); }
 }
