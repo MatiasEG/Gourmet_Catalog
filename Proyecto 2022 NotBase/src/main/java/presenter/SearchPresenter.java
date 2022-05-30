@@ -63,22 +63,26 @@ public class SearchPresenter implements SearchPresenterInterface {
 
     @Override
     public void onEventSearchArticles() {
-        searchView.startWorkingStatus();
-        String textToSearch = searchView.getSearchText();
-        searchModel.searchAllCoincidencesInWikipedia(textToSearch);
-        searchView.stopWorkingStatus();
+        new Thread(() -> {
+            //searchView.startWorkingStatus();
+            String textToSearch = searchView.getSearchText();
+            searchModel.searchAllCoincidencesInWikipedia(textToSearch);
+            //searchView.stopWorkingStatus();
+        }).start();
     }
 
     @Override
     public void onEventSelectArticle() {
-        searchView.startWorkingStatus();
-        selectedSearchResult = searchResultsList.get(searchView.getSelectedSearchResultIndex());
-        if(searchView.fullArticleIsSelected()){
-            searchModel.searchFullArticleInWikipedia(selectedSearchResult);
-        }else{
-            searchModel.searchArticleSummaryInWikipedia(selectedSearchResult);
-        }
-        searchView.stopWorkingStatus();
+        new Thread(() -> {
+            //searchView.startWorkingStatus();
+            selectedSearchResult = searchResultsList.get(searchView.getSelectedSearchResultIndex());
+            if(searchView.fullArticleIsSelected()){
+                searchModel.searchFullArticleInWikipedia(selectedSearchResult);
+            }else{
+                searchModel.searchArticleSummaryInWikipedia(selectedSearchResult);
+            }
+            //searchView.stopWorkingStatus();
+        }).start();
     }
 
     @Override
