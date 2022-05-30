@@ -7,7 +7,7 @@ import model.listeners.StoredArticlesListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StoredInfoModel implements StoredInfoModelInterface {
+public class StoredInfoModel implements IStoredInfoModel {
 
     private String loadedArticleContent;
     private Object[] storedArticleTitles;

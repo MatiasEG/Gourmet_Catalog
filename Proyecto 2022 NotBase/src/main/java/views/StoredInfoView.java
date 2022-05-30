@@ -1,10 +1,10 @@
 package views;
 
-import presenter.StoredInfoPresenterInterface;
+import presenter.IStoredInfoPresenter;
 
 import javax.swing.*;
 
-public class StoredInfoView implements StoredInfoViewInterface{
+public class StoredInfoView implements IStoredInfoView {
     private JComboBox storedArticlesComboBox;
     private JScrollPane storedArticleContentScrollPane;
     private JTextPane storedArticleContentTextPane;
@@ -12,9 +12,9 @@ public class StoredInfoView implements StoredInfoViewInterface{
     private JMenuItem deleteMenuItem;
     private JMenuItem saveMenuItem;
 
-    private StoredInfoPresenterInterface storedInfoPresenter;
+    private IStoredInfoPresenter storedInfoPresenter;
 
-    public StoredInfoView(StoredInfoPresenterInterface storedInfoPresenter){
+    public StoredInfoView(IStoredInfoPresenter storedInfoPresenter){
         this.storedInfoPresenter = storedInfoPresenter;
         initView();
         initListeners();

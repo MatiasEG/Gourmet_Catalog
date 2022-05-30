@@ -4,7 +4,7 @@ import model.listeners.ErrorListener;
 import model.listeners.LoadArticleListener;
 import model.listeners.StoredArticlesListener;
 
-public interface StoredInfoModelInterface {
+public interface IStoredInfoModel {
 
     void addStoredArticlesListener(StoredArticlesListener storedArticlesListener);
 

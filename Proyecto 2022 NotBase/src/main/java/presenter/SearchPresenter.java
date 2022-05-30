@@ -1,25 +1,25 @@
 package presenter;
 
-import model.StoredInfoModel.StoredInfoModelInterface;
+import model.StoredInfoModel.IStoredInfoModel;
 import model.searchModel.Search.SearchResult;
 import model.listeners.SearchListener;
 import model.searchModel.ISearchModel;
 import views.MainView;
-import views.MainViewInterface;
-import views.SearchViewInterface;
+import views.IMainView;
+import views.ISearchView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchPresenter implements SearchPresenterInterface {
-    MainViewInterface mainView;
-    SearchViewInterface searchView;
+public class SearchPresenter implements ISearchPresenter {
+    IMainView mainView;
+    ISearchView searchView;
     ISearchModel searchModel;
-    StoredInfoModelInterface storedInfoModel;
+    IStoredInfoModel storedInfoModel;
     List<SearchResult> searchResultsList;
     SearchResult selectedSearchResult;
 
-    public SearchPresenter(ISearchModel searchModel, StoredInfoModelInterface storedInfoModel){
+    public SearchPresenter(ISearchModel searchModel, IStoredInfoModel storedInfoModel){
         this.searchModel = searchModel;
         this.storedInfoModel = storedInfoModel;
     }
@@ -63,22 +63,26 @@ public class SearchPresenter implements SearchPresenterInterface {
 
     @Override
     public void onEventSearchArticles() {
-        searchView.startWorkingStatus();
-        String textToSearch = searchView.getSearchText();
-        searchModel.searchAllCoincidencesInWikipedia(textToSearch);
-        searchView.stopWorkingStatus();
+        new Thread(() -> {
+            //searchView.startWorkingStatus();
+            String textToSearch = searchView.getSearchText();
+            searchModel.searchAllCoincidencesInWikipedia(textToSearch);
+            //searchView.stopWorkingStatus();
+        }).start();
     }
 
     @Override
     public void onEventSelectArticle() {
-        searchView.startWorkingStatus();
-        selectedSearchResult = searchResultsList.get(searchView.getSelectedSearchResultIndex());
-        if(searchView.fullArticleIsSelected()){
-            searchModel.searchFullArticleInWikipedia(selectedSearchResult);
-        }else{
-            searchModel.searchArticleSummaryInWikipedia(selectedSearchResult);
-        }
-        searchView.stopWorkingStatus();
+        new Thread(() -> {
+            //searchView.startWorkingStatus();
+            selectedSearchResult = searchResultsList.get(searchView.getSelectedSearchResultIndex());
+            if(searchView.fullArticleIsSelected()){
+                searchModel.searchFullArticleInWikipedia(selectedSearchResult);
+            }else{
+                searchModel.searchArticleSummaryInWikipedia(selectedSearchResult);
+            }
+            //searchView.stopWorkingStatus();
+        }).start();
     }
 
     @Override

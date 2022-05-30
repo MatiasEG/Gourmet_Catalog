@@ -72,49 +72,4 @@ public class DataBase {
       throw new Exception("Error while deleting article from the database");
     }
   }
-
-
-  public static void testDB()
-  {
-    //TODO este método no se usa
-
-    Connection connection = null;
-    try
-    {
-      connection = DriverManager.getConnection(databaseUrl);
-      Statement statement = connection.createStatement();
-      statement.setQueryTimeout(30);
-
-      ResultSet rs = statement.executeQuery("select * from articles");
-      while(rs.next())
-      {
-        // read the result set
-        System.out.println("id = " + rs.getInt("id"));
-        System.out.println("title = " + rs.getString("title"));
-        System.out.println("content = " + rs.getString("content"));
-        System.out.println("source = " + rs.getString("source"));
-
-      }
-    }
-    catch(SQLException e)
-    {
-      // if the error message is "out of memory",
-      // it probably means no database file is found
-      System.err.println(e.getMessage());
-    }
-    finally
-    {
-      try
-      {
-        if(connection != null)
-          connection.close();
-      }
-      catch(SQLException e)
-      {
-        // connection close failed.
-        System.err.println(e);
-      }
-    }
-  }
-
 }

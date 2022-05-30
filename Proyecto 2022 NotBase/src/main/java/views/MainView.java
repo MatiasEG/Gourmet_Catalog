@@ -1,23 +1,23 @@
 package views;
 
-import presenter.SearchPresenterInterface;
-import presenter.StoredInfoPresenterInterface;
+import presenter.ISearchPresenter;
+import presenter.IStoredInfoPresenter;
 
 import javax.swing.*;
 
-public class MainView implements  MainViewInterface{
+public class MainView implements IMainView {
 
     private JTabbedPane mainTabbedPane;
     private JPanel searchInWikipediaPanel;
     private JPanel storedInfoPanel;
     private JPanel mainPanel;
     private JFrame mainFrame;
-    private StoredInfoPresenterInterface storedInfoPresenter;
-    private SearchPresenterInterface searchPresenter;
-    private SearchViewInterface searchView;
-    private StoredInfoViewInterface storedInfoView;
+    private IStoredInfoPresenter storedInfoPresenter;
+    private ISearchPresenter searchPresenter;
+    private ISearchView searchView;
+    private IStoredInfoView storedInfoView;
 
-    public MainView(StoredInfoPresenterInterface storedInfoPresenter, SearchPresenterInterface searchPresenter){
+    public MainView(IStoredInfoPresenter storedInfoPresenter, ISearchPresenter searchPresenter){
         this.storedInfoPresenter = storedInfoPresenter;
         this.searchPresenter = searchPresenter;
         initView();
@@ -44,12 +44,12 @@ public class MainView implements  MainViewInterface{
     }
 
     @Override
-    public StoredInfoViewInterface getStoredInfoView(){
+    public IStoredInfoView getStoredInfoView(){
         return storedInfoView;
     }
 
     @Override
-    public SearchViewInterface getSearchView(){
+    public ISearchView getSearchView(){
         return searchView;
     }
 

@@ -1,12 +1,12 @@
 package views;
 
-import presenter.SearchPresenterInterface;
+import presenter.ISearchPresenter;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-public class SearchView implements SearchViewInterface{
+public class SearchView implements ISearchView {
     private JPanel searchInWikipediaPanel;
     private JScrollPane wikipediaArticleContentScrollPane;
     private JTextPane wikipediaArticleContentTextPane;
@@ -16,9 +16,9 @@ public class SearchView implements SearchViewInterface{
     private JButton saveLocallyButton;
     private int selectedSearchResultIndex;
 
-    private SearchPresenterInterface searchPresenter;
+    private ISearchPresenter searchPresenter;
 
-    public SearchView(SearchPresenterInterface searchPresenter){
+    public SearchView(ISearchPresenter searchPresenter){
         this.searchPresenter = searchPresenter;
         initView();
         initListeners();
