@@ -6,7 +6,7 @@ import model.listeners.SearchListener;
 
 import java.util.List;
 
-public interface SearchModelInterface {
+public interface ISearchModel {
 
     void addSearchListener(SearchListener searchListener);
 

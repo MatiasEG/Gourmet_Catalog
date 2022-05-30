@@ -1,5 +1,6 @@
 package model.searchModel;
 
+import model.searchModel.Search.ISearchLogic;
 import model.searchModel.Search.SearchLogic;
 import model.searchModel.Search.SearchResult;
 import model.listeners.ErrorListener;
@@ -9,12 +10,13 @@ import retrofit2.Response;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchModel implements SearchModelInterface {
+public class SearchModel implements ISearchModel {
 
     private List<SearchResult> allCoincidencesFound;
     private String foundArticleContent;
     private List<SearchListener> searchListeners = new ArrayList<>();
     private List<ErrorListener> errorListeners = new ArrayList<>();
+    private ISearchLogic searchLogic = new SearchLogic();
 
     @Override
     public void addSearchListener(SearchListener searchListener) {
@@ -52,7 +54,7 @@ public class SearchModel implements SearchModelInterface {
         else {
             Response<String> allCoincidencesResponse = null;
             try {
-                allCoincidencesResponse = SearchLogic.executeSearchOfTermInWikipedia(textToSearch);
+                allCoincidencesResponse = searchLogic.executeSearchOfTermInWikipedia(textToSearch);
             }catch(Exception e){
                 notifyErrorOccurred("Search error");
             }
@@ -70,7 +72,7 @@ public class SearchModel implements SearchModelInterface {
     public void searchArticleSummaryInWikipedia(SearchResult searchResult) {
         Response<String> foundArticleContentResponse = null;
         try {
-            foundArticleContentResponse = SearchLogic.executeSpecificSearchInWikipediaForFirstTerm(searchResult);
+            foundArticleContentResponse = searchLogic.executeSpecificSearchInWikipediaForFirstTerm(searchResult);
         }catch(Exception e){
             notifyErrorOccurred("Search error");
         }
@@ -82,7 +84,7 @@ public class SearchModel implements SearchModelInterface {
     public void searchFullArticleInWikipedia(SearchResult searchResult){
         Response<String> foundArticleContentResponse = null;
         try {
-            foundArticleContentResponse = SearchLogic.executeSpecificSearchInWikipediaForEntireArticle(searchResult);
+            foundArticleContentResponse = searchLogic.executeSpecificSearchInWikipediaForEntireArticle(searchResult);
         }catch(Exception e){
             notifyErrorOccurred("Search error");
         }

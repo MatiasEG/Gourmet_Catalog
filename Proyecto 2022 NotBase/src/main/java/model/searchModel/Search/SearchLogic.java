@@ -4,14 +4,20 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-public class SearchLogic {
+public class SearchLogic implements ISearchLogic{
 
-    private static Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("https://en.wikipedia.org/w/")
-            .addConverterFactory(ScalarsConverterFactory.create())
-            .build();
+    private Retrofit retrofit;
 
-    public static Response<String> executeSearchOfTermInWikipedia(String textToSearch) throws Exception {
+    public SearchLogic(){ setRetrofit(); }
+
+    private void setRetrofit(){
+        this.retrofit = new Retrofit.Builder()
+                .baseUrl("https://en.wikipedia.org/w/")
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .build();
+    }
+
+    public Response<String> executeSearchOfTermInWikipedia(String textToSearch) throws Exception {
         WikipediaSearchAPI searchAPI = retrofit.create(WikipediaSearchAPI.class);
         Response<String> callForSearchResponse = null;
         try{
@@ -22,7 +28,7 @@ public class SearchLogic {
         return callForSearchResponse;
     }
 
-    public static Response<String> executeSpecificSearchInWikipediaForFirstTerm(SearchResult searchResult) throws Exception {
+    public Response<String> executeSpecificSearchInWikipediaForFirstTerm(SearchResult searchResult) throws Exception {
         WikipediaFirstTermPageAPI pageAPI = retrofit.create(WikipediaFirstTermPageAPI.class);
         Response<String> callForPageResponse = null;
         try{
@@ -33,7 +39,7 @@ public class SearchLogic {
         return callForPageResponse;
     }
 
-    public static Response<String> executeSpecificSearchInWikipediaForEntireArticle(SearchResult searchResult) throws Exception {
+    public Response<String> executeSpecificSearchInWikipediaForEntireArticle(SearchResult searchResult) throws Exception {
         WikipediaAllArticlePageAPI pageAPI = retrofit.create(WikipediaAllArticlePageAPI.class);
         Response<String> callForPageResponse = null;
         try{
