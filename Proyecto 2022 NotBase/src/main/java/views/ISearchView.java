@@ -3,7 +3,7 @@ package views;
 import javax.swing.*;
 import java.util.List;
 
-public interface SearchViewInterface {
+public interface ISearchView {
     String getSearchText();
     int getSelectedSearchResultIndex();
     void setSearchResultsList(List<String> searchResults);

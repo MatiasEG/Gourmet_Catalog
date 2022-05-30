@@ -1,25 +1,25 @@
 package presenter;
 
-import model.StoredInfoModel.StoredInfoModelInterface;
+import model.StoredInfoModel.IStoredInfoModel;
 import model.searchModel.Search.SearchResult;
 import model.listeners.SearchListener;
 import model.searchModel.SearchModelInterface;
 import views.MainView;
-import views.MainViewInterface;
-import views.SearchViewInterface;
+import views.IMainView;
+import views.ISearchView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchPresenter implements SearchPresenterInterface {
-    MainViewInterface mainView;
-    SearchViewInterface searchView;
+public class SearchPresenter implements ISearchPresenter {
+    IMainView mainView;
+    ISearchView searchView;
     SearchModelInterface searchModel;
-    StoredInfoModelInterface storedInfoModel;
+    IStoredInfoModel storedInfoModel;
     List<SearchResult> searchResultsList;
     SearchResult selectedSearchResult;
 
-    public SearchPresenter(SearchModelInterface searchModel, StoredInfoModelInterface storedInfoModel){
+    public SearchPresenter(SearchModelInterface searchModel, IStoredInfoModel storedInfoModel){
         this.searchModel = searchModel;
         this.storedInfoModel = storedInfoModel;
     }

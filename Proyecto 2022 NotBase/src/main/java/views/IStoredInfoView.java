@@ -2,7 +2,7 @@ package views;
 
 import javax.swing.*;
 
-public interface StoredInfoViewInterface {
+public interface IStoredInfoView {
 
     String getSelectedArticleTitle();
     String getArticleContent();

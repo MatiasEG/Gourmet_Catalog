@@ -2,10 +2,10 @@ package presenter;
 
 import views.MainView;
 
-public interface StoredInfoPresenterInterface {
+public interface ISearchPresenter {
 
     void setView(MainView mainView);
+    void onEventSearchArticles();
     void onEventSelectArticle();
-    void onEvenDeleteArticle();
-    void onEventUpdateArticle();
+    void onEventSaveArticle();
 }

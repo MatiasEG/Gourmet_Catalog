@@ -1,18 +1,18 @@
 package presenter;
 
-import model.StoredInfoModel.StoredInfoModelInterface;
+import model.StoredInfoModel.IStoredInfoModel;
 import model.listeners.LoadArticleListener;
 import model.listeners.StoredArticlesListener;
 import views.MainView;
-import views.MainViewInterface;
-import views.StoredInfoViewInterface;
+import views.IMainView;
+import views.IStoredInfoView;
 
-public class StoredInfoPresenter implements StoredInfoPresenterInterface {
-    MainViewInterface mainView;
-    StoredInfoViewInterface storedInfoView;
-    StoredInfoModelInterface storedInfoModel;
+public class StoredInfoPresenter implements IStoredInfoPresenter {
+    IMainView mainView;
+    IStoredInfoView storedInfoView;
+    IStoredInfoModel storedInfoModel;
 
-    public StoredInfoPresenter(StoredInfoModelInterface storedInfoModel){
+    public StoredInfoPresenter(IStoredInfoModel storedInfoModel){
         this.storedInfoModel = storedInfoModel;
     }
 
