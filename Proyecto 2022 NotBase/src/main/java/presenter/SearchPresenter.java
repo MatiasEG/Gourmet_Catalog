@@ -101,9 +101,14 @@ public class SearchPresenter implements ISearchPresenter {
         if(selectedSearchResult != null) {
             String articleTitle = selectedSearchResult.getTitle();
             String articleContent = searchModel.getFoundArticleContent();
+            articleContent = removeHtmlLinks(articleContent);
             storedInfoModel.saveArticle(articleTitle, articleContent);
         } else
             notifyErrorToUser("Search Result Not Selected");
+    }
+
+    private String removeHtmlLinks(String string){
+        return string.replaceAll("\\<link.*?>", "");
     }
 
     private void notifyInfoToUser(String message){

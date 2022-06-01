@@ -3,7 +3,6 @@ package presenter;
 import model.StoredInfoModel.IStoredInfoModel;
 import model.listeners.LoadArticleListener;
 import model.listeners.StoredArticlesListener;
-import views.MainView;
 import views.IMainView;
 import views.IStoredInfoView;
 
@@ -16,7 +15,7 @@ public class StoredInfoPresenter implements IStoredInfoPresenter {
         this.storedInfoModel = storedInfoModel;
     }
 
-    public void setView(MainView mainView){
+    public void setView(IMainView mainView){
         this.mainView = mainView;
         this.storedInfoView = mainView.getStoredInfoView();
         initListeners();

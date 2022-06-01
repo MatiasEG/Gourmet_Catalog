@@ -1,10 +1,10 @@
 package presenter;
 
-import views.MainView;
+import views.IMainView;
 
 public interface IStoredInfoPresenter {
 
-    void setView(MainView mainView);
+    void setView(IMainView mainView);
     void onEventSelectArticle();
     void onEvenDeleteArticle();
     void onEventUpdateArticle();
