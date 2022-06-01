@@ -4,7 +4,6 @@ import model.StoredInfoModel.IStoredInfoModel;
 import model.searchModel.Search.SearchResult;
 import model.listeners.SearchListener;
 import model.searchModel.ISearchModel;
-import views.MainView;
 import views.IMainView;
 import views.ISearchView;
 
@@ -18,6 +17,7 @@ public class SearchPresenter implements ISearchPresenter {
     IStoredInfoModel storedInfoModel;
     List<SearchResult> searchResultsList;
     SearchResult selectedSearchResult;
+    Thread thread;
 
     public SearchPresenter(ISearchModel searchModel, IStoredInfoModel storedInfoModel){
         this.searchModel = searchModel;
@@ -25,7 +25,7 @@ public class SearchPresenter implements ISearchPresenter {
     }
 
     @Override
-    public void setView(MainView mainView){
+    public void setView(IMainView mainView){
         this.mainView = mainView;
         this.searchView = mainView.getSearchView();
         initListeners();
@@ -49,6 +49,15 @@ public class SearchPresenter implements ISearchPresenter {
         searchModel.addErrorListener(errorMessage -> notifyErrorToUser(errorMessage));
     }
 
+    //TODO ver si se puede hacer mejor el siguiente test
+    public void setSearchResultsList(List<SearchResult> searchResultsList){
+        this.searchResultsList = searchResultsList;
+    }
+
+    public void setSelectedSearchResult(SearchResult selectedSearchResult){
+        this.selectedSearchResult = selectedSearchResult;
+    }
+
     private List<String> parseListSearchResult(List<SearchResult> searchResultsList){
         List<String> listToReturn = new ArrayList<>();
         String textOfArticle;
@@ -63,17 +72,18 @@ public class SearchPresenter implements ISearchPresenter {
 
     @Override
     public void onEventSearchArticles() {
-        new Thread(() -> {
+        thread = new Thread(() -> {
             //searchView.startWorkingStatus();
             String textToSearch = searchView.getSearchText();
             searchModel.searchAllCoincidencesInWikipedia(textToSearch);
             //searchView.stopWorkingStatus();
-        }).start();
+        });
+        thread.start();
     }
 
     @Override
     public void onEventSelectArticle() {
-        new Thread(() -> {
+        thread = new Thread(() -> {
             //searchView.startWorkingStatus();
             selectedSearchResult = searchResultsList.get(searchView.getSelectedSearchResultIndex());
             if(searchView.fullArticleIsSelected()){
@@ -82,7 +92,8 @@ public class SearchPresenter implements ISearchPresenter {
                 searchModel.searchArticleSummaryInWikipedia(selectedSearchResult);
             }
             //searchView.stopWorkingStatus();
-        }).start();
+        });
+        thread.start();
     }
 
     @Override
@@ -103,4 +114,7 @@ public class SearchPresenter implements ISearchPresenter {
         mainView.notifyMessageToUser(message, "Error");
     }
 
+    public boolean isActivelyWorking(){
+        return thread != null && thread.isAlive();
+    }
 }
