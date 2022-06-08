@@ -4,6 +4,7 @@ import model.searchModel.ISearchModel;
 import model.searchModel.SearchModel;
 import model.searchModel.searchLogic.ISearchLogic;
 import model.searchModel.searchLogic.SearchResult;
+import model.storedInfoModel.DataBase;
 import model.storedInfoModel.IStoredInfoModel;
 import model.storedInfoModel.StoredInfoModel;
 import org.junit.Before;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 public class IntegrationTest {
@@ -56,6 +58,9 @@ public class IntegrationTest {
         resultList.add(new SearchResult("Pizza grande", "", "Wow"));
         resultList.add(new SearchResult("Pizza con queso", "", "Un clasico"));
         when(searchLogic.searchTermInWikipediaAndParse("Pizza")).thenReturn(resultList);
+        when(searchLogic.searchFullArticleInWikipediaAndParse(any())).thenReturn("Pizza con queso: Un clasico");
+        when(searchLogic.searchArticleSummaryInWikipediaAndParse(any())).thenReturn("Pizza grande: Wow");
+
     }
 
     @Test
@@ -74,7 +79,8 @@ public class IntegrationTest {
         assertEquals(resultListOnView, searchView.getSearchResults());
     }
 
-    public void testSelect() throws Exception {
+    @Test
+    public void testSelectFullArticle() throws Exception {
         List<String> resultListOnView = new ArrayList<>();
         resultListOnView.add("Pizza rica: Yumi");
         resultListOnView.add("Pizza fea: Puaj");
@@ -83,11 +89,57 @@ public class IntegrationTest {
 
         searchView.setSearchResultsList(resultListOnView);
         searchView.setSelectedSearchResultIndex(3);
+        searchView.selectFullArticleOption();
         searchPresenter.setSearchResultsList(resultList);
 
-        when(searchLogic.searchFullArticleInWikipediaAndParse(resultList.get(3))).thenReturn(resultListOnView.get(3));
+        searchPresenter.onEventSelectArticle();
+        waitForViewPresenterTask();
 
-        assertEquals(resultListOnView.get(3), searchView.getArticleContent());
+        assertTrue(searchView.getArticleContent().contains(resultListOnView.get(3)));
+    }
+
+    @Test
+    public void testSelectArticleSummary() throws Exception {
+        List<String> resultListOnView = new ArrayList<>();
+        resultListOnView.add("Pizza rica: Yumi");
+        resultListOnView.add("Pizza fea: Puaj");
+        resultListOnView.add("Pizza grande: Wow");
+        resultListOnView.add("Pizza con queso: Un clasico");
+
+        searchView.setSearchResultsList(resultListOnView);
+        searchView.setSelectedSearchResultIndex(2);
+        searchView.selectArticleSummaryOption();
+        searchPresenter.setSearchResultsList(resultList);
+
+        searchPresenter.onEventSelectArticle();
+        waitForViewPresenterTask();
+
+        assertTrue(searchView.getArticleContent().contains(resultListOnView.get(2)));
+    }
+
+    @Test
+    public void saveArticle() throws Exception {
+        List<String> resultListOnView = new ArrayList<>();
+        resultListOnView.add("Pizza rica: Yumi");
+        resultListOnView.add("Pizza fea: Puaj");
+        resultListOnView.add("Pizza grande: Wow");
+        resultListOnView.add("Pizza con queso: Un clasico");
+
+        searchView.setSearchText("Pizza");
+        searchPresenter.onEventSearchArticles();
+        this.waitForViewPresenterTask();
+
+        searchView.setSearchResultsList(resultListOnView);
+        searchView.setSelectedSearchResultIndex(3);
+        searchView.selectFullArticleOption();
+        searchPresenter.setSearchResultsList(resultList);
+
+        searchPresenter.onEventSelectArticle();
+        waitForViewPresenterTask();
+
+        searchPresenter.onEventSaveArticle();
+
+        assertTrue(DataBase.getArticleContent("Pizza").contains("Pizza con queso: Un clasico"));
     }
 
     private void waitForViewPresenterTask() throws InterruptedException{
