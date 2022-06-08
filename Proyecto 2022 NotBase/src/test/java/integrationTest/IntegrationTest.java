@@ -55,7 +55,6 @@ public class IntegrationTest {
         searchPresenter.setView(mainView);
         storedInfoPresenter.setView(mainView);
 
-
         resultList = new ArrayList<>();
         resultList.add(new SearchResult("Pizza rica", "", "Yumi"));
         resultList.add(new SearchResult("Pizza fea", "", "Puaj"));
@@ -141,6 +140,15 @@ public class IntegrationTest {
         this.waitForViewPresenterTask();
 
         assertEquals(mainView.getLastError(), "Empty Search Field");
+    }
+
+    @Test
+    public void testSearchException() throws Exception {
+        when(searchLogic.searchTermInWikipediaAndParse(any())).thenThrow(new Exception());
+        searchView.setSearchText("Pizza");
+        searchPresenter.onEventSearchArticles();
+        this.waitForViewPresenterTask();
+        assertEquals(mainView.getLastError(), "Search error");
     }
 
     @Test
