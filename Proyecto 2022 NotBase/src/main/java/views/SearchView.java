@@ -70,13 +70,13 @@ public class SearchView implements ISearchView {
         selectedSearchResultIndex = -1;
         int searchResultIndex = 0;
         for(String searchResult : searchResults){
-            addMenuItem(searchResult, searchResultIndex);
+            addSearchResultMenuItem(searchResult, searchResultIndex);
             ++searchResultIndex;
         }
         searchOptionsMenu.show(searchTextField, searchTextField.getX(), searchTextField.getY());
     }
 
-    private void addMenuItem(String searchResult, int searchResultIndex) {
+    private void addSearchResultMenuItem(String searchResult, int searchResultIndex) {
         JMenuItem searchResultMenuItem = new JMenuItem(searchResult);
         searchOptionsMenu.add(searchResultMenuItem);
         searchResultMenuItem.addActionListener(actionEvent -> {
