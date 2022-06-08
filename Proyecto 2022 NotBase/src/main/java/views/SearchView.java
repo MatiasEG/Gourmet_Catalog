@@ -105,6 +105,11 @@ public class SearchView implements ISearchView {
         return searchResults;
     }
 
+    @Override
+    public String getArticleContent(){
+        return wikipediaArticleContentTextPane.getText();
+    }
+
     private void addSearchResultMenuItem(String searchResult, int searchResultIndex) {
         JMenuItem searchResultMenuItem = new JMenuItem(searchResult);
         searchOptionsMenu.add(searchResultMenuItem);
