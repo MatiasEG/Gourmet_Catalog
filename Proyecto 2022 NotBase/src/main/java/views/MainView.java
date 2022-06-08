@@ -16,11 +16,14 @@ public class MainView implements IMainView {
     private ISearchPresenter searchPresenter;
     private ISearchView searchView;
     private IStoredInfoView storedInfoView;
+    private String lastError;
+    private boolean visible;
 
     public MainView(IStoredInfoPresenter storedInfoPresenter, ISearchPresenter searchPresenter){
         this.storedInfoPresenter = storedInfoPresenter;
         this.searchPresenter = searchPresenter;
         initView();
+        visible = false;
     }
 
     private void initView(){
@@ -34,14 +37,18 @@ public class MainView implements IMainView {
         mainFrame.pack();
     }
 
-    // TODO que hace este metodo?
     private void createUIComponents() {
         // TODO: place custom component creation code here
         this.storedInfoView = new StoredInfoView(storedInfoPresenter);
         this.storedInfoPanel = storedInfoView.getPanel();
 
-        this.searchView = new SearchView(searchPresenter);
+        this.searchView = new SearchView(searchPresenter, this);
         this.searchInWikipediaPanel = searchView.getPanel();
+    }
+
+    @Override
+    public boolean isVisible() {
+        return visible;
     }
 
     @Override
@@ -54,15 +61,28 @@ public class MainView implements IMainView {
         return searchView;
     }
 
+    @Override
+    public void notifyInfo(String info){
+        if(visible)
+            JOptionPane.showMessageDialog(null, info, "Info", JOptionPane.INFORMATION_MESSAGE);
+    }
 
     @Override
-    public void notifyMessageToUser(String msg, String title){
-        JOptionPane.showMessageDialog(null, msg, title, JOptionPane.INFORMATION_MESSAGE);
+    public void notifyError(String error){
+        lastError = error;
+        if(visible)
+            JOptionPane.showMessageDialog(null, error, "Error", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    @Override
+    public String getLastError(){
+        return lastError;
     }
 
     @Override
     public void showView(){
         mainFrame.setVisible(true);
+        visible = true;
     }
 
 }

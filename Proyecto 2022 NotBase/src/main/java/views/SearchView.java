@@ -16,12 +16,13 @@ public class SearchView implements ISearchView {
     private JButton saveLocallyButton;
     private int selectedSearchResultIndex;
     private JPopupMenu searchOptionsMenu;
-
     private ISearchPresenter searchPresenter;
     private List<String> searchResults;
+    private IMainView mainView;
 
-    public SearchView(ISearchPresenter searchPresenter){
+    public SearchView(ISearchPresenter searchPresenter, IMainView mainView){
         this.searchPresenter = searchPresenter;
+        this.mainView = mainView;
         initView();
         initListeners();
     }
@@ -95,7 +96,8 @@ public class SearchView implements ISearchView {
             addSearchResultMenuItem(searchResult, searchResultIndex);
             ++searchResultIndex;
         }
-        searchOptionsMenu.show(searchTextField, searchTextField.getX(), searchTextField.getY());
+        if(mainView.isVisible())
+            searchOptionsMenu.show(searchTextField, searchTextField.getX(), searchTextField.getY());
     }
 
     @Override

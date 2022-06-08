@@ -36,7 +36,7 @@ public class SearchPresenter implements ISearchPresenter {
             public void didFindArticleCoincidences() {
                 searchResultsList = searchModel.getAllCoincidencesFound();
                 if(searchResultsList.isEmpty())
-                    notifyInfoToUser("No Coincidences Found");
+                    mainView.notifyInfo("No Coincidences Found");
                 else
                     searchView.setSearchResultsList(formatSearchResultsList(searchResultsList));
             }
@@ -46,7 +46,7 @@ public class SearchPresenter implements ISearchPresenter {
             }
         });
 
-        searchModel.addErrorListener(errorMessage -> notifyErrorToUser(errorMessage));
+        searchModel.addErrorListener(errorMessage -> mainView.notifyError(errorMessage));
     }
 
     //TODO ver si se puede hacer mejor el siguiente test
@@ -102,15 +102,7 @@ public class SearchPresenter implements ISearchPresenter {
             String articleContent = searchModel.getFoundArticleContent();
             storedInfoModel.saveArticle(articleTitle, articleContent);
         } else
-            notifyErrorToUser("Search Result Not Selected");
-    }
-
-    private void notifyInfoToUser(String message){
-        mainView.notifyMessageToUser(message, "Info");
-    }
-
-    private void notifyErrorToUser(String message){
-        mainView.notifyMessageToUser(message, "Error");
+            mainView.notifyError("Search Result Not Selected");
     }
 
     public boolean isActivelyWorking(){

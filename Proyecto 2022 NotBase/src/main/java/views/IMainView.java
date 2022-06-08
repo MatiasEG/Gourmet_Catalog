@@ -2,7 +2,10 @@ package views;
 
 public interface IMainView {
 
-    void notifyMessageToUser(String msg, String title);
+    void notifyInfo(String info);
+    void notifyError(String error);
+    String getLastError();
+    boolean isVisible();
     void showView();
     IStoredInfoView getStoredInfoView();
     ISearchView getSearchView();
