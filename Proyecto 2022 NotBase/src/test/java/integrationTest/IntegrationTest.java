@@ -90,7 +90,6 @@ public class IntegrationTest {
 
         searchView.setSelectedSearchResultIndex(3);
         searchView.selectFullArticleOption();
-        searchPresenter.setSearchResultsList(resultList);
 
         searchPresenter.onEventSelectArticle();
         waitForViewPresenterTask();
@@ -106,7 +105,6 @@ public class IntegrationTest {
 
         searchView.setSelectedSearchResultIndex(2);
         searchView.selectArticleSummaryOption();
-        searchPresenter.setSearchResultsList(resultList);
 
         searchPresenter.onEventSelectArticle();
         waitForViewPresenterTask();
