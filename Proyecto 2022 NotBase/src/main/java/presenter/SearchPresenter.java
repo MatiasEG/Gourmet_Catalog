@@ -38,7 +38,7 @@ public class SearchPresenter implements ISearchPresenter {
                 if(searchResultsList.isEmpty())
                     notifyInfoToUser("No Coincidences Found");
                 else
-                    searchView.setSearchResultsList(parseListSearchResult(searchResultsList));
+                    searchView.setSearchResultsList(formatSearchResultsList(searchResultsList));
             }
             public void didFindArticleContent() {
                 String articleContent = searchModel.getFoundArticleContent();
@@ -58,16 +58,15 @@ public class SearchPresenter implements ISearchPresenter {
         this.selectedSearchResult = selectedSearchResult;
     }
 
-    private List<String> parseListSearchResult(List<SearchResult> searchResultsList){
-        List<String> listToReturn = new ArrayList<>();
-        String textOfArticle;
+    private List<String> formatSearchResultsList(List<SearchResult> searchResultsList){
+        List<String> searchResultsAsStrings = new ArrayList<>();
         for (SearchResult searchResult: searchResultsList){
-            textOfArticle = searchResult.getTitle() + ": " + searchResult.getSnippet();
-            textOfArticle = textOfArticle.replace("<span class=\"searchmatch\">", "")
+            String searchResultString = searchResult.getTitle() + ": " + searchResult.getSnippet();
+            searchResultString = searchResultString.replace("<span class=\"searchmatch\">", "")
                     .replace("</span>", "");
-            listToReturn.add(textOfArticle);
+            searchResultsAsStrings.add(searchResultString);
         }
-        return listToReturn;
+        return searchResultsAsStrings;
     }
 
     @Override
