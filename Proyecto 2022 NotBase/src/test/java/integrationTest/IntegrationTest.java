@@ -18,8 +18,7 @@ import views.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 public class IntegrationTest {
@@ -65,10 +64,7 @@ public class IntegrationTest {
         when(searchLogic.searchTermInWikipediaAndParse("Pizza")).thenReturn(resultList);
         when(searchLogic.searchFullArticleInWikipediaAndParse(any())).thenReturn("Pizza con queso: Un clasico");
         when(searchLogic.searchArticleSummaryInWikipediaAndParse(any())).thenReturn("Pizza grande: Wow");
-
     }
-
-
 
     @Test
     public void testSearch() throws Exception {
@@ -88,13 +84,10 @@ public class IntegrationTest {
 
     @Test
     public void testSelectFullArticle() throws Exception {
-        List<String> resultListOnView = new ArrayList<>();
-        resultListOnView.add("Pizza rica: Yumi");
-        resultListOnView.add("Pizza fea: Puaj");
-        resultListOnView.add("Pizza grande: Wow");
-        resultListOnView.add("Pizza con queso: Un clasico");
+        searchView.setSearchText("Pizza");
+        searchPresenter.onEventSearchArticles();
+        this.waitForViewPresenterTask();
 
-        searchView.setSearchResultsList(resultListOnView);
         searchView.setSelectedSearchResultIndex(3);
         searchView.selectFullArticleOption();
         searchPresenter.setSearchResultsList(resultList);
@@ -102,18 +95,15 @@ public class IntegrationTest {
         searchPresenter.onEventSelectArticle();
         waitForViewPresenterTask();
 
-        assertTrue(searchView.getArticleContent().contains(resultListOnView.get(3)));
+        assertTrue(searchView.getArticleContent().contains("Pizza con queso: Un clasico"));
     }
 
     @Test
     public void testSelectArticleSummary() throws Exception {
-        List<String> resultListOnView = new ArrayList<>();
-        resultListOnView.add("Pizza rica: Yumi");
-        resultListOnView.add("Pizza fea: Puaj");
-        resultListOnView.add("Pizza grande: Wow");
-        resultListOnView.add("Pizza con queso: Un clasico");
+        searchView.setSearchText("Pizza");
+        searchPresenter.onEventSearchArticles();
+        this.waitForViewPresenterTask();
 
-        searchView.setSearchResultsList(resultListOnView);
         searchView.setSelectedSearchResultIndex(2);
         searchView.selectArticleSummaryOption();
         searchPresenter.setSearchResultsList(resultList);
@@ -121,32 +111,38 @@ public class IntegrationTest {
         searchPresenter.onEventSelectArticle();
         waitForViewPresenterTask();
 
-        assertTrue(searchView.getArticleContent().contains(resultListOnView.get(2)));
+        assertTrue(searchView.getArticleContent().contains("Pizza grande: Wow"));
     }
 
     @Test
     public void saveArticle() throws Exception {
-        List<String> resultListOnView = new ArrayList<>();
-        resultListOnView.add("Pizza rica: Yumi");
-        resultListOnView.add("Pizza fea: Puaj");
-        resultListOnView.add("Pizza grande: Wow");
-        resultListOnView.add("Pizza con queso: Un clasico");
-
         searchView.setSearchText("Pizza");
         searchPresenter.onEventSearchArticles();
         this.waitForViewPresenterTask();
 
-        searchView.setSearchResultsList(resultListOnView);
         searchView.setSelectedSearchResultIndex(3);
         searchView.selectFullArticleOption();
-        searchPresenter.setSearchResultsList(resultList);
 
         searchPresenter.onEventSelectArticle();
-        waitForViewPresenterTask();
+        this.waitForViewPresenterTask();
 
         searchPresenter.onEventSaveArticle();
 
-        assertTrue(DataBase.getArticleContent("Pizza").contains("Pizza con queso: Un clasico"));
+        assertTrue(DataBase.getArticleContent("Pizza con queso").contains("Pizza con queso: Un clasico"));
+    }
+
+    @Test
+    public void saveArticleNegative(){
+        searchPresenter.onEventSaveArticle();
+        assertEquals(mainView.getLastError(), "Search Result Not Selected");
+    }
+
+    @Test
+    public void textSearchNegative() throws InterruptedException {
+        searchPresenter.onEventSearchArticles();
+        this.waitForViewPresenterTask();
+
+        assertEquals(mainView.getLastError(), "Empty Search Field");
     }
 
     @Test
