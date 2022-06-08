@@ -16,6 +16,7 @@ public class MainView implements IMainView {
     private ISearchPresenter searchPresenter;
     private ISearchView searchView;
     private IStoredInfoView storedInfoView;
+    private String lastError;
 
     public MainView(IStoredInfoPresenter storedInfoPresenter, ISearchPresenter searchPresenter){
         this.storedInfoPresenter = storedInfoPresenter;
@@ -54,10 +55,20 @@ public class MainView implements IMainView {
         return searchView;
     }
 
+    @Override
+    public void notifyInfo(String info){
+        JOptionPane.showMessageDialog(null, info, "Info", JOptionPane.INFORMATION_MESSAGE);
+    }
 
     @Override
-    public void notifyMessageToUser(String msg, String title){
-        JOptionPane.showMessageDialog(null, msg, title, JOptionPane.INFORMATION_MESSAGE);
+    public void notifyError(String error){
+        lastError = error;
+        JOptionPane.showMessageDialog(null, error, "Error", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    @Override
+    public String getLastError(){
+        return lastError;
     }
 
     @Override

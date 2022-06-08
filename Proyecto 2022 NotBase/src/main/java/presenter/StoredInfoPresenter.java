@@ -35,26 +35,18 @@ public class StoredInfoPresenter implements IStoredInfoPresenter {
         });
 
         storedInfoModel.addStoredArticlesListener(new StoredArticlesListener() {
-            public void didUpdateArticle() { notifyInfoToUser("Article Updated"); }
+            public void didUpdateArticle() { mainView.notifyInfo("Article Updated"); }
             public void didSaveArticle() {
                 storedInfoModel.loadStoredArticleTitles();
-                notifyInfoToUser("Article Saved");
+                mainView.notifyInfo("Article Saved");
             }
             public void didDeleteArticle() {
                 storedInfoModel.loadStoredArticleTitles();
-                notifyInfoToUser("Article Deleted");
+                mainView.notifyInfo("Article Deleted");
             }
         });
 
-        storedInfoModel.addErrorListener(errorMessage -> notifyErrorToUser(errorMessage));
-    }
-
-    private void notifyInfoToUser(String message){
-        mainView.notifyMessageToUser(message, "Info");
-    }
-
-    private void notifyErrorToUser(String message){
-        mainView.notifyMessageToUser(message, "Error");
+        storedInfoModel.addErrorListener(errorMessage -> mainView.notifyError(errorMessage));
     }
 
     @Override
