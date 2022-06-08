@@ -152,6 +152,38 @@ public class IntegrationTest {
     }
 
     @Test
+    public void testSelectSearchFullArticleException() throws Exception {
+        when(searchLogic.searchFullArticleInWikipediaAndParse(any())).thenThrow(new Exception());
+        searchView.setSearchText("Pizza");
+        searchPresenter.onEventSearchArticles();
+        this.waitForViewPresenterTask();
+
+        searchView.setSelectedSearchResultIndex(2);
+        searchView.selectFullArticleOption();
+
+        searchPresenter.onEventSelectArticle();
+        waitForViewPresenterTask();
+
+        assertEquals(mainView.getLastError(), "Search error");
+    }
+
+    @Test
+    public void testSelectSearchArticleSummaryException() throws Exception {
+        when(searchLogic.searchArticleSummaryInWikipediaAndParse(any())).thenThrow(new Exception());
+        searchView.setSearchText("Pizza");
+        searchPresenter.onEventSearchArticles();
+        this.waitForViewPresenterTask();
+
+        searchView.setSelectedSearchResultIndex(2);
+        searchView.selectArticleSummaryOption();
+
+        searchPresenter.onEventSelectArticle();
+        waitForViewPresenterTask();
+
+        assertEquals(mainView.getLastError(), "Search error");
+    }
+
+    @Test
     public void testSelectStoredArticle(){
         storedInfoView.setSelectedArticleTitle("Pizza");
         storedInfoPresenter.onEventSelectArticle();
