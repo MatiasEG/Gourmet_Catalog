@@ -19,7 +19,7 @@ public class SearchLogic implements ISearchLogic{
                 .build();
     }
 
-    public List<SearchResult> searchTermInWikipedia(String textToSearch) throws Exception {
+    public List<SearchResult> searchTermInWikipediaAndParse(String textToSearch) throws Exception {
         WikipediaSearchAPI searchAPI = retrofit.create(WikipediaSearchAPI.class);
         Response<String> searchResponse = null;
         try{
@@ -30,7 +30,7 @@ public class SearchLogic implements ISearchLogic{
         return ResponseParser.parseWikipediaCoincidences(searchResponse);
     }
 
-    public String searchArticleSummaryInWikipedia(SearchResult searchResult) throws Exception {
+    public String searchArticleSummaryInWikipediaAndParse(SearchResult searchResult) throws Exception {
         WikipediaFirstTermPageAPI pageAPI = retrofit.create(WikipediaFirstTermPageAPI.class);
         Response<String> pageResponse = null;
         try{
@@ -41,7 +41,7 @@ public class SearchLogic implements ISearchLogic{
         return ResponseParser.parseWikipediaArticle(pageResponse);
     }
 
-    public String searchFullArticleInWikipedia(SearchResult searchResult) throws Exception {
+    public String searchFullArticleInWikipediaAndParse(SearchResult searchResult) throws Exception {
         WikipediaAllArticlePageAPI pageAPI = retrofit.create(WikipediaAllArticlePageAPI.class);
         Response<String> pageResponse = null;
         try{

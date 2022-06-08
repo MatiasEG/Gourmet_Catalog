@@ -56,7 +56,7 @@ public class SearchModel implements ISearchModel {
         else {
             allCoincidencesFound = null;
             try {
-                allCoincidencesFound = searchLogic.searchTermInWikipedia(textToSearch);
+                allCoincidencesFound = searchLogic.searchTermInWikipediaAndParse(textToSearch);
                 notifyFoundCoincidences();
             }catch(Exception e){
                 notifyErrorOccurred("Search error");
@@ -73,7 +73,8 @@ public class SearchModel implements ISearchModel {
     public void searchArticleSummaryInWikipedia(SearchResult searchResult) {
         foundArticleContent = null;
         try {
-            foundArticleContent = searchLogic.searchArticleSummaryInWikipedia(searchResult);
+            foundArticleContent = searchLogic.searchArticleSummaryInWikipediaAndParse(searchResult);
+            foundArticleContent = removeHtmlLinks(foundArticleContent);
             notifyFoundArticleContent();
         }catch(Exception e){
             notifyErrorOccurred("Search error");
@@ -84,11 +85,16 @@ public class SearchModel implements ISearchModel {
     public void searchFullArticleInWikipedia(SearchResult searchResult){
         foundArticleContent = null;
         try {
-            foundArticleContent = searchLogic.searchFullArticleInWikipedia(searchResult);
+            foundArticleContent = searchLogic.searchFullArticleInWikipediaAndParse(searchResult);
+            foundArticleContent = removeHtmlLinks(foundArticleContent);
             notifyFoundArticleContent();
         }catch(Exception e){
             notifyErrorOccurred("Search error");
         }
+    }
+
+    private String removeHtmlLinks(String string){
+        return string.replaceAll("\\<link.*?>", "");
     }
 
     @Override
