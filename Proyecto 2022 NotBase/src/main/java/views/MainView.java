@@ -17,11 +17,13 @@ public class MainView implements IMainView {
     private ISearchView searchView;
     private IStoredInfoView storedInfoView;
     private String lastError;
+    private boolean visible;
 
     public MainView(IStoredInfoPresenter storedInfoPresenter, ISearchPresenter searchPresenter){
         this.storedInfoPresenter = storedInfoPresenter;
         this.searchPresenter = searchPresenter;
         initView();
+        visible = false;
     }
 
     private void initView(){
@@ -57,13 +59,15 @@ public class MainView implements IMainView {
 
     @Override
     public void notifyInfo(String info){
-        JOptionPane.showMessageDialog(null, info, "Info", JOptionPane.INFORMATION_MESSAGE);
+        if(visible)
+            JOptionPane.showMessageDialog(null, info, "Info", JOptionPane.INFORMATION_MESSAGE);
     }
 
     @Override
     public void notifyError(String error){
         lastError = error;
-        JOptionPane.showMessageDialog(null, error, "Error", JOptionPane.INFORMATION_MESSAGE);
+        if(visible)
+            JOptionPane.showMessageDialog(null, error, "Error", JOptionPane.INFORMATION_MESSAGE);
     }
 
     @Override
@@ -74,6 +78,7 @@ public class MainView implements IMainView {
     @Override
     public void showView(){
         mainFrame.setVisible(true);
+        visible = true;
     }
 
 }
