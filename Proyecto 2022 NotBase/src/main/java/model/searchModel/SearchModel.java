@@ -16,7 +16,11 @@ public class SearchModel implements ISearchModel {
     private String foundArticleContent;
     private List<SearchListener> searchListeners = new ArrayList<>();
     private List<ErrorListener> errorListeners = new ArrayList<>();
-    private ISearchLogic searchLogic = new SearchLogic();
+    private ISearchLogic searchLogic;
+
+    public SearchModel(ISearchLogic searchLogic){
+        this.searchLogic = searchLogic;
+    }
 
     @Override
     public void addSearchListener(SearchListener searchListener) {
