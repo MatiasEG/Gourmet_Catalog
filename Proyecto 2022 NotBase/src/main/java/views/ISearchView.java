@@ -12,6 +12,7 @@ public interface ISearchView {
     void setSearchResultsList(List<String> searchResults);
     void setArticleContent(String contentText);
     void setSearchText(String searchText);
+    String getArticleContent();
     List<String> getSearchResults();
     boolean fullArticleIsSelected();
     JPanel getPanel();
