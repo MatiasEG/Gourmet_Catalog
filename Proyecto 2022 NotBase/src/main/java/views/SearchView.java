@@ -18,6 +18,7 @@ public class SearchView implements ISearchView {
     private JPopupMenu searchOptionsMenu;
 
     private ISearchPresenter searchPresenter;
+    private List<String> searchResults;
 
     public SearchView(ISearchPresenter searchPresenter){
         this.searchPresenter = searchPresenter;
@@ -60,12 +61,33 @@ public class SearchView implements ISearchView {
     }
 
     @Override
+    public void setSearchText(String searchText){
+        searchTextField.setText(searchText);
+    }
+
+    @Override
+    public void selectFullArticleOption(){
+        fullArticleRadioButton.setSelected(true);
+    }
+
+    @Override
+    public void selectArticleSummaryOption(){
+        articleSummaryRadioButton.setSelected(true);
+    }
+
+    @Override
     public int getSelectedSearchResultIndex(){
         return selectedSearchResultIndex;
     }
 
     @Override
+    public void setSelectedSearchResultIndex(int selectedSearchResultIndex){
+        this.selectedSearchResultIndex = selectedSearchResultIndex;
+    }
+
+    @Override
     public void setSearchResultsList(List<String> searchResults) {
+        this.searchResults = searchResults;
         searchOptionsMenu = new JPopupMenu("Search Results");
         selectedSearchResultIndex = -1;
         int searchResultIndex = 0;
@@ -74,6 +96,11 @@ public class SearchView implements ISearchView {
             ++searchResultIndex;
         }
         searchOptionsMenu.show(searchTextField, searchTextField.getX(), searchTextField.getY());
+    }
+
+    @Override
+    public List<String> getSearchResults(){
+        return searchResults;
     }
 
     private void addSearchResultMenuItem(String searchResult, int searchResultIndex) {
