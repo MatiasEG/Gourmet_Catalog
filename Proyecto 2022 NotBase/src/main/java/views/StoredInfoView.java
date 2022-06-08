@@ -11,6 +11,7 @@ public class StoredInfoView implements IStoredInfoView {
     private JPanel storedInfoPanel;
     private JMenuItem deleteMenuItem;
     private JMenuItem saveMenuItem;
+    private String selectedArticleTitle;
 
     private IStoredInfoPresenter storedInfoPresenter;
 
@@ -40,8 +41,10 @@ public class StoredInfoView implements IStoredInfoView {
 
     private void initListeners(){
         storedArticlesComboBox.addItemListener(actionEvent -> {
-            if(storedArticlesComboBox.getSelectedIndex() > -1)
+            if(storedArticlesComboBox.getSelectedIndex() > -1) {
+                selectedArticleTitle = storedArticlesComboBox.getSelectedItem().toString();
                 storedInfoPresenter.onEventSelectArticle();
+            }
         });
         deleteMenuItem.addActionListener(actionEvent -> storedInfoPresenter.onEvenDeleteArticle());
         saveMenuItem.addActionListener(actionEvent -> storedInfoPresenter.onEventUpdateArticle());
@@ -60,15 +63,18 @@ public class StoredInfoView implements IStoredInfoView {
 
     private void clearView(){
         storedArticlesComboBox.setSelectedIndex(-1);
+        selectedArticleTitle = "";
         storedArticleContentTextPane.setText("");
     }
 
     @Override
     public String getSelectedArticleTitle(){
-        if (storedArticlesComboBox.getSelectedIndex() > -1)
-            return storedArticlesComboBox.getSelectedItem().toString();
-        else
-            return "";
+        return selectedArticleTitle;
+    }
+
+    @Override
+    public void setSelectedArticleTitle(String articleTitle){
+        selectedArticleTitle = articleTitle;
     }
 
     @Override
