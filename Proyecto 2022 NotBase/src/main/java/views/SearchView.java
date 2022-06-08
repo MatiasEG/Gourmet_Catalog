@@ -66,8 +66,23 @@ public class SearchView implements ISearchView {
     }
 
     @Override
+    public void selectFullArticleOption(){
+        fullArticleRadioButton.setSelected(true);
+    }
+
+    @Override
+    public void selectArticleSummaryOption(){
+        articleSummaryRadioButton.setSelected(true);
+    }
+
+    @Override
     public int getSelectedSearchResultIndex(){
         return selectedSearchResultIndex;
+    }
+
+    @Override
+    public void setSelectedSearchResultIndex(int selectedSearchResultIndex){
+        this.selectedSearchResultIndex = selectedSearchResultIndex;
     }
 
     @Override
