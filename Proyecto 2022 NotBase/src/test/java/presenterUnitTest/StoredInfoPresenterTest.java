@@ -1,8 +1,10 @@
-package presenter;
+package presenterUnitTest;
 
 import model.storedInfoModel.IStoredInfoModel;
 import org.junit.Before;
 import org.junit.Test;
+import presenter.IStoredInfoPresenter;
+import presenter.StoredInfoPresenter;
 import views.IMainView;
 import views.IStoredInfoView;
 
