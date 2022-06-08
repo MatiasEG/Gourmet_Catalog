@@ -37,14 +37,18 @@ public class MainView implements IMainView {
         mainFrame.pack();
     }
 
-    // TODO que hace este metodo?
     private void createUIComponents() {
         // TODO: place custom component creation code here
         this.storedInfoView = new StoredInfoView(storedInfoPresenter);
         this.storedInfoPanel = storedInfoView.getPanel();
 
-        this.searchView = new SearchView(searchPresenter);
+        this.searchView = new SearchView(searchPresenter, this);
         this.searchInWikipediaPanel = searchView.getPanel();
+    }
+
+    @Override
+    public boolean isVisible() {
+        return visible;
     }
 
     @Override
