@@ -34,6 +34,7 @@ public class MainView implements IMainView {
         mainFrame.pack();
     }
 
+    // TODO que hace este metodo?
     private void createUIComponents() {
         // TODO: place custom component creation code here
         this.storedInfoView = new StoredInfoView(storedInfoPresenter);

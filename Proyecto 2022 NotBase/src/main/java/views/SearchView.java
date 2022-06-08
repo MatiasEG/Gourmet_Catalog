@@ -15,6 +15,7 @@ public class SearchView implements ISearchView {
     private JRadioButton articleSummaryRadioButton;
     private JButton saveLocallyButton;
     private int selectedSearchResultIndex;
+    private JPopupMenu searchOptionsMenu;
 
     private ISearchPresenter searchPresenter;
 
@@ -65,21 +66,23 @@ public class SearchView implements ISearchView {
 
     @Override
     public void setSearchResultsList(List<String> searchResults) {
-        //TODO revisar
-        JPopupMenu searchOptionsMenu = new JPopupMenu("Search Results");
+        searchOptionsMenu = new JPopupMenu("Search Results");
         selectedSearchResultIndex = -1;
-        int currentIndex = 0;
+        int searchResultIndex = 0;
         for(String searchResult : searchResults){
-            JMenuItem searchResultMenuItem = new JMenuItem(searchResult);
-            searchOptionsMenu.add(searchResultMenuItem);
-            int searchResultIndex = currentIndex;
-            searchResultMenuItem.addActionListener(actionEvent -> {
-                selectedSearchResultIndex = searchResultIndex;
-                searchPresenter.onEventSelectArticle();
-            });
-            ++currentIndex;
+            addMenuItem(searchResult, searchResultIndex);
+            ++searchResultIndex;
         }
         searchOptionsMenu.show(searchTextField, searchTextField.getX(), searchTextField.getY());
+    }
+
+    private void addMenuItem(String searchResult, int searchResultIndex) {
+        JMenuItem searchResultMenuItem = new JMenuItem(searchResult);
+        searchOptionsMenu.add(searchResultMenuItem);
+        searchResultMenuItem.addActionListener(actionEvent -> {
+            selectedSearchResultIndex = searchResultIndex;
+            searchPresenter.onEventSelectArticle();
+        });
     }
 
     @Override
