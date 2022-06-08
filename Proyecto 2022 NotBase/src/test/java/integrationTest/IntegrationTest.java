@@ -17,6 +17,7 @@ import views.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class IntegrationTest {
@@ -42,30 +43,43 @@ public class IntegrationTest {
 
         mainView = new MainView(storedInfoPresenter, searchPresenter);
 
+        searchView = mainView.getSearchView();
+        storedInfoView = mainView.getStoredInfoView();
+
         searchPresenter.setView(mainView);
         storedInfoPresenter.setView(mainView);
 
-        searchView = new SearchView(searchPresenter);
+
+        
     }
 
     @Test
     public void testSearch() throws Exception {
-        searchView.setTextToSearch("Pizza");
+        searchView.setSearchText("Pizza");
+
+        List<SearchResult> resultList = new ArrayList<>();
+        resultList.add(new SearchResult("Pizza rica", "", "Yumi"));
+        resultList.add(new SearchResult("Pizza fea", "", "Puaj"));
+        resultList.add(new SearchResult("Pizza grande", "", "Wow"));
+        resultList.add(new SearchResult("Pizza con queso", "", "Un clasico"));
+        when(searchLogic.searchTermInWikipediaAndParse("Pizza")).thenReturn(resultList);
+
+        List<String> resultListOnView = new ArrayList<>();
+        resultListOnView.add("Pizza rica: Yumi");
+        resultListOnView.add("Pizza fea: Puaj");
+        resultListOnView.add("Pizza grande: Wow");
+        resultListOnView.add("Pizza con queso: Un clasico");
+
         searchPresenter.onEventSearchArticles();
         this.waitForViewPresenterTask();
 
-        List<SearchResult> resultList = new ArrayList<>();
-        SearchResult searchResult1 = new SearchResult("Pizza rica", "", "Yumi");
-        SearchResult searchResult2 = new SearchResult("Pizza fea", "", "Puaj");
-        SearchResult searchResult3 = new SearchResult("Pizza grande", "", "Wow");
-        SearchResult searchResult4 = new SearchResult("Pizza con queso", "", "Un clasico");
-        resultList.add(searchResult1);
-        resultList.add(searchResult2);
-        resultList.add(searchResult3);
-        resultList.add(searchResult4);
-        when(searchLogic.searchTermInWikipediaAndParse("Pizza")).thenReturn(resultList);
+        assertEquals(resultListOnView, searchView.getSearchResults());
+    }
 
-        searchView
+    public void testSelect(){
+
+
+        searchView.setSearchResultsList();
     }
 
     private void waitForViewPresenterTask() throws InterruptedException{
