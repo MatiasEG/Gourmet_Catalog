@@ -1,11 +1,9 @@
 package model.searchModel;
 
-import model.searchModel.Search.ISearchLogic;
-import model.searchModel.Search.SearchLogic;
-import model.searchModel.Search.SearchResult;
+import model.searchModel.searchLogic.ISearchLogic;
+import model.searchModel.searchLogic.SearchResult;
 import model.listeners.ErrorListener;
 import model.listeners.SearchListener;
-import retrofit2.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,14 +54,13 @@ public class SearchModel implements ISearchModel {
         if(isEmptyOrInvalid(textToSearch))
             notifyErrorOccurred("Empty Search Field");
         else {
-            Response<String> allCoincidencesResponse = null;
+            allCoincidencesFound = null;
             try {
-                allCoincidencesResponse = searchLogic.executeSearchOfTermInWikipedia(textToSearch);
+                allCoincidencesFound = searchLogic.searchTermInWikipedia(textToSearch);
+                notifyFoundCoincidences();
             }catch(Exception e){
                 notifyErrorOccurred("Search error");
             }
-            allCoincidencesFound = ResponseParser.parseWikipediaCoincidences(allCoincidencesResponse);
-            notifyFoundCoincidences();
         }
     }
 
@@ -74,26 +71,24 @@ public class SearchModel implements ISearchModel {
 
     @Override
     public void searchArticleSummaryInWikipedia(SearchResult searchResult) {
-        Response<String> foundArticleContentResponse = null;
+        foundArticleContent = null;
         try {
-            foundArticleContentResponse = searchLogic.executeSpecificSearchInWikipediaForFirstTerm(searchResult);
+            foundArticleContent = searchLogic.searchArticleSummaryInWikipedia(searchResult);
+            notifyFoundArticleContent();
         }catch(Exception e){
             notifyErrorOccurred("Search error");
         }
-        foundArticleContent = ResponseParser.parseWikipediaArticle(foundArticleContentResponse);
-        notifyFoundArticleContent();
     }
 
     @Override
     public void searchFullArticleInWikipedia(SearchResult searchResult){
-        Response<String> foundArticleContentResponse = null;
+        foundArticleContent = null;
         try {
-            foundArticleContentResponse = searchLogic.executeSpecificSearchInWikipediaForEntireArticle(searchResult);
+            foundArticleContent = searchLogic.searchFullArticleInWikipedia(searchResult);
+            notifyFoundArticleContent();
         }catch(Exception e){
             notifyErrorOccurred("Search error");
         }
-        foundArticleContent = ResponseParser.parseWikipediaArticle(foundArticleContentResponse);
-        notifyFoundArticleContent();
     }
 
     @Override

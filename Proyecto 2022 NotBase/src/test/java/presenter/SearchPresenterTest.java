@@ -2,7 +2,7 @@ package presenter;
 
 import model.storedInfoModel.IStoredInfoModel;
 import model.searchModel.ISearchModel;
-import model.searchModel.Search.SearchResult;
+import model.searchModel.searchLogic.SearchResult;
 import org.junit.Before;
 import org.junit.Test;
 import views.IMainView;

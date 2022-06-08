@@ -1,4 +1,4 @@
-package model.searchModel.Search;
+package model.searchModel.searchLogic;
 
 public class SearchResult {
     private String title;

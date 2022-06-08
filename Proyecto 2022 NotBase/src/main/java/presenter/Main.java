@@ -1,6 +1,6 @@
 package presenter;
 
-import model.searchModel.Search.SearchLogic;
+import model.searchModel.searchLogic.SearchLogic;
 import model.storedInfoModel.StoredInfoModel;
 import model.storedInfoModel.IStoredInfoModel;
 import model.searchModel.SearchModel;

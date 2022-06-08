@@ -1,6 +1,6 @@
 package presenter;
 
-import model.searchModel.Search.SearchResult;
+import model.searchModel.searchLogic.SearchResult;
 import views.IMainView;
 
 import java.util.List;

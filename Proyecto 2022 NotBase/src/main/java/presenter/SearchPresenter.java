@@ -1,7 +1,7 @@
 package presenter;
 
 import model.storedInfoModel.IStoredInfoModel;
-import model.searchModel.Search.SearchResult;
+import model.searchModel.searchLogic.SearchResult;
 import model.listeners.SearchListener;
 import model.searchModel.ISearchModel;
 import views.IMainView;

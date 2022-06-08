@@ -1,6 +1,6 @@
 package model.searchModel;
 
-import model.searchModel.Search.SearchResult;
+import model.searchModel.searchLogic.SearchResult;
 import model.listeners.ErrorListener;
 import model.listeners.SearchListener;
 

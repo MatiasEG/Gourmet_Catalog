@@ -1,4 +1,4 @@
-package model.searchModel.Search;
+package model.searchModel.searchLogic;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
