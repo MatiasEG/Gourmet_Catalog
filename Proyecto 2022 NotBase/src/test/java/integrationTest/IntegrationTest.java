@@ -36,6 +36,11 @@ public class IntegrationTest {
 
     @Before
     public void setUp() throws Exception {
+        DataBase.clearDataBase();
+        DataBase.saveArticle("Pizza", "pizzapizzapizza");
+        DataBase.saveArticle("Coca-Cola", "cocacolacocacola");
+        DataBase.saveArticle("Cheese", "cheesecheesecheese");
+
         searchLogic = mock(ISearchLogic.class);
 
         searchModel = new SearchModel(searchLogic);
@@ -62,6 +67,8 @@ public class IntegrationTest {
         when(searchLogic.searchArticleSummaryInWikipediaAndParse(any())).thenReturn("Pizza grande: Wow");
 
     }
+
+
 
     @Test
     public void testSearch() throws Exception {
@@ -140,6 +147,42 @@ public class IntegrationTest {
         searchPresenter.onEventSaveArticle();
 
         assertTrue(DataBase.getArticleContent("Pizza").contains("Pizza con queso: Un clasico"));
+    }
+
+    @Test
+    public void testSelectStoredArticle(){
+        storedInfoView.setSelectedArticleTitle("Pizza");
+        storedInfoPresenter.onEventSelectArticle();
+        assertTrue(storedInfoView.getArticleContent().contains("pizzapizzapizza"));
+    }
+
+    @Test
+    public void testDeleteArticle() throws Exception{
+        storedInfoView.setSelectedArticleTitle("Coca-Cola");
+        storedInfoPresenter.onEventSelectArticle();
+        storedInfoPresenter.onEvenDeleteArticle();
+        assertFalse(DataBase.getAllArticleTitles().contains("Coca-Cola"));
+    }
+
+    @Test
+    public void testUpdateArticle() throws Exception{
+        storedInfoView.setSelectedArticleTitle("Cheese");
+        storedInfoPresenter.onEventSelectArticle();
+        storedInfoView.setArticleContent("cheeseeeeeeeeeeeeeeeee");
+        storedInfoPresenter.onEventUpdateArticle();
+        assertTrue(DataBase.getArticleContent("Cheese").contains("cheeseeeeeeeeeeeeeeeee"));
+    }
+
+    @Test
+    public void testDeleteArticleWithoutSelecting() throws Exception{
+        storedInfoPresenter.onEvenDeleteArticle();
+        assertEquals(mainView.getLastError(), "Article Not Selected");
+    }
+
+    @Test
+    public void testUpdateArticleWithoutSelecting() throws Exception{
+        storedInfoPresenter.onEventUpdateArticle();
+        assertEquals(mainView.getLastError(), "Article Not Selected");
     }
 
     private void waitForViewPresenterTask() throws InterruptedException{
