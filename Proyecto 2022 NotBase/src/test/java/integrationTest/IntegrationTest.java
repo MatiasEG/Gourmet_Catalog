@@ -30,10 +30,10 @@ public class IntegrationTest {
     private IStoredInfoPresenter storedInfoPresenter;
     private IStoredInfoView storedInfoView;
     private ISearchView searchView;
-
+    private List<SearchResult> resultList;
 
     @Before
-    public void setUp(){
+    public void setUp() throws Exception {
         searchLogic = mock(ISearchLogic.class);
 
         searchModel = new SearchModel(searchLogic);
@@ -50,19 +50,17 @@ public class IntegrationTest {
         storedInfoPresenter.setView(mainView);
 
 
-        
-    }
-
-    @Test
-    public void testSearch() throws Exception {
-        searchView.setSearchText("Pizza");
-
-        List<SearchResult> resultList = new ArrayList<>();
+        resultList = new ArrayList<>();
         resultList.add(new SearchResult("Pizza rica", "", "Yumi"));
         resultList.add(new SearchResult("Pizza fea", "", "Puaj"));
         resultList.add(new SearchResult("Pizza grande", "", "Wow"));
         resultList.add(new SearchResult("Pizza con queso", "", "Un clasico"));
         when(searchLogic.searchTermInWikipediaAndParse("Pizza")).thenReturn(resultList);
+    }
+
+    @Test
+    public void testSearch() throws Exception {
+        searchView.setSearchText("Pizza");
 
         List<String> resultListOnView = new ArrayList<>();
         resultListOnView.add("Pizza rica: Yumi");
@@ -77,9 +75,15 @@ public class IntegrationTest {
     }
 
     public void testSelect(){
+        List<String> resultListOnView = new ArrayList<>();
+        resultListOnView.add("Pizza rica: Yumi");
+        resultListOnView.add("Pizza fea: Puaj");
+        resultListOnView.add("Pizza grande: Wow");
+        resultListOnView.add("Pizza con queso: Un clasico");
 
+        searchView.setSearchResultsList(resultListOnView);
 
-        searchView.setSearchResultsList();
+        
     }
 
     private void waitForViewPresenterTask() throws InterruptedException{
