@@ -1,6 +1,6 @@
 package presenter;
 
-import model.StoredInfoModel.IStoredInfoModel;
+import model.storedInfoModel.IStoredInfoModel;
 import org.junit.Before;
 import org.junit.Test;
 import views.IMainView;

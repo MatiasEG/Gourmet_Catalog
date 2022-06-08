@@ -1,6 +1,6 @@
 package presenter;
 
-import model.StoredInfoModel.IStoredInfoModel;
+import model.storedInfoModel.IStoredInfoModel;
 import model.searchModel.ISearchModel;
 import model.searchModel.Search.SearchResult;
 import org.junit.Before;

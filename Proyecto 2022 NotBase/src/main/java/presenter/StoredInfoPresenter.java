@@ -1,6 +1,6 @@
 package presenter;
 
-import model.StoredInfoModel.IStoredInfoModel;
+import model.storedInfoModel.IStoredInfoModel;
 import model.listeners.LoadArticleListener;
 import model.listeners.StoredArticlesListener;
 import views.IMainView;

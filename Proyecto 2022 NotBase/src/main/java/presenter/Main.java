@@ -1,7 +1,7 @@
 package presenter;
 
-import model.StoredInfoModel.StoredInfoModel;
-import model.StoredInfoModel.IStoredInfoModel;
+import model.storedInfoModel.StoredInfoModel;
+import model.storedInfoModel.IStoredInfoModel;
 import model.searchModel.SearchModel;
 import model.searchModel.ISearchModel;
 import views.MainView;

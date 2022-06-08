@@ -1,6 +1,6 @@
 package presenter;
 
-import model.StoredInfoModel.IStoredInfoModel;
+import model.storedInfoModel.IStoredInfoModel;
 import model.searchModel.Search.SearchResult;
 import model.listeners.SearchListener;
 import model.searchModel.ISearchModel;

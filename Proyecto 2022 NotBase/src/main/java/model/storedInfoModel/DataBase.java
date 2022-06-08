@@ -1,4 +1,4 @@
-package model.StoredInfoModel;
+package model.storedInfoModel;
 
 import java.sql.*;
 import java.util.ArrayList;

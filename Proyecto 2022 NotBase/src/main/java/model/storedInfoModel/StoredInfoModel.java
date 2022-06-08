@@ -1,4 +1,4 @@
-package model.StoredInfoModel;
+package model.storedInfoModel;
 
 import model.listeners.ErrorListener;
 import model.listeners.LoadArticleListener;
