@@ -74,7 +74,7 @@ public class IntegrationTest {
         assertEquals(resultListOnView, searchView.getSearchResults());
     }
 
-    public void testSelect(){
+    public void testSelect() throws Exception {
         List<String> resultListOnView = new ArrayList<>();
         resultListOnView.add("Pizza rica: Yumi");
         resultListOnView.add("Pizza fea: Puaj");
@@ -82,8 +82,12 @@ public class IntegrationTest {
         resultListOnView.add("Pizza con queso: Un clasico");
 
         searchView.setSearchResultsList(resultListOnView);
+        searchView.setSelectedSearchResultIndex(3);
+        searchPresenter.setSearchResultsList(resultList);
 
-        
+        when(searchLogic.searchFullArticleInWikipediaAndParse(resultList.get(3))).thenReturn(resultListOnView.get(3));
+
+        assertEquals(resultListOnView.get(3), searchView.getArticleContent());
     }
 
     private void waitForViewPresenterTask() throws InterruptedException{
