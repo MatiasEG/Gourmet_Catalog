@@ -72,4 +72,13 @@ public class DataBase {
       throw new Exception("Error while deleting article from the database");
     }
   }
+
+  public static void clearDataBase() throws Exception{
+    try (Connection connection = DriverManager.getConnection(databaseUrl)){
+      executeUpdate(connection, "DELETE FROM articles" );
+    }
+    catch(SQLException e) {
+      throw new Exception("Error while clearing database");
+    }
+  }
 }

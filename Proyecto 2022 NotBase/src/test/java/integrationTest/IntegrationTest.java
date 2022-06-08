@@ -4,6 +4,7 @@ import model.searchModel.ISearchModel;
 import model.searchModel.SearchModel;
 import model.searchModel.searchLogic.ISearchLogic;
 import model.searchModel.searchLogic.SearchResult;
+import model.storedInfoModel.DataBase;
 import model.storedInfoModel.IStoredInfoModel;
 import model.storedInfoModel.StoredInfoModel;
 import org.junit.Before;
@@ -56,7 +57,11 @@ public class IntegrationTest {
         resultList.add(new SearchResult("Pizza grande", "", "Wow"));
         resultList.add(new SearchResult("Pizza con queso", "", "Un clasico"));
         when(searchLogic.searchTermInWikipediaAndParse("Pizza")).thenReturn(resultList);
+
+        DataBase.clearDataBase();
     }
+
+
 
     @Test
     public void testSearch() throws Exception {
