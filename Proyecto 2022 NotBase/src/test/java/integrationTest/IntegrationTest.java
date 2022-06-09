@@ -5,6 +5,7 @@ import model.searchModel.SearchModel;
 import model.searchModel.searchLogic.ISearchLogic;
 import model.searchModel.searchLogic.SearchResult;
 import model.storedInfoModel.DataBase;
+import model.storedInfoModel.IDataBase;
 import model.storedInfoModel.IStoredInfoModel;
 import model.storedInfoModel.StoredInfoModel;
 import org.junit.Before;
@@ -32,18 +33,20 @@ public class IntegrationTest {
     private IStoredInfoView storedInfoView;
     private ISearchView searchView;
     private List<SearchResult> resultList;
+    private IDataBase dataBaseMock;
+    private static IDataBase dataBase = new DataBase();
 
     @Before
     public void setUp() throws Exception {
-        DataBase.clearDataBase();
-        DataBase.saveArticle("Pizza", "pizzapizzapizza");
-        DataBase.saveArticle("Coca-Cola", "cocacolacocacola");
-        DataBase.saveArticle("Cheese", "cheesecheesecheese");
+        dataBase.clearDataBase();
+        dataBase.saveArticle("Pizza", "pizzapizzapizza");
+        dataBase.saveArticle("Coca-Cola", "cocacolacocacola");
+        dataBase.saveArticle("Cheese", "cheesecheesecheese");
 
         searchLogic = mock(ISearchLogic.class);
 
         searchModel = new SearchModel(searchLogic);
-        storedInfoModel = new StoredInfoModel();
+        storedInfoModel = new StoredInfoModel(new DataBase());
         searchPresenter = new SearchPresenter(searchModel, storedInfoModel);
         storedInfoPresenter = new StoredInfoPresenter(storedInfoModel);
 
@@ -63,6 +66,12 @@ public class IntegrationTest {
         when(searchLogic.searchTermInWikipediaAndParse("Pizza")).thenReturn(resultList);
         when(searchLogic.searchFullArticleInWikipediaAndParse(any())).thenReturn("Pizza con queso: Un clasico");
         when(searchLogic.searchArticleSummaryInWikipediaAndParse(any())).thenReturn("Pizza grande: Wow");
+
+        dataBaseMock = mock(IDataBase.class);
+        when(dataBaseMock.getAllArticleTitles()).thenThrow(new Exception());
+        when(dataBaseMock.getArticleContent(any())).thenThrow(new Exception());
+        doThrow(new Exception()).when(dataBaseMock).deleteArticle(any());
+        doThrow(new Exception()).when(dataBaseMock).saveArticle(any(), any());
     }
 
     @Test
@@ -76,7 +85,7 @@ public class IntegrationTest {
         resultListOnView.add("Pizza con queso: Un clasico");
 
         searchPresenter.onEventSearchArticles();
-        this.waitForViewPresenterTask();
+        this.waitForPresentersTask();
 
         assertEquals(resultListOnView, searchView.getSearchResults());
     }
@@ -85,13 +94,13 @@ public class IntegrationTest {
     public void testSelectFullArticle() throws Exception {
         searchView.setSearchText("Pizza");
         searchPresenter.onEventSearchArticles();
-        this.waitForViewPresenterTask();
+        this.waitForPresentersTask();
 
         searchView.setSelectedSearchResultIndex(3);
         searchView.selectFullArticleOption();
 
         searchPresenter.onEventSelectArticle();
-        waitForViewPresenterTask();
+        waitForPresentersTask();
 
         assertTrue(searchView.getArticleContent().contains("Pizza con queso: Un clasico"));
     }
@@ -100,13 +109,13 @@ public class IntegrationTest {
     public void testSelectArticleSummary() throws Exception {
         searchView.setSearchText("Pizza");
         searchPresenter.onEventSearchArticles();
-        this.waitForViewPresenterTask();
+        this.waitForPresentersTask();
 
         searchView.setSelectedSearchResultIndex(2);
         searchView.selectArticleSummaryOption();
 
         searchPresenter.onEventSelectArticle();
-        waitForViewPresenterTask();
+        waitForPresentersTask();
 
         assertTrue(searchView.getArticleContent().contains("Pizza grande: Wow"));
     }
@@ -115,31 +124,33 @@ public class IntegrationTest {
     public void saveArticle() throws Exception {
         searchView.setSearchText("Pizza");
         searchPresenter.onEventSearchArticles();
-        this.waitForViewPresenterTask();
+        this.waitForPresentersTask();
 
         searchView.setSelectedSearchResultIndex(3);
         searchView.selectFullArticleOption();
 
         searchPresenter.onEventSelectArticle();
-        this.waitForViewPresenterTask();
+        this.waitForPresentersTask();
 
         searchPresenter.onEventSaveArticle();
+        this.waitForPresentersTask();
 
-        assertTrue(DataBase.getArticleContent("Pizza con queso").contains("Pizza con queso: Un clasico"));
+        assertTrue(dataBase.getArticleContent("Pizza con queso").contains("Pizza con queso: Un clasico"));
     }
 
     @Test
-    public void saveArticleNegative(){
+    public void saveArticleNegative() throws InterruptedException {
         searchPresenter.onEventSaveArticle();
-        assertEquals(mainView.getLastError(), "Search Result Not Selected");
+        this.waitForPresentersTask();
+        assertEquals("Search Result Not Selected", mainView.getLastError());
     }
 
     @Test
     public void textSearchNegative() throws InterruptedException {
         searchPresenter.onEventSearchArticles();
-        this.waitForViewPresenterTask();
+        this.waitForPresentersTask();
 
-        assertEquals(mainView.getLastError(), "Empty Search Field");
+        assertEquals("Empty Search Field", mainView.getLastError());
     }
 
     @Test
@@ -147,8 +158,8 @@ public class IntegrationTest {
         when(searchLogic.searchTermInWikipediaAndParse(any())).thenThrow(new Exception());
         searchView.setSearchText("Pizza");
         searchPresenter.onEventSearchArticles();
-        this.waitForViewPresenterTask();
-        assertEquals(mainView.getLastError(), "Search error");
+        this.waitForPresentersTask();
+        assertEquals("Search error", mainView.getLastError());
     }
 
     @Test
@@ -156,15 +167,15 @@ public class IntegrationTest {
         when(searchLogic.searchFullArticleInWikipediaAndParse(any())).thenThrow(new Exception());
         searchView.setSearchText("Pizza");
         searchPresenter.onEventSearchArticles();
-        this.waitForViewPresenterTask();
+        this.waitForPresentersTask();
 
         searchView.setSelectedSearchResultIndex(2);
         searchView.selectFullArticleOption();
 
         searchPresenter.onEventSelectArticle();
-        waitForViewPresenterTask();
+        waitForPresentersTask();
 
-        assertEquals(mainView.getLastError(), "Search error");
+        assertEquals("Search error", mainView.getLastError());
     }
 
     @Test
@@ -172,21 +183,22 @@ public class IntegrationTest {
         when(searchLogic.searchArticleSummaryInWikipediaAndParse(any())).thenThrow(new Exception());
         searchView.setSearchText("Pizza");
         searchPresenter.onEventSearchArticles();
-        this.waitForViewPresenterTask();
+        this.waitForPresentersTask();
 
         searchView.setSelectedSearchResultIndex(2);
         searchView.selectArticleSummaryOption();
 
         searchPresenter.onEventSelectArticle();
-        waitForViewPresenterTask();
+        this.waitForPresentersTask();
 
-        assertEquals(mainView.getLastError(), "Search error");
+        assertEquals("Search error", mainView.getLastError());
     }
 
     @Test
-    public void testSelectStoredArticle(){
+    public void testSelectStoredArticle() throws InterruptedException {
         storedInfoView.setSelectedArticleTitle("Pizza");
         storedInfoPresenter.onEventSelectArticle();
+        this.waitForPresentersTask();
         assertTrue(storedInfoView.getArticleContent().contains("pizzapizzapizza"));
     }
 
@@ -194,32 +206,69 @@ public class IntegrationTest {
     public void testDeleteArticle() throws Exception{
         storedInfoView.setSelectedArticleTitle("Coca-Cola");
         storedInfoPresenter.onEventSelectArticle();
+        this.waitForPresentersTask();
         storedInfoPresenter.onEvenDeleteArticle();
-        assertFalse(DataBase.getAllArticleTitles().contains("Coca-Cola"));
+        this.waitForPresentersTask();
+        assertFalse(dataBase.getAllArticleTitles().contains("Coca-Cola"));
     }
 
     @Test
     public void testUpdateArticle() throws Exception{
         storedInfoView.setSelectedArticleTitle("Cheese");
         storedInfoPresenter.onEventSelectArticle();
+        this.waitForPresentersTask();
         storedInfoView.setArticleContent("cheeseeeeeeeeeeeeeeeee");
         storedInfoPresenter.onEventUpdateArticle();
-        assertTrue(DataBase.getArticleContent("Cheese").contains("cheeseeeeeeeeeeeeeeeee"));
+        this.waitForPresentersTask();
+        assertTrue(dataBase.getArticleContent("Cheese").contains("cheeseeeeeeeeeeeeeeeee"));
     }
 
     @Test
     public void testDeleteArticleWithoutSelecting() throws Exception{
         storedInfoPresenter.onEvenDeleteArticle();
-        assertEquals(mainView.getLastError(), "Article Not Selected");
+        this.waitForPresentersTask();
+        assertEquals("Article Not Selected", mainView.getLastError());
     }
 
     @Test
     public void testUpdateArticleWithoutSelecting() throws Exception{
         storedInfoPresenter.onEventUpdateArticle();
-        assertEquals(mainView.getLastError(), "Article Not Selected");
+        this.waitForPresentersTask();
+        assertEquals("Article Not Selected", mainView.getLastError());
     }
 
-    private void waitForViewPresenterTask() throws InterruptedException{
-        while(searchPresenter.isActivelyWorking()) Thread.sleep(1);
+    @Test
+    public void testDatabaseErrorWhenSelectingArticle() throws Exception{
+        storedInfoModel.setDataBase(dataBaseMock);
+        storedInfoView.setSelectedArticleTitle("Pizza");
+        storedInfoPresenter.onEventSelectArticle();
+        this.waitForPresentersTask();
+        assertEquals("Database Error", mainView.getLastError());
+    }
+
+    @Test
+    public void testDatabaseErrorWhenDeletingArticle() throws Exception{
+        storedInfoModel.setDataBase(dataBaseMock);
+        storedInfoView.setSelectedArticleTitle("Pizza");
+        storedInfoPresenter.onEventSelectArticle();
+        this.waitForPresentersTask();
+        storedInfoPresenter.onEvenDeleteArticle();
+        this.waitForPresentersTask();
+        assertEquals("Database Error", mainView.getLastError());
+    }
+
+    @Test
+    public void testDatabaseErrorWhenUpdatingArticle() throws Exception{
+        storedInfoModel.setDataBase(dataBaseMock);
+        storedInfoView.setSelectedArticleTitle("Pizza");
+        storedInfoPresenter.onEventSelectArticle();
+        this.waitForPresentersTask();
+        storedInfoPresenter.onEventUpdateArticle();
+        this.waitForPresentersTask();
+        assertEquals("Database Error", mainView.getLastError());
+    }
+
+    private void waitForPresentersTask() throws InterruptedException{
+        while(searchPresenter.isActivelyWorking() || storedInfoPresenter.isActivelyWorking()) Thread.sleep(1);
     }
 }

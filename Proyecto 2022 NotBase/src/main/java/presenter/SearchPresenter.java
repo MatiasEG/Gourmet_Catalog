@@ -11,13 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SearchPresenter implements ISearchPresenter {
-    IMainView mainView;
-    ISearchView searchView;
-    ISearchModel searchModel;
-    IStoredInfoModel storedInfoModel;
-    List<SearchResult> searchResultsList;
-    SearchResult selectedSearchResult;
-    Thread thread;
+    private IMainView mainView;
+    private ISearchView searchView;
+    private ISearchModel searchModel;
+    private IStoredInfoModel storedInfoModel;
+    private List<SearchResult> searchResultsList;
+    private SearchResult selectedSearchResult;
+    private Thread thread;
 
     public SearchPresenter(ISearchModel searchModel, IStoredInfoModel storedInfoModel){
         this.searchModel = searchModel;
@@ -97,14 +97,18 @@ public class SearchPresenter implements ISearchPresenter {
 
     @Override
     public void onEventSaveArticle() {
-        if(selectedSearchResult != null) {
-            String articleTitle = selectedSearchResult.getTitle();
-            String articleContent = searchModel.getFoundArticleContent();
-            storedInfoModel.saveArticle(articleTitle, articleContent);
-        } else
-            mainView.notifyError("Search Result Not Selected");
+        thread = new Thread(() -> {
+            if(selectedSearchResult != null) {
+                String articleTitle = selectedSearchResult.getTitle();
+                String articleContent = searchModel.getFoundArticleContent();
+                storedInfoModel.saveArticle(articleTitle, articleContent);
+            } else
+                mainView.notifyError("Search Result Not Selected");
+        });
+        thread.start();
     }
 
+    @Override
     public boolean isActivelyWorking(){
         return thread != null && thread.isAlive();
     }

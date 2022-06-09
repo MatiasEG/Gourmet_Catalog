@@ -8,4 +8,5 @@ public interface IStoredInfoPresenter {
     void onEventSelectArticle();
     void onEvenDeleteArticle();
     void onEventUpdateArticle();
+    boolean isActivelyWorking();
 }

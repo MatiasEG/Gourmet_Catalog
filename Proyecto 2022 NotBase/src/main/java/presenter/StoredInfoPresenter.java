@@ -7,9 +7,10 @@ import views.IMainView;
 import views.IStoredInfoView;
 
 public class StoredInfoPresenter implements IStoredInfoPresenter {
-    IMainView mainView;
-    IStoredInfoView storedInfoView;
-    IStoredInfoModel storedInfoModel;
+    private IMainView mainView;
+    private IStoredInfoView storedInfoView;
+    private IStoredInfoModel storedInfoModel;
+    private Thread thread;
 
     public StoredInfoPresenter(IStoredInfoModel storedInfoModel){
         this.storedInfoModel = storedInfoModel;
@@ -51,21 +52,34 @@ public class StoredInfoPresenter implements IStoredInfoPresenter {
 
     @Override
     public void onEventSelectArticle() {
-        String storedArticleTitle = storedInfoView.getSelectedArticleTitle();
-        storedInfoModel.loadArticle(storedArticleTitle);
+        thread = new Thread(() -> {
+            String storedArticleTitle = storedInfoView.getSelectedArticleTitle();
+            storedInfoModel.loadArticle(storedArticleTitle);
+        });
+        thread.start();
     }
 
     @Override
     public void onEvenDeleteArticle() {
-        String storedArticleTitle = storedInfoView.getSelectedArticleTitle();
-        storedInfoModel.deleteArticle(storedArticleTitle);
+        thread = new Thread(() -> {
+            String storedArticleTitle = storedInfoView.getSelectedArticleTitle();
+            storedInfoModel.deleteArticle(storedArticleTitle);
+        });
+        thread.start();
     }
 
     @Override
     public void onEventUpdateArticle() {
-        String storedArticleTitle = storedInfoView.getSelectedArticleTitle();
-        String storedArticleContent = storedInfoView.getArticleContent();
-        storedInfoModel.updateArticle(storedArticleTitle, storedArticleContent);
+        thread = new Thread(() -> {
+            String storedArticleTitle = storedInfoView.getSelectedArticleTitle();
+            String storedArticleContent = storedInfoView.getArticleContent();
+            storedInfoModel.updateArticle(storedArticleTitle, storedArticleContent);
+        });
+        thread.start();
     }
 
+    @Override
+    public boolean isActivelyWorking(){
+        return thread != null && thread.isAlive();
+    }
 }

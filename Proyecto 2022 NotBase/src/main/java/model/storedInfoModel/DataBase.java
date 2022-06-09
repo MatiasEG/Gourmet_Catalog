@@ -3,10 +3,10 @@ package model.storedInfoModel;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class DataBase {
+public class DataBase implements IDataBase{
   private final static String databaseUrl = "jdbc:sqlite:./dictionary.db";
 
-  public static void createDatabaseIfDoesNotExists() {
+  public void createDatabaseIfDoesNotExists() {
     try (Connection connection = DriverManager.getConnection(databaseUrl)) {
       executeUpdate(connection, "create table articles (id INTEGER, title string PRIMARY KEY, content string, source integer)");
     } catch (SQLException e) {
@@ -26,7 +26,7 @@ public class DataBase {
     return statement.executeQuery(sql);
   }
 
-  public static ArrayList<String> getAllArticleTitles() throws Exception{
+  public ArrayList<String> getAllArticleTitles() throws Exception{
     ArrayList<String> titles = new ArrayList<>();
     try (Connection connection = DriverManager.getConnection(databaseUrl)){
       ResultSet resultSet = executeQuery(connection, "select * from articles");
@@ -38,7 +38,7 @@ public class DataBase {
     return titles;
   }
 
-  public static void saveArticle(String title, String content) throws Exception{
+  public void saveArticle(String title, String content) throws Exception{
     title = escapeSpecialCharacters(title);
     content = escapeSpecialCharacters(content);
     try (Connection connection = DriverManager.getConnection(databaseUrl)){
@@ -53,7 +53,7 @@ public class DataBase {
     return title.replace("'", "''");
   }
 
-  public static String getArticleContent(String title) throws Exception{
+  public String getArticleContent(String title) throws Exception{
     try (Connection connection = DriverManager.getConnection(databaseUrl)){
       ResultSet resultSet = executeQuery(connection, "select * from articles WHERE title = '" + title + "'" );
       resultSet.next();
@@ -64,7 +64,7 @@ public class DataBase {
     }
   }
 
-  public static void deleteArticle(String title) throws Exception{
+  public void deleteArticle(String title) throws Exception{
     try (Connection connection = DriverManager.getConnection(databaseUrl)){
       executeUpdate(connection, "DELETE FROM articles WHERE title = '" + title + "'" );
     }
@@ -73,7 +73,7 @@ public class DataBase {
     }
   }
 
-  public static void clearDataBase() throws Exception{
+  public void clearDataBase() throws Exception{
     try (Connection connection = DriverManager.getConnection(databaseUrl)){
       executeUpdate(connection, "DELETE FROM articles" );
     }

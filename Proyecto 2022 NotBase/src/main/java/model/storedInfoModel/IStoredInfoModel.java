@@ -12,6 +12,8 @@ public interface IStoredInfoModel {
 
     void addErrorListener(ErrorListener errorListener);
 
+    void setDataBase(IDataBase database);
+
     void deleteArticle(String articleTitle);
 
     void saveArticle(String articleTitle, String articleContent);

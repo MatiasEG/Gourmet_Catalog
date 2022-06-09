@@ -33,20 +33,27 @@ public class StoredInfoPresenterTest {
     }
 
     @Test
-    public void testSelectArticle(){
+    public void testSelectArticle() throws InterruptedException {
         storedInfoPresenter.onEventSelectArticle();
+        this.waitForPresenterTask();
         verify(storedInfoModel, times(1)).loadArticle("mocked title");
     }
 
     @Test
-    public void testDeleteArticle(){
+    public void testDeleteArticle() throws InterruptedException {
         storedInfoPresenter.onEvenDeleteArticle();
+        this.waitForPresenterTask();
         verify(storedInfoModel, times(1)).deleteArticle("mocked title");
     }
 
     @Test
-    public void testUpdateArticle(){
+    public void testUpdateArticle() throws InterruptedException {
         storedInfoPresenter.onEventUpdateArticle();
+        this.waitForPresenterTask();
         verify(storedInfoModel, times(1)).updateArticle("mocked title", "mocked content");
+    }
+
+    private void waitForPresenterTask() throws InterruptedException{
+        while(storedInfoPresenter.isActivelyWorking()) Thread.sleep(1);
     }
 }

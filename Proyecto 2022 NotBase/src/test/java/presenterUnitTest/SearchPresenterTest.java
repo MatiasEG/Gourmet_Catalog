@@ -40,7 +40,7 @@ public class SearchPresenterTest {
     public void testSearch() throws InterruptedException {
         when(searchView.getSearchText()).thenReturn("Cake");
         searchPresenter.onEventSearchArticles();
-        this.waitForViewPresenterTask();
+        this.waitForPresenterTask();
         verify(searchModel, times(1)).searchAllCoincidencesInWikipedia("Cake");
     }
 
@@ -57,7 +57,7 @@ public class SearchPresenterTest {
         when(searchView.fullArticleIsSelected()).thenReturn(true);
 
         searchPresenter.onEventSelectArticle();
-        this.waitForViewPresenterTask();
+        this.waitForPresenterTask();
 
         verify(searchModel, times(1)).searchFullArticleInWikipedia(searchResultCake);
     }
@@ -75,19 +75,20 @@ public class SearchPresenterTest {
         when(searchView.fullArticleIsSelected()).thenReturn(false);
 
         searchPresenter.onEventSelectArticle();
-        this.waitForViewPresenterTask();
+        this.waitForPresenterTask();
 
         verify(searchModel, times(1)).searchArticleSummaryInWikipedia(searchResultRandom);
     }
 
     @Test
-    public void testSaveArticle(){
+    public void testSaveArticle() throws InterruptedException {
         SearchResult searchResultCoke = new SearchResult("Coke", "", "Pssssssss");
         searchPresenter.setSelectedSearchResult(searchResultCoke);
 
         when(searchModel.getFoundArticleContent()).thenReturn("mock_content");
 
         searchPresenter.onEventSaveArticle();
+        this.waitForPresenterTask();
 
         verify(storedInfoModel, times(1)).saveArticle("Coke", "mock_content");
     }
@@ -101,7 +102,7 @@ public class SearchPresenterTest {
         verify(storedInfoModel, never()).saveArticle(any(), any());
     }
 
-    private void waitForViewPresenterTask() throws InterruptedException{
+    private void waitForPresenterTask() throws InterruptedException{
         while(searchPresenter.isActivelyWorking()) Thread.sleep(1);
     }
 }

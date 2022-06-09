@@ -14,9 +14,11 @@ public class StoredInfoModel implements IStoredInfoModel {
     private List<LoadArticleListener> loadArticleListeners = new ArrayList<>();
     private List<StoredArticlesListener> storedArticlesListeners = new ArrayList<>();
     private List<ErrorListener> errorListeners = new ArrayList<>();
+    private IDataBase dataBase;
 
-    public StoredInfoModel(){
-        DataBase.createDatabaseIfDoesNotExists();
+    public StoredInfoModel(IDataBase dataBase){
+        this.dataBase = dataBase;
+        dataBase.createDatabaseIfDoesNotExists();
     }
 
 
@@ -66,12 +68,17 @@ public class StoredInfoModel implements IStoredInfoModel {
     }
 
     @Override
+    public void setDataBase(IDataBase dataBase){
+        this.dataBase = dataBase;
+    }
+
+    @Override
     public void deleteArticle(String articleTitle) {
         if(isEmptyOrInvalid(articleTitle))
             notifyErrorOccurred("Article Not Selected");
         else {
             try {
-                DataBase.deleteArticle(articleTitle);
+                dataBase.deleteArticle(articleTitle);
                 notifyDeleteArticle();
             } catch (Exception e) {
                 notifyErrorOccurred("Database Error");
@@ -87,7 +94,7 @@ public class StoredInfoModel implements IStoredInfoModel {
             notifyErrorOccurred("Article Not Selected");
         else {
             try {
-                DataBase.saveArticle(articleTitle, articleContent);
+                dataBase.saveArticle(articleTitle, articleContent);
                 notifySaveArticle();
             } catch (Exception e) {
                 notifyErrorOccurred("Database Error");
@@ -101,7 +108,7 @@ public class StoredInfoModel implements IStoredInfoModel {
             notifyErrorOccurred("Article Not Selected");
         else {
             try {
-                DataBase.saveArticle(articleTitle, articleContent);
+                dataBase.saveArticle(articleTitle, articleContent);
                 notifyUpdateArticle();
             } catch (Exception e) {
                 notifyErrorOccurred("Database Error");
@@ -115,7 +122,7 @@ public class StoredInfoModel implements IStoredInfoModel {
             notifyErrorOccurred("Article Not Selected");
         else {
             try {
-                loadedArticleContent = DataBase.getArticleContent(articleTitle);
+                loadedArticleContent = dataBase.getArticleContent(articleTitle);
                 notifyLoadArticle();
             } catch (Exception e) {
                 notifyErrorOccurred("Database Error");
@@ -131,7 +138,7 @@ public class StoredInfoModel implements IStoredInfoModel {
     @Override
     public void loadStoredArticleTitles(){
         try {
-            storedArticleTitles = DataBase.getAllArticleTitles().stream().sorted().toArray();
+            storedArticleTitles = dataBase.getAllArticleTitles().stream().sorted().toArray();
             notifyLoadTitles();
         } catch (Exception e) {
             notifyErrorOccurred("Database Error");
