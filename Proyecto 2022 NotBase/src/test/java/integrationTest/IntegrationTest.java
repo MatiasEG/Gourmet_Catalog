@@ -179,7 +179,7 @@ public class IntegrationTest {
     }
 
     @Test
-    public void testSearchErrorWhenSeearchingArticleSummary() throws Exception {
+    public void testSearchErrorWhenSearchingArticleSummary() throws Exception {
         when(searchLogic.searchArticleSummaryInWikipediaAndParse(any())).thenThrow(new Exception());
         searchView.setSearchText("Pizza");
         searchPresenter.onEventSearchArticles();
