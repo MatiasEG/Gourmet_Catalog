@@ -49,7 +49,6 @@ public class SearchPresenter implements ISearchPresenter {
         searchModel.addErrorListener(errorMessage -> mainView.notifyError(errorMessage));
     }
 
-    //TODO ver si se puede hacer mejor el siguiente test
     public void setSearchResultsList(List<SearchResult> searchResultsList){
         this.searchResultsList = searchResultsList;
     }
@@ -72,10 +71,8 @@ public class SearchPresenter implements ISearchPresenter {
     @Override
     public void onEventSearchArticles() {
         thread = new Thread(() -> {
-            //searchView.startWorkingStatus();
             String textToSearch = searchView.getSearchText();
             searchModel.searchAllCoincidencesInWikipedia(textToSearch);
-            //searchView.stopWorkingStatus();
         });
         thread.start();
     }
@@ -83,14 +80,12 @@ public class SearchPresenter implements ISearchPresenter {
     @Override
     public void onEventSelectArticle() {
         thread = new Thread(() -> {
-            //searchView.startWorkingStatus();
             selectedSearchResult = searchResultsList.get(searchView.getSelectedSearchResultIndex());
             if(searchView.fullArticleIsSelected()){
                 searchModel.searchFullArticleInWikipedia(selectedSearchResult);
             }else{
                 searchModel.searchArticleSummaryInWikipedia(selectedSearchResult);
             }
-            //searchView.stopWorkingStatus();
         });
         thread.start();
     }

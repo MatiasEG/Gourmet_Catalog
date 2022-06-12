@@ -29,7 +29,7 @@ public class MainView implements IMainView {
     private void initView(){
         initMainFrame();
     }
-    //TODO estos dos tal vez se podrian juntar en uno
+
     private void initMainFrame() {
         mainFrame = new JFrame("Gourmet Catalog");
         mainFrame.setContentPane(mainPanel);
@@ -38,7 +38,6 @@ public class MainView implements IMainView {
     }
 
     private void createUIComponents() {
-        // TODO: place custom component creation code here
         this.storedInfoView = new StoredInfoView(storedInfoPresenter);
         this.storedInfoPanel = storedInfoView.getPanel();
 

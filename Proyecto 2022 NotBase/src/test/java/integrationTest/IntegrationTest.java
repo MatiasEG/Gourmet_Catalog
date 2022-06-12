@@ -75,7 +75,7 @@ public class IntegrationTest {
     }
 
     @Test
-    public void testSearch() throws Exception {
+    public void testSearchTerm() throws Exception {
         searchView.setSearchText("Pizza");
 
         List<String> resultListOnView = new ArrayList<>();
@@ -91,7 +91,7 @@ public class IntegrationTest {
     }
 
     @Test
-    public void testSelectFullArticle() throws Exception {
+    public void testSearchFullArticle() throws Exception {
         searchView.setSearchText("Pizza");
         searchPresenter.onEventSearchArticles();
         this.waitForPresentersTask();
@@ -106,7 +106,7 @@ public class IntegrationTest {
     }
 
     @Test
-    public void testSelectArticleSummary() throws Exception {
+    public void testSearchArticleSummary() throws Exception {
         searchView.setSearchText("Pizza");
         searchPresenter.onEventSearchArticles();
         this.waitForPresentersTask();
@@ -121,7 +121,7 @@ public class IntegrationTest {
     }
 
     @Test
-    public void saveArticle() throws Exception {
+    public void testSaveArticle() throws Exception {
         searchView.setSearchText("Pizza");
         searchPresenter.onEventSearchArticles();
         this.waitForPresentersTask();
@@ -139,14 +139,14 @@ public class IntegrationTest {
     }
 
     @Test
-    public void saveArticleNegative() throws InterruptedException {
+    public void testSaveArticleWithoutSelecting() throws InterruptedException {
         searchPresenter.onEventSaveArticle();
         this.waitForPresentersTask();
         assertEquals("Search Result Not Selected", mainView.getLastError());
     }
 
     @Test
-    public void textSearchNegative() throws InterruptedException {
+    public void testEmptySearch() throws InterruptedException {
         searchPresenter.onEventSearchArticles();
         this.waitForPresentersTask();
 
@@ -154,7 +154,7 @@ public class IntegrationTest {
     }
 
     @Test
-    public void testSearchException() throws Exception {
+    public void testSearchErrorWhenSearchingTerm() throws Exception {
         when(searchLogic.searchTermInWikipediaAndParse(any())).thenThrow(new Exception());
         searchView.setSearchText("Pizza");
         searchPresenter.onEventSearchArticles();
@@ -163,7 +163,7 @@ public class IntegrationTest {
     }
 
     @Test
-    public void testSelectSearchFullArticleException() throws Exception {
+    public void testSearchErrorWhenSearchingFullArticle() throws Exception {
         when(searchLogic.searchFullArticleInWikipediaAndParse(any())).thenThrow(new Exception());
         searchView.setSearchText("Pizza");
         searchPresenter.onEventSearchArticles();
@@ -179,7 +179,7 @@ public class IntegrationTest {
     }
 
     @Test
-    public void testSelectSearchArticleSummaryException() throws Exception {
+    public void testSearchErrorWhenSearchingArticleSummary() throws Exception {
         when(searchLogic.searchArticleSummaryInWikipediaAndParse(any())).thenThrow(new Exception());
         searchView.setSearchText("Pizza");
         searchPresenter.onEventSearchArticles();
