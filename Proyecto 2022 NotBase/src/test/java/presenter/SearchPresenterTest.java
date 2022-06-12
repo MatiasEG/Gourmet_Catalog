@@ -1,12 +1,10 @@
-package presenterUnitTest;
+package presenter;
 
 import model.storedInfoModel.IStoredInfoModel;
 import model.searchModel.ISearchModel;
 import model.searchModel.searchLogic.SearchResult;
 import org.junit.Before;
 import org.junit.Test;
-import presenter.ISearchPresenter;
-import presenter.SearchPresenter;
 import views.IMainView;
 import views.ISearchView;
 
