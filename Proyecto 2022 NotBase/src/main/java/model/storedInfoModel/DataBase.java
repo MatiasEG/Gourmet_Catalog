@@ -10,7 +10,7 @@ public class DataBase implements IDataBase{
     try (Connection connection = DriverManager.getConnection(databaseUrl)) {
       executeUpdate(connection, "create table articles (id INTEGER, title string PRIMARY KEY, content string, source integer)");
     } catch (SQLException e) {
-      //TODO database already exists
+      //database already exists, no actions needed
     }
   }
 
