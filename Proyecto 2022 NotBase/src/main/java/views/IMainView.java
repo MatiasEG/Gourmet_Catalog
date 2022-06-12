@@ -2,11 +2,11 @@ package views;
 
 public interface IMainView {
 
+    void showView();
     void notifyInfo(String info);
     void notifyError(String error);
-    String getLastError();
     boolean isVisible();
-    void showView();
+    String getLastError();
     IStoredInfoView getStoredInfoView();
     ISearchView getSearchView();
 }

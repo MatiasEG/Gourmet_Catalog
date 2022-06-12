@@ -49,14 +49,6 @@ public class SearchPresenter implements ISearchPresenter {
         searchModel.addErrorListener(errorMessage -> mainView.notifyError(errorMessage));
     }
 
-    public void setSearchResultsList(List<SearchResult> searchResultsList){
-        this.searchResultsList = searchResultsList;
-    }
-
-    public void setSelectedSearchResult(SearchResult selectedSearchResult){
-        this.selectedSearchResult = selectedSearchResult;
-    }
-
     private List<String> formatSearchResultsList(List<SearchResult> searchResultsList){
         List<String> searchResultsAsStrings = new ArrayList<>();
         for (SearchResult searchResult: searchResultsList){
@@ -101,6 +93,14 @@ public class SearchPresenter implements ISearchPresenter {
                 mainView.notifyError("Search Result Not Selected");
         });
         thread.start();
+    }
+
+    public void setSearchResultsList(List<SearchResult> searchResultsList){
+        this.searchResultsList = searchResultsList;
+    }
+
+    public void setSelectedSearchResult(SearchResult selectedSearchResult){
+        this.selectedSearchResult = selectedSearchResult;
     }
 
     @Override

@@ -46,18 +46,9 @@ public class MainView implements IMainView {
     }
 
     @Override
-    public boolean isVisible() {
-        return visible;
-    }
-
-    @Override
-    public IStoredInfoView getStoredInfoView(){
-        return storedInfoView;
-    }
-
-    @Override
-    public ISearchView getSearchView(){
-        return searchView;
+    public void showView(){
+        mainFrame.setVisible(true);
+        visible = true;
     }
 
     @Override
@@ -74,14 +65,23 @@ public class MainView implements IMainView {
     }
 
     @Override
+    public boolean isVisible() {
+        return visible;
+    }
+
+    @Override
     public String getLastError(){
         return lastError;
     }
 
     @Override
-    public void showView(){
-        mainFrame.setVisible(true);
-        visible = true;
+    public IStoredInfoView getStoredInfoView(){
+        return storedInfoView;
+    }
+
+    @Override
+    public ISearchView getSearchView(){
+        return searchView;
     }
 
 }

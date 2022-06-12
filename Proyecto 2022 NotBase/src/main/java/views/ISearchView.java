@@ -4,18 +4,22 @@ import javax.swing.*;
 import java.util.List;
 
 public interface ISearchView {
-    String getSearchText();
-    int getSelectedSearchResultIndex();
-    void setSelectedSearchResultIndex(int selectedSearchResultIndex);
-    void selectFullArticleOption();
-    void selectArticleSummaryOption();
+
     void setSearchResultsList(List<String> searchResults);
     void setArticleContent(String contentText);
     void setSearchText(String searchText);
+    void setSelectedSearchResultIndex(int selectedSearchResultIndex);
+
+    JPanel getPanel();
+    String getSearchText();
+    int getSelectedSearchResultIndex();
     String getArticleContent();
     List<String> getSearchResults();
+
+    void selectFullArticleOption();
+    void selectArticleSummaryOption();
     boolean fullArticleIsSelected();
-    JPanel getPanel();
+
     void startWorkingStatus();
     void stopWorkingStatus();
 }

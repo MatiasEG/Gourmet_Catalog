@@ -51,11 +51,6 @@ public class StoredInfoView implements IStoredInfoView {
     }
 
     @Override
-    public JPanel getPanel(){
-        return storedInfoPanel;
-    }
-
-    @Override
     public void setStoredArticlesTitles(Object[] storedArticlesTitles) {
         storedArticlesComboBox.setModel(new DefaultComboBoxModel<Object>(storedArticlesTitles));
         clearView();
@@ -68,8 +63,9 @@ public class StoredInfoView implements IStoredInfoView {
     }
 
     @Override
-    public String getSelectedArticleTitle(){
-        return selectedArticleTitle;
+    public void setArticleContent(String contentText) {
+        storedArticleContentTextPane.setText(contentText);
+        storedArticleContentTextPane.setCaretPosition(0);
     }
 
     @Override
@@ -78,13 +74,18 @@ public class StoredInfoView implements IStoredInfoView {
     }
 
     @Override
+    public JPanel getPanel(){
+        return storedInfoPanel;
+    }
+
+    @Override
+    public String getSelectedArticleTitle(){
+        return selectedArticleTitle;
+    }
+
+    @Override
     public String getArticleContent() {
         return storedArticleContentTextPane.getText();
     }
 
-    @Override
-    public void setArticleContent(String contentText) {
-        storedArticleContentTextPane.setText(contentText);
-        storedArticleContentTextPane.setCaretPosition(0);
-    }
 }

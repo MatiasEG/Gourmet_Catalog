@@ -52,41 +52,6 @@ public class SearchView implements ISearchView {
     }
 
     @Override
-    public JPanel getPanel(){
-        return searchInWikipediaPanel;
-    }
-
-    @Override
-    public String getSearchText() {
-        return searchTextField.getText();
-    }
-
-    @Override
-    public void setSearchText(String searchText){
-        searchTextField.setText(searchText);
-    }
-
-    @Override
-    public void selectFullArticleOption(){
-        fullArticleRadioButton.setSelected(true);
-    }
-
-    @Override
-    public void selectArticleSummaryOption(){
-        articleSummaryRadioButton.setSelected(true);
-    }
-
-    @Override
-    public int getSelectedSearchResultIndex(){
-        return selectedSearchResultIndex;
-    }
-
-    @Override
-    public void setSelectedSearchResultIndex(int selectedSearchResultIndex){
-        this.selectedSearchResultIndex = selectedSearchResultIndex;
-    }
-
-    @Override
     public void setSearchResultsList(List<String> searchResults) {
         this.searchResults = searchResults;
         searchOptionsMenu = new JPopupMenu("Search Results");
@@ -100,16 +65,6 @@ public class SearchView implements ISearchView {
             searchOptionsMenu.show(searchTextField, searchTextField.getX(), searchTextField.getY());
     }
 
-    @Override
-    public List<String> getSearchResults(){
-        return searchResults;
-    }
-
-    @Override
-    public String getArticleContent(){
-        return wikipediaArticleContentTextPane.getText();
-    }
-
     private void addSearchResultMenuItem(String searchResult, int searchResultIndex) {
         JMenuItem searchResultMenuItem = new JMenuItem(searchResult);
         searchOptionsMenu.add(searchResultMenuItem);
@@ -120,13 +75,59 @@ public class SearchView implements ISearchView {
     }
 
     @Override
-    public boolean fullArticleIsSelected(){ return fullArticleRadioButton.isSelected(); }
-
-    @Override
     public void setArticleContent(String contentText) {
         wikipediaArticleContentTextPane.setText(contentText);
         wikipediaArticleContentTextPane.setCaretPosition(0);
     }
+
+    @Override
+    public void setSearchText(String searchText){
+        searchTextField.setText(searchText);
+    }
+
+    @Override
+    public void setSelectedSearchResultIndex(int selectedSearchResultIndex){
+        this.selectedSearchResultIndex = selectedSearchResultIndex;
+    }
+
+    @Override
+    public JPanel getPanel(){
+        return searchInWikipediaPanel;
+    }
+
+    @Override
+    public String getSearchText() {
+        return searchTextField.getText();
+    }
+
+    @Override
+    public int getSelectedSearchResultIndex(){
+        return selectedSearchResultIndex;
+    }
+
+    @Override
+    public String getArticleContent(){
+        return wikipediaArticleContentTextPane.getText();
+    }
+
+    @Override
+    public List<String> getSearchResults(){
+        return searchResults;
+    }
+
+    @Override
+    public void selectFullArticleOption(){
+        fullArticleRadioButton.setSelected(true);
+    }
+
+    @Override
+    public void selectArticleSummaryOption(){
+        articleSummaryRadioButton.setSelected(true);
+    }
+
+
+    @Override
+    public boolean fullArticleIsSelected(){ return fullArticleRadioButton.isSelected(); }
 
     @Override
     public void startWorkingStatus() {

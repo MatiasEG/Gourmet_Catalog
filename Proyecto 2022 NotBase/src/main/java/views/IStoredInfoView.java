@@ -4,10 +4,10 @@ import javax.swing.*;
 
 public interface IStoredInfoView {
 
-    String getSelectedArticleTitle();
-    void setSelectedArticleTitle(String articleTitle);
-    String getArticleContent();
     void setStoredArticlesTitles(Object[] localCopies);
+    void setSelectedArticleTitle(String articleTitle);
     void setArticleContent(String contentText);
     JPanel getPanel();
+    String getSelectedArticleTitle();
+    String getArticleContent();
 }
