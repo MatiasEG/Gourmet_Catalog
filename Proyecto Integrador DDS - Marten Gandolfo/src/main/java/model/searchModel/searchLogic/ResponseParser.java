@@ -36,16 +36,8 @@ public class ResponseParser {
     }
 
     public static String parseWikipediaArticle(Response<String> wikipediaArticle) {
-        String articleContentString;
         JsonObject pageJsonObject = getPageAsJsonObject(wikipediaArticle);
-        JsonElement articleContentJsonElement = pageJsonObject.get("extract");
-        if (articleContentJsonElement == null) {
-            articleContentString = "No Results";
-        } else {
-            articleContentString = "<h1>" + pageJsonObject.get("title") + "</h1>";
-            articleContentString += articleContentJsonElement.getAsString().replace("\\n", "\n");
-        }
-        return articleContentString;
+        return parsePageJsonObject(pageJsonObject);
     }
 
     private static JsonObject getPageAsJsonObject(Response<String> wikipediaResponse) {
@@ -57,5 +49,17 @@ public class ResponseParser {
         Map.Entry<String, JsonElement> firstPage = pagesSet.iterator().next();
         JsonObject page = firstPage.getValue().getAsJsonObject();
         return page;
+    }
+
+    private static String parsePageJsonObject(JsonObject pageJsonObject) {
+        String articleContentString;
+        JsonElement articleContentJsonElement = pageJsonObject.get("extract");
+        if (articleContentJsonElement == null) {
+            articleContentString = "No Results";
+        } else {
+            articleContentString = "<h1>" + pageJsonObject.get("title") + "</h1>";
+            articleContentString += articleContentJsonElement.getAsString().replace("\\n", "\n");
+        }
+        return articleContentString;
     }
 }
