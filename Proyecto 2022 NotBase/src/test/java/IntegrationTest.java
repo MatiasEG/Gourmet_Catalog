@@ -36,6 +36,7 @@ public class IntegrationTest {
 
     @Before
     public void setUp() throws Exception {
+        dataBase.createDatabaseIfDoesNotExists();
         dataBase.clearDataBase();
         dataBase.saveArticle("Pizza", "pizzapizzapizza");
         dataBase.saveArticle("Coca-Cola", "cocacolacocacola");
