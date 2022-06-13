@@ -1,5 +1,3 @@
-package integrationTest;
-
 import model.searchModel.ISearchModel;
 import model.searchModel.SearchModel;
 import model.searchModel.searchLogic.ISearchLogic;
